@@ -1,31 +1,31 @@
-export default class card {
-    constructor(x, y) {
-        this.nodeCount = 1;
-        this.effect = "None";
-        this.nodeSelected = false;
-        this.positionY = 0;
-        this.positionX = 0;
-        this.genre = "Cow-cowboys";
-        this.type = "Creature";
-        this.playable = true;
-        this.state = 'deck';
-        this.sprite = "img.png"
-    }
-
-    card_type = {
+export default class Card {
+    CARD_TYPE = {
         CREATURE: 'Creature',
         OBJECT: 'Object',
         SPELL: 'Spell',
     }
-    card_status = {
+    CARD_STATUS = {
         DECK: 'Deck',
         GRAVEYARD: 'Graveyard',
         HAND: 'Hand',
         FIELD: 'Field',
     }
-    card_genre = {
+    CARD_GENRE = {
         COW_COWBOYS: 'Cow-cowboys',
         WIZARDS: 'Wizards',
         KNIGHTS: 'Knights',
+    }
+
+    constructor() {
+        this.nodeCount = 1;
+        this.effect;
+        this.nodeSelected = false;
+        this.width = 150;
+        this.height = 200;
+        this.genre;
+        this.type;
+        this.playable = true;
+        this.state = this.CARD_STATUS.DECK;
+        this.sprite;
     }
 }
