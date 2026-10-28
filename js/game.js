@@ -1,4 +1,6 @@
 import Input from './input.js';
+import Entity from './entity.js';
+import Battle from './battle.js';
 
 export default class Game {
     constructor(canvasId) {
@@ -8,7 +10,8 @@ export default class Game {
     }
 
     Start() {
-
+        this.rival = new Entity("Mouse");
+        this.battle = new Battle(this.rival);
         this.lastTime = performance.now();
         requestAnimationFrame((time) => this.Loop(time));
         console.log("Start");
@@ -19,8 +22,8 @@ export default class Game {
 
     Draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.fillStyle = "green";
-        this.ctx.fillRect(50, 50, 50, 50);
+        this.battle.CreateDeck();
+        this.battle.DrawDeck(this.canvas, this.ctx);
     }
 
     Loop(currentTime) {

@@ -20,11 +20,8 @@ export default class Battle {
         // test de renderizado de cartas placeholder
         for (let i = 0; i < 6; i++) {
             const sprite_card = new Image();
-            sprite_card_creature.src = this.rivalDeck[i].sprite;
-            ctx.drawImage(sprite_card_creature, -30 + (i * 10), 300, this.rivalDeck[i].width, this.rivalDeck[i].height);
+            sprite_card.src = this.rivalDeck[i].sprite;
+            ctx.drawImage(sprite_card, ((canvas.width / 2) - (this.rivalDeck[i].width / 2)) + (i * 80), canvas.height - 100, this.rivalDeck[i].width, this.rivalDeck[i].height);
         }
-        const sprite_card = new Image();
-        sprite_card_creature.src = "assets/card-template-c.png";
-        ctx.drawImage(sprite_card_creature, this.pos.x, this.pos.y, this.size, this.size);
     }
 }
