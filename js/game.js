@@ -10,6 +10,7 @@ export default class Game {
     }
 
     Start() {
+        engine.useDefaultMainLoop = false;
         this.rival = new Entity("Mouse");
         this.battle = new Battle(this.rival);
         this.lastTime = performance.now();
@@ -31,7 +32,7 @@ export default class Game {
         this.lastTime = currentTime;
 
         if (dt < 0.1) {
-
+            engine.update();
             this.Update(dt);
             this.Draw();
         }

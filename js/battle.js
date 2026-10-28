@@ -21,7 +21,7 @@ export default class Battle {
         for (let i = 0; i < 6; i++) {
             const sprite_card = new Image();
             sprite_card.src = this.rivalDeck[i].sprite;
-            ctx.drawImage(sprite_card, ((canvas.width / 2) - (this.rivalDeck[i].width / 2)) + (i * 80), canvas.height - 100, this.rivalDeck[i].width, this.rivalDeck[i].height);
+            ctx.drawImage(sprite_card, ((canvas.width / 2) - (this.rivalDeck[i].width / 2) - (80 * 5)) + (i * 80), canvas.height - 100, this.rivalDeck[i].width, this.rivalDeck[i].height);
         }
     }
 }
