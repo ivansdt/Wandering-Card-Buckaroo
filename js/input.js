@@ -12,5 +12,6 @@ export default class Input {
         if (this.keys["a"]) {
             // nodeCount -= 1;
         }
+        
     }
 }
