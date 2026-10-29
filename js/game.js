@@ -17,7 +17,11 @@ export default class Game {
 
         const rivalDeck = [
             "Mysterious Stranger",
-            "Bandit Leader"
+            "Mysterious Stranger",
+            "Bandit Leader",
+            "Bandit Leader",
+            "Big Iron",
+            "Big Iron",
         ];
 
         this.rival.CreateDeck(rivalDeck);
