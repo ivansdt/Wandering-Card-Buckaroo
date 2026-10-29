@@ -10,6 +10,7 @@ export default class card {
         this.playable = true;
         this.state = 'deck';
         this.sprite = "img.png"
+        this.zona = "zone";
     }
 
     card_type = {
@@ -28,4 +29,5 @@ export default class card {
         WIZARDS: 'Wizards',
         KNIGHTS: 'Knights',
     }
+
 }
