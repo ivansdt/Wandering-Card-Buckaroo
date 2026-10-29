@@ -27,6 +27,8 @@ export default class Card {
         this.playable = true;
         this.state = this.CARD_STATUS.DECK;
         this.sprite;
+        this.zone;
+        this.value;
     }
 
 }
