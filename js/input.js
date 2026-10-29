@@ -1,18 +1,16 @@
-function start()
-{
-    document.addEventListener('keydown', OnKeyDown);
-    Update();
-}
-
-function OnKeyDown(e)
-{
-    console.log(e.key);
-    if (e.key == "D")
-    {
-        nodeCount += 1;
+export default class Input {
+    constructor() {
+        this.keys = new Array();
     }
-    if (e.key == "A")
-    {
-        nodeCount -= 1;
+
+    OnKeyDown(e) {
+        // console.log(e.key);
+        if (this.keys["d"]) {
+            // nodeCount += 1;
+        }
+
+        if (this.keys["a"]) {
+            // nodeCount -= 1;
+        }
     }
 }

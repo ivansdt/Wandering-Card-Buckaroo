@@ -1,22 +1,41 @@
+import Input from './input.js';
+import Entity from './entity.js';
+import Battle from './battle.js';
+
 export default class Game {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
+        this.input = new Input;
     }
 
-    start() {
+    Start() {
+        engine.useDefaultMainLoop = false;
+        this.rival = new Entity("Mouse");
+        this.battle = new Battle(this.rival);
         this.lastTime = performance.now();
-        requestAnimationFrame((time) => this.loop(time));
+        requestAnimationFrame((time) => this.Loop(time));
+        console.log("Start");
     }
 
-    update(dt) {
+    Update(dt) {
     }
 
-    draw() {
+    Draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.battle.CreateDeck();
+        this.battle.DrawDeck(this.canvas, this.ctx);
     }
 
-    loop(currentTime) {
-        requestAnimationFrame((time) => this.loop(time));
+    Loop(currentTime) {
+        const dt = (currentTime - this.lastTime) / 1000;
+        this.lastTime = currentTime;
+
+        if (dt < 0.1) {
+            engine.update();
+            this.Update(dt);
+            this.Draw();
+        }
+        requestAnimationFrame((time) => this.Loop(time));
     }
 }
