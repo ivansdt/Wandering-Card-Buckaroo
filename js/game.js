@@ -1,6 +1,7 @@
 import Input from './input.js';
 import Entity from './entity.js';
 import Battle from './battle.js';
+import Player from './player.js';
 
 export default class Game {
     constructor(canvasId) {
@@ -10,22 +11,40 @@ export default class Game {
     }
 
     Start() {
+        this.player = new Player("Mike");
         this.rival = new Entity("Mouse");
-        this.battle = new Battle(this.rival);
+        this.battle = new Battle(this.player, this.rival);
         this.lastTime = performance.now();
         requestAnimationFrame((time) => this.Loop(time));
 
-        const rivalDeck = [
+        const plrDeck = [
+            "Mysterious Stranger",
+            "Mysterious Stranger",
             "Mysterious Stranger",
             "Mysterious Stranger",
             "Bandit Leader",
             "Bandit Leader",
+            "Bandit Leader",
+            "Bandit Leader",
+            "Big Iron",
+            "Big Iron",
             "Big Iron",
             "Big Iron",
         ];
 
-        this.rival.CreateDeck(rivalDeck);
+        const rvlDeck = [
+            "Big Iron",
+            "Big Iron",
+            "Big Iron",
+            "Big Iron",
+            "Big Iron",
+            "Big Iron",
+        ];
 
+        this.player.CreateDeck(plrDeck);
+        this.rival.CreateDeck(rvlDeck);
+        this.battle.GetCardsFromDeck(this.player);
+        console.log(this.player.hand);
     }
 
     Update(dt) {
@@ -33,7 +52,7 @@ export default class Game {
 
     Draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.battle.DrawDeck(this.rival.deck, this.canvas, this.ctx);
+        this.battle.DrawDeck(this.player.deck, this.canvas, this.ctx);
     }
 
     Loop(currentTime) {

@@ -3,12 +3,15 @@ import Card from './card.js';
 export default class Entity {
   constructor(name) {
     this.name = name;
-    this.deck = new Array(3); // 20 por default, se cambia para testeo
+    this.life = 10;
+    this.deck = new Array();
+    this.hand = new Array(6);
     this.sprite;
+    this.cardsPlayed = 0;
   }
 
   CreateDeck(cardArray) {
-    for (let i = 0; i < this.deck.length; i++) {
+    for (let i = 0; i < cardArray.length; i++) {
       this.deck[i] = new Card();
       this.deck[i].name = cardArray[i];
 
@@ -34,9 +37,6 @@ export default class Entity {
         default:
           console.log("Esta carta no existe");
       }
-
-      console.log(this.deck[i]);
-
     }
   }
 }

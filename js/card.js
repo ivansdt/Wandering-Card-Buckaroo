@@ -18,6 +18,8 @@ export default class Card {
 
     constructor() {
         this.name;
+        this.x;
+        this.y = 200;
         this.nodeCount = 1;
         this.effect;
         this.nodeSelected = false;
