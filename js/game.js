@@ -10,12 +10,18 @@ export default class Game {
     }
 
     Start() {
-        engine.useDefaultMainLoop = false;
         this.rival = new Entity("Mouse");
         this.battle = new Battle(this.rival);
         this.lastTime = performance.now();
         requestAnimationFrame((time) => this.Loop(time));
-        console.log("Start");
+
+        const rivalDeck = [
+            "Mysterious Stranger",
+            "Bandit Leader"
+        ];
+
+        this.rival.CreateDeck(rivalDeck);
+
     }
 
     Update(dt) {
@@ -23,8 +29,7 @@ export default class Game {
 
     Draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.battle.CreateDeck();
-        this.battle.DrawDeck(this.canvas, this.ctx);
+        this.battle.DrawDeck(this.rival.deck, this.canvas, this.ctx);
     }
 
     Loop(currentTime) {
@@ -32,7 +37,6 @@ export default class Game {
         this.lastTime = currentTime;
 
         if (dt < 0.1) {
-            engine.update();
             this.Update(dt);
             this.Draw();
         }
