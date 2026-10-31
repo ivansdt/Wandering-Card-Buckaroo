@@ -22,7 +22,7 @@ export default class Card {
         this.y = 200;
         this.nodeCount = 1;
         this.effect;
-        this.nodeSelected = false;
+        this.isSelected = false;
         this.width = 150;
         this.height = 200;
         this.genre;
@@ -32,6 +32,7 @@ export default class Card {
         this.sprite;
         this.zone;
         this.value;
+        this.attack = 0;
     }
 
 
