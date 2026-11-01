@@ -52,7 +52,7 @@ export default class Game {
 
     Draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.battle.DrawDeck(this.player.deck, this.canvas, this.ctx);
+        this.battle.DrawDeck(this.player.hand, this.canvas, this.ctx);
     }
 
     Loop(currentTime) {

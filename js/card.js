@@ -1,16 +1,19 @@
 export default class Card {
-    CARD_TYPE = {
+
+    static CARD_TYPE = {
         CREATURE: 'Creature',
         OBJECT: 'Object',
         SPELL: 'Spell',
     }
-    CARD_STATUS = {
+
+    static CARD_STATUS = {
         DECK: 'Deck',
         GRAVEYARD: 'Graveyard',
         HAND: 'Hand',
         FIELD: 'Field',
     }
-    CARD_GENRE = {
+
+    static CARD_GENRE = {
         COW_COWBOYS: 'Cow-cowboys',
         WIZARDS: 'Wizards',
         KNIGHTS: 'Knights',
@@ -19,20 +22,23 @@ export default class Card {
     constructor() {
         this.name;
         this.x;
-        this.y = 200;
+        this.y;
         this.nodeCount = 1;
-        this.effect;
+        // this.effect;    Creo que podemos referenciar el nombre de la carta para cada una tener un efecto especifico, es dificil encapsular todos los efectos
         this.isSelected = false;
         this.width = 150;
         this.height = 200;
         this.genre;
         this.type;
         this.playable = true;
-        this.state = this.CARD_STATUS.DECK;
+        this.state = Card.CARD_STATUS.DECK;
         this.sprite;
         this.zone;
         this.value;
-        this.attack = 0;
+    }
+
+    Effect(card) {
+
     }
 
 

@@ -5,7 +5,7 @@ export default class Entity {
     this.name = name;
     this.life = 10;
     this.deck = new Array();
-    this.hand = new Array(6);
+    this.hand = new Array();
     this.sprite;
     this.cardsPlayed = 0;
   }
@@ -17,28 +17,25 @@ export default class Entity {
 
       switch (cardArray[i]) {
         case "Mysterious Stranger":
-          this.deck[i].genre = this.deck[i].CARD_GENRE.COW_COWBOYS;
-          this.deck[i].type = this.deck[i].CARD_TYPE.CREATURE;
+          this.deck[i].genre = Card.CARD_GENRE.COW_COWBOYS;
+          this.deck[i].type = Card.CARD_TYPE.CREATURE;
           this.deck[i].sprite = 'assets/card-template-c.png';
           this.deck[i].value = 3;
-          this.deck[i].attack = 6;
           break;
         case "Bandit Leader":
-          this.deck[i].genre = this.deck[i].CARD_GENRE.COW_COWBOYS;
-          this.deck[i].type = this.deck[i].CARD_TYPE.CREATURE;
+          this.deck[i].genre = Card.CARD_GENRE.COW_COWBOYS;
+          this.deck[i].type = Card.CARD_TYPE.CREATURE;
           this.deck[i].sprite = 'assets/card-template-c.png';
           this.deck[i].value = 2;
-          this.deck[i].attack = 4;
           break;
         case "Big Iron":
-          this.deck[i].genre = this.deck[i].CARD_GENRE.COW_COWBOYS;
-          this.deck[i].type = this.deck[i].CARD_TYPE.OBJECT;
+          this.deck[i].genre = Card.CARD_GENRE.COW_COWBOYS;
+          this.deck[i].type = Card.CARD_TYPE.OBJECT;
           this.deck[i].sprite = 'assets/card-template-o.png';
           this.deck[i].value = 3;
-          this.deck[1].attack = 3;
           break;
         default:
-          console.log("Esta carta no existe");
+          console.log(cardArray[i] + "no existe");
       }
     }
   }
