@@ -6,6 +6,12 @@ export default class Zone {
     }
 
     InsertCard(card) {
-        this.cards.splice(card.type, 1, card);
+        if (this.cards[card.type] == null) {
+            this.cards.splice(card.type, 1, card);
+            return true;
+        } else {
+            console.log("espacio ocupado");
+            return false;
+        }
     }
 }

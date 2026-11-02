@@ -105,7 +105,6 @@ export default class Battle {
         // player zones
         for (let i = 0; i < maxZones; i++) {
             this.plrZones[i] = new Zone();
-            console.log(this.plrZones);
         }
 
         for (let i = 0; i < maxZones; i++) {
@@ -139,10 +138,10 @@ export default class Battle {
             ctx.fillStyle = "#7d7d7d";
             ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             // dibujar sprite de la carta aqui con el .hologram, lo estoy testeando con cajas de colores por ahora. 
-            for (let k = 0; k < this.plrZones[i].cards.length; k++) {
-                if (this.plrZones[i].cards[k]) {
+            for (let j = 0; j < this.plrZones[i].cards.length; j++) {
+                if (this.plrZones[i].cards[j]) {
                     ctx.fillStyle = "orange";
-                    ctx.fillRect(zoneX + (k * (zoneWidth / 2) - 15), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    ctx.fillRect(zoneX + (j * (zoneWidth / 2) - 15), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
             }
 
@@ -153,10 +152,13 @@ export default class Battle {
             let zoneY = offset + (i * (zoneHeight + 20));
             ctx.fillStyle = "#9a3f3f";
             ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
-            if (this.rvlZones[i].cards.length != 0) {
-                // dibujar sprite de la carta aqui con el .hologram, lo estoy testeando con cajas de colores por ahora.
-
+            for (let j = 0; j < this.rvlZones[i].cards.length; j++) {
+                if (this.rvlZones[i].cards[j]) {
+                    ctx.fillStyle = "orange";
+                    ctx.fillRect(zoneX + (j * (zoneWidth / 2) - 15), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                }
             }
+
         }
     }
 
@@ -173,9 +175,20 @@ export default class Battle {
         this.CreateZones();
         this.GetCardsFromDeck(this.player);
         this.GetCardsFromDeck(this.rival);
+        this.TurnHandler();
 
         // testeo de carta en zona
-        this.plrZones[0].InsertCard(this.player.hand[0]);
+        // this.plrZones[0].InsertCard(this.player.hand[0]);
+    }
+
+    TurnHandler() {
+        // turno de rival
+        if (!this.isPlrTurn) {
+            for (let i = 0; i < 3; i++) {
+                let wasPlayed = this.rival.PlayRandomCard(this);
+            }
+            this.EndTurn(this.rival);
+        }
     }
 
     Draw(player, rival, canvas, ctx) {

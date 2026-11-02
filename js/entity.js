@@ -39,4 +39,18 @@ export default class Entity {
       }
     }
   }
+
+  PlayCard(battle, zone, card) {
+    if (this.cardsPlayed > 3) {
+      let isPlacementValid = battle.rvlZones[zone].InsertCard(card);
+      if (isPlacementValid) {
+        this.hand.splice(this.hand.indexOf(card), 1);
+        this.cardsPlayed++;
+        console.log("played");
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 }
