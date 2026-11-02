@@ -1,6 +1,6 @@
 import Input from './input.js';
-import Entity from './entity.js';
 import Battle from './battle.js';
+import Rival from './rival.js';
 import Player from './player.js';
 
 export default class Game {
@@ -12,7 +12,7 @@ export default class Game {
 
     Start() {
         this.player = new Player("Mike");
-        this.rival = new Entity("Mouse");
+        this.rival = new Rival("Mouse");
         this.battle = new Battle(this.player, this.rival);
         this.lastTime = performance.now();
         requestAnimationFrame((time) => this.Loop(time));

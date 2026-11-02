@@ -160,6 +160,15 @@ export default class Battle {
         }
     }
 
+    EndTurn(entity) {
+        if (this.isPlrTurn) {
+            this.isPlrTurn = false;
+        } else {
+            this.isPlrTurn = true;
+        }
+        entity.cardsPlayed = 0;
+    }
+
     StartBattle() {
         this.CreateZones();
         this.GetCardsFromDeck(this.player);
