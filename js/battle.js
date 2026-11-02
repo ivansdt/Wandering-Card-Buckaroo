@@ -127,7 +127,7 @@ export default class Battle {
         // dibujar rival zone
         for (let i = 0; i < maxZones; i++) {
             ctx.fillStyle = "#9a3f3f";
-            ctx.fillRect(((canvas.width / 4) * 3) - zoneHeight, 20 + (i * (zoneHeight + 20)), zoneWidth, zoneHeight);
+            ctx.fillRect(((canvas.width / 4) * 3) - zoneWidth, offset + (i * (zoneHeight + 20)), zoneWidth, zoneHeight);
             if (plrZone[i]) {
                 // dibujar sprite de la carta aqui (plrZone[i].hologram)
             }
