@@ -187,6 +187,10 @@ export default class Battle {
         if (!this.isPlrTurn) {
             for (let i = 0; i < 3; i++) {
                 let wasPlayed = this.rival.PlayRandomCard(this);
+                // console.log(wasPlayed + " - rival hand size: " + this.rival.hand.length);
+                if (!wasPlayed) {
+                    break;
+                }
             }
             this.EndTurn(this.rival);
         }

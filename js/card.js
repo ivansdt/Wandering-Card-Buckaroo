@@ -39,6 +39,14 @@ export default class Card {
         this.value;
     }
 
+    AddParams(genre, type, value, sprite, holo) {
+        this.genre = genre;
+        this.type = type;
+        this.value = value;
+        this.sprite = sprite;
+        this.hologram = holo;
+    }
+
     Effect(card) {
 
     }

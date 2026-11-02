@@ -10,7 +10,7 @@ export default class Zone {
             this.cards.splice(card.type, 1, card);
             return true;
         } else {
-            console.log("espacio ocupado");
+            // console.log("space full");
             return false;
         }
     }

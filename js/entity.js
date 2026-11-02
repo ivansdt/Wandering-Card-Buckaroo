@@ -16,39 +16,64 @@ export default class Entity {
       this.deck[i].name = cardArray[i];
 
       switch (cardArray[i]) {
+
         case "Mysterious Stranger":
-          this.deck[i].genre = Card.CARD_GENRE.COW_COWBOYS;
-          this.deck[i].type = Card.CARD_TYPE.CREATURE;
-          this.deck[i].sprite = 'assets/card-template-c.png';
-          this.deck[i].value = 3;
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS, // genre
+            Card.CARD_TYPE.CREATURE, // type
+            3, // value
+            'assets/card-template-c.png', // sprite
+            null // hologram sprite
+          )
           break;
+
         case "Bandit Leader":
-          this.deck[i].genre = Card.CARD_GENRE.COW_COWBOYS;
-          this.deck[i].type = Card.CARD_TYPE.CREATURE;
-          this.deck[i].sprite = 'assets/card-template-c.png';
-          this.deck[i].value = 2;
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.CREATURE,
+            2,
+            'assets/card-template-c.png',
+            null
+          )
           break;
+
         case "Big Iron":
-          this.deck[i].genre = Card.CARD_GENRE.COW_COWBOYS;
-          this.deck[i].type = Card.CARD_TYPE.OBJECT;
-          this.deck[i].sprite = 'assets/card-template-o.png';
-          this.deck[i].value = 3;
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.OBJECT,
+            3,
+            'assets/card-template-o.png',
+            null
+          )
           break;
+
+        case "Cheese Moon":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.SPELL,
+            0,
+            'assets/card-template-s.png',
+            null
+          )
+          break;
+
         default:
           console.log(cardArray[i] + "no existe");
+
       }
     }
   }
 
   PlayCard(battle, zone, card) {
-    if (this.cardsPlayed > 3) {
+    if (this.cardsPlayed < 3) {
       let isPlacementValid = battle.rvlZones[zone].InsertCard(card);
       if (isPlacementValid) {
         this.hand.splice(this.hand.indexOf(card), 1);
         this.cardsPlayed++;
-        console.log("played");
+        console.log("played " + card.name);
         return true;
       } else {
+        console.log("couldnt play " + card.name + " in zone " + (zone + 1));
         return false;
       }
     }

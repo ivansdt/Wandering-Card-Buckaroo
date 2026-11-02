@@ -30,15 +30,19 @@ export default class Game {
             "Big Iron",
             "Big Iron",
             "Big Iron",
+            "Cheese Moon",
+            "Cheese Moon",
+            "Cheese Moon",
+            "Cheese Moon",
         ];
 
         const rvlDeck = [
+            "Cheese Moon",
             "Big Iron",
-            "Big Iron",
-            "Big Iron",
-            "Big Iron",
-            "Big Iron",
-            "Big Iron",
+            "Mysterious Stranger",
+            "Mysterious Stranger",
+            "Bandit Leader",
+            "Cheese Moon",
         ];
 
         this.player.CreateDeck(plrDeck);
