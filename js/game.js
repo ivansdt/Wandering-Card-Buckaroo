@@ -8,6 +8,8 @@ export default class Game {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
         this.input = new Input;
+
+        window.addEventListener('keydown', (e) => this.input.OnKeyDown(e, this.player));
     }
 
     Start() {
