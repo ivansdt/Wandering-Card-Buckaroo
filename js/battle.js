@@ -115,13 +115,14 @@ export default class Battle {
 
     DrawHand(hand, canvas, ctx) {
         let offsetX = 80;
+        let offsetY = 100;
         // test de renderizado de cartas placeholder
         for (let i = 0; i < hand.length; i++) {
             let totalWidth = hand[i].width + ((hand.length - 1) * offsetX);
+            hand[i].x = (canvas.width / 2) + (i * offsetX) - (totalWidth / 2);
+            hand[i].y = canvas.height - offsetY;
             const sprite_card = new Image();
             sprite_card.src = hand[i].sprite;
-            hand[i].x = (canvas.width / 2) + (i * offsetX) - (totalWidth / 2);
-            hand[i].y = canvas.height - 100;
             ctx.drawImage(sprite_card, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
         }
     }
