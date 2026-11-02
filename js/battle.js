@@ -1,4 +1,8 @@
 import Card from './card.js';
+
+let maxHand = 6;
+let maxZones = 5;
+
 export default class Battle {
     constructor(plrEnt, rivalEnt) {
         this.player = plrEnt;
@@ -6,6 +10,8 @@ export default class Battle {
         this.rival = rivalEnt;
         this.rvlDeck = rivalEnt.deck;
         this.isPlrTurn = false;
+        this.plrZone = new Array();
+        this.rvlZone = new Array();
 
         /* Reutilizar este codigo en card.js en la funcion de Effect(), probablemente utilizando un switch general sin importar el genero
         
@@ -80,24 +86,13 @@ export default class Battle {
         */
     }
 
-    DrawDeck(deck, canvas, ctx) {
-        // test de renderizado de cartas placeholder
-        for (let i = 0; i < 6; i++) {
-            const sprite_card = new Image();
-            sprite_card.src = deck[i].sprite;
-            deck[i].x = ((canvas.width / 2) - (80 * 3)) + (i * 80);
-            deck[i].y = canvas.height - 200;
-            ctx.drawImage(sprite_card, deck[i].x, deck[i].y, deck[i].width, deck[i].height);
-        }
-    }
-
     GetCardsFromDeck(entity) {
         let availableCards = new Array();
         for (let i = 0; i < entity.deck.length; i++) {
             availableCards.push(entity.deck[i]);
         }
 
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < maxHand; i++) {
             let randomIndex = Math.floor(Math.random() * availableCards.length);
             let randomCard = availableCards.splice(randomIndex, 1)[0];
             //console.log(randomCard);
@@ -105,7 +100,46 @@ export default class Battle {
         }
     }
 
+    DrawHand(hand, canvas, ctx) {
+        // test de renderizado de cartas placeholder
+        for (let i = 0; i < hand.length; i++) {
+            const sprite_card = new Image();
+            sprite_card.src = hand[i].sprite;
+            hand[i].x = ((canvas.width / 2) - (80 * 3)) + (i * 80);
+            hand[i].y = canvas.height - 100;
+            ctx.drawImage(sprite_card, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
+        }
+    }
+
+    DrawZones(plrZone, rvlZone, canvas, ctx) {
+        // dibujar player zone
+        let zoneWidth = 150;
+        let zoneHeight = 50;
+        let offset = 20;
+
+        for (let i = 0; i < maxZones; i++) {
+            ctx.fillStyle = "#7d7d7d";
+            ctx.fillRect(canvas.width / 4, offset + (i * (zoneHeight + 20)), zoneWidth, zoneHeight);
+            if (plrZone[i]) {
+                // dibujar sprite de la carta aqui (plrZone[i].hologram)
+            }
+        }
+        // dibujar rival zone
+        for (let i = 0; i < maxZones; i++) {
+            ctx.fillStyle = "#9a3f3f";
+            ctx.fillRect(((canvas.width / 4) * 3) - zoneHeight, 20 + (i * (zoneHeight + 20)), zoneWidth, zoneHeight);
+            if (plrZone[i]) {
+                // dibujar sprite de la carta aqui (plrZone[i].hologram)
+            }
+        }
+    }
+
     StartBattle() {
 
+    }
+
+    Draw(player, rival, canvas, ctx) {
+        this.DrawHand(player.hand, canvas, ctx);
+        this.DrawZones(this.plrZone, this.rvlZone, canvas, ctx);
     }
 }

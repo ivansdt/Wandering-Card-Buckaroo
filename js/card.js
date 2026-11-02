@@ -33,6 +33,7 @@ export default class Card {
         this.playable = true;
         this.state = Card.CARD_STATUS.DECK;
         this.sprite;
+        this.hologram;
         this.zone;
         this.value;
     }
