@@ -43,7 +43,7 @@ export default class Game {
 
         this.player.CreateDeck(plrDeck);
         this.rival.CreateDeck(rvlDeck);
-        this.battle.GetCardsFromDeck(this.player);
+        this.battle.StartBattle();
         console.log(this.player.hand);
     }
 

@@ -1,4 +1,5 @@
 import Card from './card.js';
+import Zone from './zone.js';
 
 let maxHand = 6;
 let maxZones = 5;
@@ -10,8 +11,8 @@ export default class Battle {
         this.rival = rivalEnt;
         this.rvlDeck = rivalEnt.deck;
         this.isPlrTurn = false;
-        this.plrZone = new Array();
-        this.rvlZone = new Array();
+        this.plrZones = new Array();
+        this.rvlZones = new Array();
 
         /* Reutilizar este codigo en card.js en la funcion de Effect(), probablemente utilizando un switch general sin importar el genero
         
@@ -100,6 +101,18 @@ export default class Battle {
         }
     }
 
+    CreateZones() {
+        // player zones
+        for (let i = 0; i < maxZones; i++) {
+            this.plrZones[i] = new Zone();
+            console.log(this.plrZones);
+        }
+
+        for (let i = 0; i < maxZones; i++) {
+            this.rvlZones[i] = new Zone();
+        }
+    }
+
     DrawHand(hand, canvas, ctx) {
         // test de renderizado de cartas placeholder
         for (let i = 0; i < hand.length; i++) {
@@ -111,35 +124,51 @@ export default class Battle {
         }
     }
 
-    DrawZones(plrZone, rvlZone, canvas, ctx) {
+    DrawZones(canvas, ctx) {
         // dibujar player zone
         let zoneWidth = 150;
         let zoneHeight = 50;
         let offset = 20;
 
         for (let i = 0; i < maxZones; i++) {
+            let zoneX = canvas.width / 4;
+            let zoneY = offset + (i * (zoneHeight + 20));
             ctx.fillStyle = "#7d7d7d";
-            ctx.fillRect(canvas.width / 4, offset + (i * (zoneHeight + 20)), zoneWidth, zoneHeight);
-            if (plrZone[i]) {
-                // dibujar sprite de la carta aqui (plrZone[i].hologram)
+            ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
+            if (this.plrZones[i].cards.length != 0) {
+                // dibujar sprite de la carta aqui con el plrZones[i].hologram, lo estoy testeando con cajas de colores por ahora. 
+                for (let k = 0; k < 3; k++) {
+                    if (this.plrZones[i].cards[k]) {
+                        ctx.fillStyle = "orange";
+                        ctx.fillRect(zoneX + (k * (zoneWidth / 2) - 15), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    }
+                }
             }
         }
         // dibujar rival zone
         for (let i = 0; i < maxZones; i++) {
+            let zoneX = ((canvas.width / 4) * 3) - zoneWidth;
+            let zoneY = offset + (i * (zoneHeight + 20));
             ctx.fillStyle = "#9a3f3f";
-            ctx.fillRect(((canvas.width / 4) * 3) - zoneWidth, offset + (i * (zoneHeight + 20)), zoneWidth, zoneHeight);
-            if (plrZone[i]) {
-                // dibujar sprite de la carta aqui (plrZone[i].hologram)
+            ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
+            if (this.rvlZones[i].cards.length != 0) {
+                // dibujar sprite de la carta aqui con el plrZones[i].hologram, lo estoy testeando con cajas de colores por ahora.
+
             }
         }
     }
 
     StartBattle() {
+        this.CreateZones();
+        this.GetCardsFromDeck(this.player);
+        this.GetCardsFromDeck(this.rival);
 
+        // testeo de carta en zona
+        this.plrZones[0].InsertCard(this.player.hand[0]);
     }
 
     Draw(player, rival, canvas, ctx) {
         this.DrawHand(player.hand, canvas, ctx);
-        this.DrawZones(this.plrZone, this.rvlZone, canvas, ctx);
+        this.DrawZones(canvas, ctx);
     }
 }

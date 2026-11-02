@@ -1,9 +1,10 @@
 export default class Card {
 
     static CARD_TYPE = {
-        CREATURE: 'Creature',
-        OBJECT: 'Object',
-        SPELL: 'Spell',
+        // los numeros seran las ids para insertarse en el array de la clase de zona con .splice
+        CREATURE: 0,
+        OBJECT: 1,
+        SPELL: 2,
     }
 
     static CARD_STATUS = {
@@ -33,7 +34,7 @@ export default class Card {
         this.playable = true;
         this.state = Card.CARD_STATUS.DECK;
         this.sprite;
-        this.hologram;
+        this.hologram; // Igual es un sprite pero seria el que se muestra en la zona como tal
         this.zone;
         this.value;
     }
