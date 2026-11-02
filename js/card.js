@@ -24,7 +24,7 @@ export default class Card {
         this.name;
         this.x;
         this.y;
-        this.nodeCount = 1;
+        // this.nodeCount = 1;
         // this.effect;    Creo que podemos referenciar el nombre de la carta para cada una tener un efecto especifico, es dificil encapsular todos los efectos
         this.isSelected = false;
         this.width = 150;

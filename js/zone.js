@@ -3,6 +3,7 @@ import Card from './card.js';
 export default class Zone {
     constructor() {
         this.cards = new Array(3).fill(null);
+        this.isSelected = false;
     }
 
     InsertCard(card) {

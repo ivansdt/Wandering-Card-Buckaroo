@@ -9,13 +9,13 @@ export default class Game {
         this.ctx = this.canvas.getContext('2d');
         this.input = new Input;
 
-        window.addEventListener('keydown', (e) => this.input.OnKeyDown(e, this.player));
+        window.addEventListener('keydown', (e) => this.input.OnKeyDown(e, this.player, this.battle));
     }
 
     Start() {
         this.player = new Player("Mike");
         this.rival = new Rival("Mouse");
-        this.battle = new Battle(this.player, this.rival);
+        this.battle = new Battle(this.player, this.rival, this.input);
         this.lastTime = performance.now();
         requestAnimationFrame((time) => this.Loop(time));
 

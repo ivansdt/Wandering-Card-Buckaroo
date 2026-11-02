@@ -1,11 +1,12 @@
 import Card from './card.js';
 import Zone from './zone.js';
+import Input from './input.js';
 
 let maxHand = 6;
 let maxZones = 5;
 
 export default class Battle {
-    constructor(plrEnt, rivalEnt) {
+    constructor(plrEnt, rivalEnt, input) {
         this.player = plrEnt;
         this.plrDeck = plrEnt.deck;
         this.rival = rivalEnt;
@@ -13,6 +14,7 @@ export default class Battle {
         this.isPlrTurn = false;
         this.plrZones = new Array();
         this.rvlZones = new Array();
+        this.input = input;
 
         /* Reutilizar este codigo en card.js en la funcion de Effect(), probablemente utilizando un switch general sin importar el genero
         
@@ -97,7 +99,9 @@ export default class Battle {
             let randomIndex = Math.floor(Math.random() * availableCards.length);
             let randomCard = availableCards.splice(randomIndex, 1)[0];
             //console.log(randomCard);
-            randomCard.nodeCount = i + 1;
+            if (i == 0) {
+                randomCard.isSelected = true;
+            }
             entity.hand.push(randomCard);
         }
     }
@@ -106,6 +110,9 @@ export default class Battle {
         // player zones
         for (let i = 0; i < maxZones; i++) {
             this.plrZones[i] = new Zone();
+            if (i == 0) {
+                this.plrZones[i].isSelected = true;
+            }
         }
 
         for (let i = 0; i < maxZones; i++) {
@@ -115,19 +122,24 @@ export default class Battle {
 
     DrawHand(hand, canvas, ctx) {
         let offsetX = 80;
-        let offsetY = 100;
+        let offsetY = 50;
+        let riseOffset = 150
         // test de renderizado de cartas placeholder
-        for (let i = 0; i < hand.length; i++) {
+        for (let i = hand.length - 1; i >= 0; i--) {
+            // console.log("i: " + i);
             let totalWidth = hand[i].width + ((hand.length - 1) * offsetX);
             hand[i].x = (canvas.width / 2) + (i * offsetX) - (totalWidth / 2);
             hand[i].y = canvas.height - offsetY;
+            if (hand[i].isSelected) {
+                hand[i].y -= riseOffset;
+            }
             const sprite_card = new Image();
             sprite_card.src = hand[i].sprite;
             ctx.drawImage(sprite_card, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
         }
     }
 
-    DrawZones(canvas, ctx) {
+    DrawZones(zones, canvas, ctx) {
         // dibujar player zone
         let zoneWidth = 150;
         let zoneHeight = 50;
@@ -136,7 +148,11 @@ export default class Battle {
         for (let i = 0; i < maxZones; i++) {
             let zoneX = canvas.width / 4;
             let zoneY = offset + (i * (zoneHeight + 20));
-            ctx.fillStyle = "#7d7d7d";
+            if (zones[i].isSelected && this.input.onSection == Input.SECTION.ZONES) {
+                ctx.fillStyle = "#367a9f";
+            } else {
+                ctx.fillStyle = "#7d7d7d";
+            }
             ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             // dibujar sprite de la carta aqui con el .hologram, lo estoy testeando con cajas de colores por ahora. 
             for (let j = 0; j < this.plrZones[i].cards.length; j++) {
@@ -197,7 +213,7 @@ export default class Battle {
     }
 
     Draw(player, rival, canvas, ctx) {
+        this.DrawZones(this.plrZones, canvas, ctx);
         this.DrawHand(player.hand, canvas, ctx);
-        this.DrawZones(canvas, ctx);
     }
 }

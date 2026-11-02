@@ -1,9 +1,19 @@
 export default class Input {
+
+    static SECTION = {
+        HAND: 0,
+        ZONES: 1
+    }
+
     constructor() {
         this.keys = new Array();
         this.nodeNumber = 0;
+        this.zoneNumber = 0;
         this.currentCard;
         this.lastNode = 0;
+        this.lastZone = 0;
+        this.onSection = Input.SECTION.HAND;
+        this.canSelect = true;
     }
 
 
@@ -13,40 +23,88 @@ export default class Input {
     }
     */
 
-    OnKeyDown(e, player) {
-        if (e.key == "d") {
-            if (this.nodeNumber != player.hand.length - 1) {
-                this.lastNode = this.nodeNumber;
-                this.nodeNumber += 1;
-            } else {
-                this.nodeNumber = player.hand.length - 1;
+    OnKeyDown(e, player, battle) {
+
+        if (e.key == "Enter") {
+            if (this.onSection == Input.SECTION.HAND) {
+                this.onSection = Input.SECTION.ZONES;
+                console.log("selecting zones");
+            } else if (this.onSection == Input.SECTION.ZONES) {
+                this.onSection = Input.SECTION.HAND;
+                console.log("selecting hand");
             }
-            this.selecting(player.hand);
-            console.log(this.nodeNumber);
-            console.log("last node: " + this.lastNode);
         }
 
-        if (e.key == "a") {
-            console.log(this.nodeNumber);
-            if (this.nodeNumber > 0) {
-                this.lastNode = this.nodeNumber;
-                this.nodeNumber -= 1;
-            } else {
-                this.nodeNumber = 0;
+        if (this.onSection == Input.SECTION.HAND) {
+            if (e.key == "d") {
+                if (this.nodeNumber != player.hand.length - 1) {
+                    this.lastNode = this.nodeNumber;
+                    this.nodeNumber += 1;
+                } else {
+                    this.nodeNumber = player.hand.length - 1;
+                }
+                this.SelectingNode(player.hand);
+                console.log(this.nodeNumber);
+                console.log("last node: " + this.lastNode);
             }
-            this.selecting(player.hand);
-            console.log(this.nodeNumber);
-            console.log("last node: " + this.lastNode);
+
+            if (e.key == "a") {
+                console.log(this.nodeNumber);
+                if (this.nodeNumber > 0) {
+                    this.lastNode = this.nodeNumber;
+                    this.nodeNumber -= 1;
+                } else {
+                    this.nodeNumber = 0;
+                }
+                this.SelectingNode(player.hand);
+                console.log(this.nodeNumber);
+                console.log("last node: " + this.lastNode);
+            }
+        } else if (this.onSection == Input.SECTION.ZONES) {
+            if (e.key == "s") {
+                if (this.zoneNumber != battle.plrZones.length - 1) {
+                    this.lastZone = this.zoneNumber;
+                    this.zoneNumber += 1;
+                } else {
+                    this.zoneNumber = battle.plrZones.length - 1;
+                }
+                this.SelectingZone(battle.plrZones);
+                console.log(this.zoneNumber);
+                console.log("last zone: " + this.lastZone);
+            }
+
+            if (e.key == "w") {
+                console.log(this.zoneNumber);
+                if (this.zoneNumber > 0) {
+                    this.lastZone = this.zoneNumber;
+                    this.zoneNumber -= 1;
+                } else {
+                    this.zoneNumber = 0;
+                }
+                this.SelectingZone(battle.plrZones);
+                console.log(this.zoneNumber);
+                console.log("last zone: " + this.lastZone);
+            }
         }
     }
 
-    selecting(hand) {
+    SelectingNode(hand) {
         if (hand[this.lastNode]) {
             hand[this.lastNode].isSelected = false;
         }
 
         if (hand[this.nodeNumber]) {
             hand[this.nodeNumber].isSelected = true;
+        }
+    }
+
+    SelectingZone(zones) {
+        if (zones[this.lastZone]) {
+            zones[this.lastZone].isSelected = false;
+        }
+
+        if (zones[this.zoneNumber]) {
+            zones[this.zoneNumber].isSelected = true;
         }
     }
 }
