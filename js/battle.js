@@ -114,11 +114,13 @@ export default class Battle {
     }
 
     DrawHand(hand, canvas, ctx) {
+        let offsetX = 80;
         // test de renderizado de cartas placeholder
         for (let i = 0; i < hand.length; i++) {
+            let totalWidth = hand[i].width + ((hand.length - 1) * offsetX);
             const sprite_card = new Image();
             sprite_card.src = hand[i].sprite;
-            hand[i].x = ((canvas.width / 2) - (80 * 3)) + (i * 80);
+            hand[i].x = (canvas.width / 2) + (i * offsetX) - (totalWidth / 2);
             hand[i].y = canvas.height - 100;
             ctx.drawImage(sprite_card, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
         }
@@ -135,15 +137,14 @@ export default class Battle {
             let zoneY = offset + (i * (zoneHeight + 20));
             ctx.fillStyle = "#7d7d7d";
             ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
-            if (this.plrZones[i].cards.length != 0) {
-                // dibujar sprite de la carta aqui con el plrZones[i].hologram, lo estoy testeando con cajas de colores por ahora. 
-                for (let k = 0; k < 3; k++) {
-                    if (this.plrZones[i].cards[k]) {
-                        ctx.fillStyle = "orange";
-                        ctx.fillRect(zoneX + (k * (zoneWidth / 2) - 15), zoneY + (zoneHeight / 2) - 15, 30, 30);
-                    }
+            // dibujar sprite de la carta aqui con el .hologram, lo estoy testeando con cajas de colores por ahora. 
+            for (let k = 0; k < this.plrZones[i].cards.length; k++) {
+                if (this.plrZones[i].cards[k]) {
+                    ctx.fillStyle = "orange";
+                    ctx.fillRect(zoneX + (k * (zoneWidth / 2) - 15), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
             }
+
         }
         // dibujar rival zone
         for (let i = 0; i < maxZones; i++) {
@@ -152,7 +153,7 @@ export default class Battle {
             ctx.fillStyle = "#9a3f3f";
             ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             if (this.rvlZones[i].cards.length != 0) {
-                // dibujar sprite de la carta aqui con el plrZones[i].hologram, lo estoy testeando con cajas de colores por ahora.
+                // dibujar sprite de la carta aqui con el .hologram, lo estoy testeando con cajas de colores por ahora.
 
             }
         }
