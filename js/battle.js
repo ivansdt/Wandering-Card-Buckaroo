@@ -97,6 +97,7 @@ export default class Battle {
             let randomIndex = Math.floor(Math.random() * availableCards.length);
             let randomCard = availableCards.splice(randomIndex, 1)[0];
             //console.log(randomCard);
+            randomCard.nodeCount = i + 1;
             entity.hand.push(randomCard);
         }
     }

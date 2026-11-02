@@ -13,13 +13,13 @@ export default class Rival extends Entity {
                 if (availableCards.length > 0) {
                     let randomIndex = Math.floor(Math.random() * availableCards.length);
                     let chosenCard = availableCards[randomIndex];
-                    console.log(chosenCard);
-                    console.log(availableCards);
+                    // console.log(chosenCard);
+                    // console.log(availableCards);
                     availableCards.splice(randomIndex, 1)
                     isPlayed = this.PlayCard(battle, i, chosenCard)
-                    console.log(isPlayed);
+                    // console.log(isPlayed);
                 } else {
-                    console.log("didnt play");
+                    // console.log("didnt play");
                     return false;
                 }
             }
