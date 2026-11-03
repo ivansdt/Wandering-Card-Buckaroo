@@ -205,7 +205,7 @@ export default class Battle {
                         totalValue += this.plrZones[i].cards[j].value
                     }
                     ctx.fillStyle = "orange";
-                    ctx.fillRect(zoneX + (j * (zoneWidth / 2) - 15), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
             }
             ctx.fillStyle = "#000000";
@@ -224,7 +224,7 @@ export default class Battle {
             for (let j = 0; j < this.rvlZones[i].cards.length; j++) {
                 if (this.rvlZones[i].cards[j]) {
                     ctx.fillStyle = "orange";
-                    ctx.fillRect(zoneX + (j * (zoneWidth / 2) - 15), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
             }
             ctx.fillStyle = "#000000";
