@@ -181,8 +181,12 @@ export default class Battle {
 
     EndTurn(entity) {
         if (this.isPlrTurn) {
+            console.log("now rival turn");
             this.isPlrTurn = false;
+            // calculo de puntos aqui
+            this.TurnHandler();
         } else {
+            console.log("now player turn");
             this.isPlrTurn = true;
         }
         entity.cardsPlayed = 0;
@@ -209,6 +213,10 @@ export default class Battle {
                 }
             }
             this.EndTurn(this.rival);
+        } else {
+            if (this.player.cardsPlayed >= 3) {
+                this.EndTurn(this.player);
+            }
         }
     }
 
