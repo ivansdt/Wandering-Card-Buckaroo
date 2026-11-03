@@ -9,13 +9,11 @@ export default class Input {
         this.keys = new Array();
         this.nodeNumber = 0;
         this.zoneNumber = 0;
-        this.currentCard;
         this.lastNode = 0;
         this.lastZone = 0;
         this.onSection = Input.SECTION.HAND;
         this.canSelect = true;
     }
-
 
     /*
     OnKeyDown(e) {
@@ -30,6 +28,12 @@ export default class Input {
                 this.onSection = Input.SECTION.ZONES;
                 console.log("selecting zones");
             } else if (this.onSection == Input.SECTION.ZONES) {
+                player.PlayCard(battle.plrZones, this.zoneNumber, player.hand[this.nodeNumber]);
+                if (this.nodeNumber == player.hand.length) {
+                    this.lastNode = this.nodeNumber;
+                    this.nodeNumber = player.hand.length - 1;
+                }
+                this.SelectingNode(player.hand);
                 this.onSection = Input.SECTION.HAND;
                 console.log("selecting hand");
             }

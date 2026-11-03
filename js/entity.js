@@ -64,18 +64,20 @@ export default class Entity {
     }
   }
 
-  PlayCard(battle, zone, card) {
+  PlayCard(zones, zoneIndex, card) {
     if (this.cardsPlayed < 3) {
-      let isPlacementValid = battle.rvlZones[zone].InsertCard(card);
+      let isPlacementValid = zones[zoneIndex].InsertCard(card);
       if (isPlacementValid) {
         this.hand.splice(this.hand.indexOf(card), 1);
         this.cardsPlayed++;
         console.log("played " + card.name);
         return true;
       } else {
-        console.log("couldnt play " + card.name + " in zone " + (zone + 1));
+        console.log("couldnt play " + card.name + " in zone " + (zoneIndex + 1));
         return false;
       }
+    } else {
+      console.log("already played 3 cards");
     }
   }
 }

@@ -15,7 +15,7 @@ export default class Rival extends Entity {
                     let chosenCard = availableCards[randomIndex];
                     console.log("attempting to play " + chosenCard.name + " on zone " + (i + 1));
                     availableCards.splice(randomIndex, 1)
-                    isPlayed = this.PlayCard(battle, i, chosenCard)
+                    isPlayed = this.PlayCard(battle.rvlZones, i, chosenCard)
                 } else {
                     console.log("moving to next zone " + (i + 2));
                     break;
