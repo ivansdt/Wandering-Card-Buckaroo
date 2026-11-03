@@ -15,6 +15,8 @@ export default class Battle {
         this.plrZones = new Array();
         this.rvlZones = new Array();
         this.input = input;
+        this.rvlLife = 10;
+        this.plrLife = 10;
 
         /* Reutilizar este codigo en card.js en la funcion de Effect(), probablemente utilizando un switch general sin importar el genero
         
@@ -120,6 +122,31 @@ export default class Battle {
         }
     }
 
+    CalculateValuePlr(plrZones) {
+        for (let i = 0; i < maxZones; i++) {
+            totalValueP = plrZones[i].value.reduce((sum, value) => sum + value, 0);
+            console.log("Total value of player zones: " + totalValueP);
+        }
+    }
+
+    CalculateValueRvl(rvlZones) {
+        for (let i = 0; i < maxZones; i++) {
+            totalValueR = rvlZones[i].value.reduce((sum, value) => sum + value, 0);
+            console.log("Total value of rival zones: " + totalValueR);
+        }
+    }
+
+    CompareValues(totalValueP, totalValueR) {
+        if (totalValueP > totalValueR) {
+           this.rvlLife =totalValueP-totalValueR
+            console.log("Player wins the round");
+        } else if (totalValueP < totalValueR) {
+            this.plrLife =totalValueR-totalValueP
+            console.log("Rival wins the round");
+        } else {
+            console.log("It's a tie");
+        }
+    }
     DrawHand(hand, canvas, ctx) {
         let offsetX = 80;
         let offsetY = 50;
