@@ -223,6 +223,9 @@ export default class Battle {
             ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             for (let j = 0; j < this.rvlZones[i].cards.length; j++) {
                 if (this.rvlZones[i].cards[j]) {
+                    if (this.rvlZones[i].cards[j].type == Card.CARD_TYPE.CREATURE) {
+                        totalValue += this.rvlZones[i].cards[j].value
+                    }
                     ctx.fillStyle = "orange";
                     ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
