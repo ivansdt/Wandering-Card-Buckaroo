@@ -26,10 +26,10 @@ export default class Input {
         if (e.key == "Enter") {
             if (this.onSection == Input.SECTION.HAND) {
                 this.onSection = Input.SECTION.ZONES;
-                console.log("selecting zones");
+                // console.log("selecting zones");
             } else if (this.onSection == Input.SECTION.ZONES) {
                 let wasPlayed = player.PlayCard(battle.plrZones, this.zoneNumber, player.hand[this.nodeNumber]);
-                if (this.nodeNumber == player.hand.length) {
+                if (this.nodeNumber >= player.hand.length) {
                     this.lastNode = this.nodeNumber;
                     this.nodeNumber = player.hand.length - 1;
                 }
@@ -38,7 +38,7 @@ export default class Input {
                 }
                 this.SelectingNode(player.hand);
                 this.onSection = Input.SECTION.HAND;
-                console.log("selecting hand");
+                // console.log("selecting hand");
             }
         }
 
@@ -51,12 +51,11 @@ export default class Input {
                     this.nodeNumber = player.hand.length - 1;
                 }
                 this.SelectingNode(player.hand);
-                console.log(this.nodeNumber);
-                console.log("last node: " + this.lastNode);
+                // console.log(this.nodeNumber);
+                // console.log("last node: " + this.lastNode);
             }
 
             if (e.key == "a") {
-                console.log(this.nodeNumber);
                 if (this.nodeNumber > 0) {
                     this.lastNode = this.nodeNumber;
                     this.nodeNumber -= 1;
@@ -64,8 +63,8 @@ export default class Input {
                     this.nodeNumber = 0;
                 }
                 this.SelectingNode(player.hand);
-                console.log(this.nodeNumber);
-                console.log("last node: " + this.lastNode);
+                // console.log(this.nodeNumber);
+                // console.log("last node: " + this.lastNode);
             }
         } else if (this.onSection == Input.SECTION.ZONES) {
             if (e.key == "s") {
@@ -76,12 +75,11 @@ export default class Input {
                     this.zoneNumber = battle.plrZones.length - 1;
                 }
                 this.SelectingZone(battle.plrZones);
-                console.log(this.zoneNumber);
-                console.log("last zone: " + this.lastZone);
+                // console.log(this.zoneNumber);
+                // console.log("last zone: " + this.lastZone);
             }
 
             if (e.key == "w") {
-                console.log(this.zoneNumber);
                 if (this.zoneNumber > 0) {
                     this.lastZone = this.zoneNumber;
                     this.zoneNumber -= 1;
@@ -89,8 +87,8 @@ export default class Input {
                     this.zoneNumber = 0;
                 }
                 this.SelectingZone(battle.plrZones);
-                console.log(this.zoneNumber);
-                console.log("last zone: " + this.lastZone);
+                // console.log(this.zoneNumber);
+                // console.log("last zone: " + this.lastZone);
             }
         }
     }
@@ -113,6 +111,10 @@ export default class Input {
         if (zones[this.zoneNumber]) {
             zones[this.zoneNumber].isSelected = true;
         }
+    }
+
+    ResetNode() {
+        this.nodeNumber = 0;
     }
 }
 

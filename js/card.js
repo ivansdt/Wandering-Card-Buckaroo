@@ -25,7 +25,7 @@ export default class Card {
         this.x;
         this.y;
         // this.nodeCount = 1;
-        // this.effect;    Creo que podemos referenciar el nombre de la carta para cada una tener un efecto especifico, es dificil encapsular todos los efectos
+        this.effect = false; 
         this.isSelected = false;
         this.width = 150;
         this.height = 200;
@@ -47,10 +47,19 @@ export default class Card {
         this.hologram = holo;
     }
 
-    Effect(card) {
-
+    Effect(zone) {
+        switch (this.name) {
+            case "Big Iron":
+                if (!this.effect && zone.cards[Card.CARD_TYPE.CREATURE] && zone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS) {
+                    zone.cards[Card.CARD_TYPE.CREATURE].value += this.value;
+                    zone.cards[Card.CARD_TYPE.CREATURE].perish = true;
+                    this.effect = true;
+                    console.log(this.name + " effect: " + zone.cards[Card.CARD_TYPE.CREATURE].name + " value now " + zone.cards[Card.CARD_TYPE.CREATURE].value);
+                }
+                break;
+            default:
+                // console.log("no effect");
+        }
     }
 
-
- 
 }

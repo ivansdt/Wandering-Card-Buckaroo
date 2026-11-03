@@ -69,6 +69,14 @@ export default class Entity {
       let isPlacementValid = zones[zoneIndex].InsertCard(card);
       if (isPlacementValid) {
         this.hand.splice(this.hand.indexOf(card), 1);
+        for (let i = 0; i < zones[zoneIndex].cards.length; i++) {
+          if (zones[zoneIndex].cards[i] && !zones[zoneIndex].cards[i].effect) {
+            console.log("trying effect on zone " + zoneIndex);
+            zones[zoneIndex].cards[i].Effect(zones[zoneIndex]);
+          }
+        }
+        // card.Effect(zones[zoneIndex]);
+        card.isSelected = false;
         this.cardsPlayed++;
         console.log("played " + card.name);
         return true;

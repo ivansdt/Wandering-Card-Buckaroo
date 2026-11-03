@@ -15,8 +15,8 @@ export default class Battle {
         this.plrZones = new Array();
         this.rvlZones = new Array();
         this.input = input;
-        this.rvlLife = 10;
-        this.plrLife = 10;
+        this.rvlLife = plrEnt.life;
+        this.plrLife = rivalEnt.life;
 
         /* Reutilizar este codigo en card.js en la funcion de Effect(), probablemente utilizando un switch general sin importar el genero
         
@@ -100,11 +100,19 @@ export default class Battle {
         for (let i = 0; i < maxHand; i++) {
             let randomIndex = Math.floor(Math.random() * availableCards.length);
             let randomCard = availableCards.splice(randomIndex, 1)[0];
-            //console.log(randomCard);
             if (i == 0) {
                 randomCard.isSelected = true;
             }
             entity.hand.push(randomCard);
+        }
+    }
+
+    DeleteHand(hand) {
+        let handSize = hand.length;
+        for (let i = 0; i < handSize; i++) {
+            hand.splice(0, 1);
+            // console.log("i = " + i + " | hand size = " + hand.length);
+            // console.log(hand);
         }
     }
 
@@ -122,31 +130,40 @@ export default class Battle {
         }
     }
 
-    CalculateValuePlr(plrZones) {
+    CalculateValue(zones) {
+        let totalValue = 0;
         for (let i = 0; i < maxZones; i++) {
-            totalValueP = plrZones[i].value.reduce((sum, value) => sum + value, 0);
-            console.log("Total value of player zones: " + totalValueP);
+            if (zones[i].cards[Card.CARD_TYPE.CREATURE]) {
+                totalValue += zones[i].cards[Card.CARD_TYPE.CREATURE].value;
+            }
+            console.log("value of " + (i + 1) + " zones: " + totalValue);
         }
-    }
-
-    CalculateValueRvl(rvlZones) {
-        for (let i = 0; i < maxZones; i++) {
-            totalValueR = rvlZones[i].value.reduce((sum, value) => sum + value, 0);
-            console.log("Total value of rival zones: " + totalValueR);
-        }
+        return totalValue;
     }
 
     CompareValues(totalValueP, totalValueR) {
         if (totalValueP > totalValueR) {
-           this.rvlLife =totalValueP-totalValueR
+            this.rvlLife -= totalValueP - totalValueR
             console.log("Player wins the round");
         } else if (totalValueP < totalValueR) {
-            this.plrLife =totalValueR-totalValueP
+            this.plrLife -= totalValueR - totalValueP
             console.log("Rival wins the round");
         } else {
             console.log("It's a tie");
         }
     }
+
+    DoEffects(zones) {
+        for (let i = 0; i < maxZones; i++) {
+            for (let j = 0; j < zones[i].cards.length; i++) {
+                if (zones[i].cards[j]) {
+                    zones[i].cards[j].Effect(zones[i].cards[j], zones[i]);
+                    console.log("doing effect for " + zones[i].cards[j].name + " on zone " + i)
+                }
+            }
+        }
+    }
+
     DrawHand(hand, canvas, ctx) {
         let offsetX = 80;
         let offsetY = 50;
@@ -171,10 +188,10 @@ export default class Battle {
         let zoneWidth = 150;
         let zoneHeight = 50;
         let offset = 20;
-
         for (let i = 0; i < maxZones; i++) {
             let zoneX = canvas.width / 4;
             let zoneY = offset + (i * (zoneHeight + 20));
+            let totalValue = 0;
             if (zones[i].isSelected && this.input.onSection == Input.SECTION.ZONES) {
                 ctx.fillStyle = "#367a9f";
             } else {
@@ -184,16 +201,24 @@ export default class Battle {
             // dibujar sprite de la carta aqui con el .hologram, lo estoy testeando con cajas de colores por ahora. 
             for (let j = 0; j < this.plrZones[i].cards.length; j++) {
                 if (this.plrZones[i].cards[j]) {
+                    if (this.plrZones[i].cards[j].type == Card.CARD_TYPE.CREATURE) {
+                        totalValue += this.plrZones[i].cards[j].value
+                    }
                     ctx.fillStyle = "orange";
                     ctx.fillRect(zoneX + (j * (zoneWidth / 2) - 15), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
             }
+            ctx.fillStyle = "#000000";
+            ctx.font = "16px serif";
+            ctx.direction = "ltr";
+            ctx.fillText(totalValue, zoneX - offset, zoneY + (zoneHeight / 2));
 
         }
         // dibujar rival zone
         for (let i = 0; i < maxZones; i++) {
             let zoneX = ((canvas.width / 4) * 3) - zoneWidth;
             let zoneY = offset + (i * (zoneHeight + 20));
+            let totalValue = 0;
             ctx.fillStyle = "#9a3f3f";
             ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             for (let j = 0; j < this.rvlZones[i].cards.length; j++) {
@@ -202,19 +227,47 @@ export default class Battle {
                     ctx.fillRect(zoneX + (j * (zoneWidth / 2) - 15), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
             }
-
+            ctx.fillStyle = "#000000";
+            ctx.font = "16px serif";
+            ctx.direction = "rtl";
+            ctx.fillText(totalValue, zoneX + zoneWidth + offset, zoneY + (zoneHeight / 2));
         }
     }
 
+    DrawHP(canvas, ctx) {
+        let offsetX = 20;
+        let offsetY = 40;
+        ctx.fillStyle = "#000000";
+        ctx.font = "32px serif";
+        ctx.direction = "ltr";
+        ctx.fillText("Player: " + this.plrLife, offsetX, offsetY);
+        ctx.direction = "rtl";
+        ctx.fillText("Rival: " + this.rvlLife, canvas.width - offsetX, offsetY);
+
+    }
+
     EndTurn(entity) {
+
         if (this.isPlrTurn) {
             console.log("now rival turn");
             this.isPlrTurn = false;
             // calculo de puntos aqui
+            console.log("PLAYER SCORE:");
+            let plrScore = this.CalculateValue(this.plrZones);
+            console.log("RIVAL SCORE:");
+            let rvlScore = this.CalculateValue(this.rvlZones);
+            this.CompareValues(plrScore, rvlScore);
+            this.DeleteHand(this.player.hand);
+            this.DeleteHand(this.rival.hand);
+            this.GetCardsFromDeck(this.player);
+            this.GetCardsFromDeck(this.rival);
             this.TurnHandler();
+
+
         } else {
             console.log("now player turn");
             this.isPlrTurn = true;
+
         }
         entity.cardsPlayed = 0;
     }
@@ -240,8 +293,10 @@ export default class Battle {
                 }
             }
             this.EndTurn(this.rival);
+            // turno de jugador
         } else {
             if (this.player.cardsPlayed >= 3) {
+                this.input.ResetNode();
                 this.EndTurn(this.player);
             }
         }
@@ -250,5 +305,6 @@ export default class Battle {
     Draw(player, rival, canvas, ctx) {
         this.DrawZones(this.plrZones, canvas, ctx);
         this.DrawHand(player.hand, canvas, ctx);
+        this.DrawHP(canvas, ctx);
     }
 }
