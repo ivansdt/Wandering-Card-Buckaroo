@@ -87,17 +87,16 @@ export default class Game {
 
         this.player.CreateDeck(plrDeck);
         this.rival.CreateDeck(rvlDeck);
-        this.battle.StartBattle();
+        this.battle.StartBattle(this.canvas, this.ctx);
         // console.log(this.player.hand);
     }
 
     Update(dt) {
-        this.battle.ReceiveDelta(dt);
     }
 
     Draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.battle.Draw(this.player, this.rival, this.canvas, this.ctx);
+        this.battle.Draw(this.player, this.rival);
     }
 
     Loop(currentTime) {

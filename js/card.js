@@ -50,10 +50,10 @@ export default class Card {
     Effect(zone) {
         switch (this.name) {
             case "Big Iron":
-                if (zone.cards[Card.CARD_TYPE.CREATURE] && zone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS) {
+                if (zone.cards[Card.CARD_TYPE.CREATURE] && zone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !zone.cards[Card.CARD_TYPE.CREATURE].perish) {
                     zone.cards[Card.CARD_TYPE.CREATURE].value += this.value;
                     zone.cards[Card.CARD_TYPE.CREATURE].perish = true;
-                    this.effect = true;
+                    this.perish = true;
                     console.log(this.name + " effect: " + zone.cards[Card.CARD_TYPE.CREATURE].name + " value now " + zone.cards[Card.CARD_TYPE.CREATURE].value);
                 }
                 break;
