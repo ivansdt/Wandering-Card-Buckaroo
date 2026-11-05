@@ -1,16 +1,15 @@
-
-const GAME_STATES = {
-    PLAY: 'PLAY',
-    PAUSE: 'PAUSE',
-    WIN: 'WIN',
-    LOSE: 'LOSE'
-}
-
 export default class Input {
 
     static SECTION = {
         HAND: 0,
         ZONES: 1
+    }
+
+    static GAME_STATES = {
+        PLAY: "PLAY",
+        PAUSE: "PAUSE",
+        WIN: "WIN",
+        LOSE: "LOSE",
     }
 
 
@@ -22,7 +21,7 @@ export default class Input {
         this.lastZone = 0;
         this.onSection = Input.SECTION.HAND;
         this.canSelect = true;
-        this.GAME_STATES.PAUSE;
+        this.gameState = Input.GAME_STATES.PAUSE;
     }
 
     /*

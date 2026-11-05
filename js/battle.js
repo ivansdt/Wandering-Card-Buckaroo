@@ -10,7 +10,7 @@ const delay = (ms) => new Promise(r => setTimeout(r, ms))
 
 export default class Battle {
 
-    static GAME_STATE = {
+    static DUEL_STATE = {
         PLAYING: 0,
         CALC: 1,
         REVEAL: 2,
@@ -301,19 +301,19 @@ export default class Battle {
             this.DeleteHand(this.player.hand);
             this.DeleteHand(this.rival.hand);
             // calculo de puntos aqui
-            await delay(1000);
-            this.state = Battle.GAME_STATE.CALC;
+            await delay(1500);
+            this.state = Battle.DUEL_STATE.CALC;
             console.log("PLAYER SCORE:");
             this.plrScore = this.CalculateValue(this.plrZones);
             console.log("RIVAL SCORE:");
             this.rvlScore = this.CalculateValue(this.rvlZones);
             await delay(1500);
-            this.state = Battle.GAME_STATE.REVEAL;
+            this.state = Battle.DUEL_STATE.REVEAL;
             await delay(1500);
             this.CompareValues(this.plrScore, this.rvlScore)
             this.GetCardsFromDeck(this.player);
             this.GetCardsFromDeck(this.rival);
-            this.state = Battle.GAME_STATE.PLAYING;
+            this.state = Battle.DUEL_STATE.PLAYING;
             this.TurnHandler();
 
 
@@ -332,7 +332,7 @@ export default class Battle {
         this.TurnHandler();
         this.canvas = canvas;
         this.ctx = ctx;
-        this.state = Battle.GAME_STATE.PLAYING;
+        this.state = Battle.DUEL_STATE.PLAYING;
 
         // testeo de carta en zona
         // this.plrZones[0].InsertCard(this.player.hand[0]);
@@ -366,10 +366,10 @@ export default class Battle {
         this.DrawZones(this.plrZones,);
         this.DrawHand(player.hand);
         this.DrawHP();
-        if (this.state == Battle.GAME_STATE.CALC || this.state == Battle.GAME_STATE.REVEAL) {
+        if (this.state == Battle.DUEL_STATE.CALC || this.state == Battle.DUEL_STATE.REVEAL) {
             this.DrawTotalScore(this.plrScore, this.player);
             this.DrawTotalScore(this.rvlScore, this.rival);
-            if (this.state == Battle.GAME_STATE.REVEAL) {
+            if (this.state == Battle.DUEL_STATE.REVEAL) {
                 this.DrawDifference(this.plrScore, this.rvlScore);
             }
         }
