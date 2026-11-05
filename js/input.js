@@ -1,9 +1,18 @@
+
+const GAME_STATES = {
+    PLAY: 'PLAY',
+    PAUSE: 'PAUSE',
+    WIN: 'WIN',
+    LOSE: 'LOSE'
+}
+
 export default class Input {
 
     static SECTION = {
         HAND: 0,
         ZONES: 1
     }
+
 
     constructor() {
         this.keys = new Array();
@@ -13,6 +22,7 @@ export default class Input {
         this.lastZone = 0;
         this.onSection = Input.SECTION.HAND;
         this.canSelect = true;
+        this.GAME_STATES.PAUSE;
     }
 
     /*
@@ -22,6 +32,7 @@ export default class Input {
     */
 
     OnKeyDown(e, player, battle) {
+        if (e.key == "Escape") this.togglePause();
 
         if (e.key == "Enter") {
             if (battle.isPlrTurn) {
@@ -94,6 +105,13 @@ export default class Input {
             }
         }
     }
+
+    togglePause() {
+        if (this.state == GAME_STATES.PAUSE) {
+            this.state = GAME_STATES.PLAY
+        }
+    }
+
 
     SelectingNode(hand) {
         if (hand[this.lastNode]) {
