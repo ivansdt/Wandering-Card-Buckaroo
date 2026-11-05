@@ -36,9 +36,47 @@ export default class Game {
             "Cheese Moon",
             "Cheese Moon",
             "Cheese Moon",
+            "Mysterious Stranger",
+            "Mysterious Stranger",
+            "Mysterious Stranger",
+            "Mysterious Stranger",
+            "Bandit Leader",
+            "Bandit Leader",
+            "Bandit Leader",
+            "Bandit Leader",
+            "Big Iron",
+            "Big Iron",
+            "Big Iron",
+            "Big Iron",
+            "Cheese Moon",
+            "Cheese Moon",
+            "Cheese Moon",
+            "Cheese Moon",
         ];
 
         const rvlDeck = [
+            "Cheese Moon",
+            "Big Iron",
+            "Mysterious Stranger",
+            "Mysterious Stranger",
+            "Bandit Leader",
+            "Cheese Moon",
+            "Cheese Moon",
+            "Big Iron",
+            "Mysterious Stranger",
+            "Mysterious Stranger",
+            "Bandit Leader",
+            "Cheese Moon",
+            "Cheese Moon",
+            "Big Iron",
+            "Mysterious Stranger",
+            "Mysterious Stranger",
+            "Bandit Leader",
+            "Cheese Moon",
+            "Mysterious Stranger",
+            "Mysterious Stranger",
+            "Bandit Leader",
+            "Cheese Moon",
             "Cheese Moon",
             "Big Iron",
             "Mysterious Stranger",
@@ -54,6 +92,7 @@ export default class Game {
     }
 
     Update(dt) {
+        this.battle.ReceiveDelta(dt);
     }
 
     Draw() {

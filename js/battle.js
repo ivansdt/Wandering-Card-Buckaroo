@@ -5,8 +5,10 @@ import Input from './input.js';
 let maxHand = 6;
 let maxZones = 5;
 
+const delay = (ms) => new Promise(r => setTimeout(r, ms))
+
 export default class Battle {
-    constructor(plrEnt, rivalEnt, input) {
+    constructor(plrEnt, rivalEnt, input, dt) {
         this.player = plrEnt;
         this.plrDeck = plrEnt.deck;
         this.rival = rivalEnt;
@@ -285,15 +287,19 @@ export default class Battle {
         // this.plrZones[0].InsertCard(this.player.hand[0]);
     }
 
-    TurnHandler() {
+    ReceiveDelta(dt) {
+        this.dt = dt;
+    }
+
+    async TurnHandler() {
         // turno de rival
         if (!this.isPlrTurn) {
             for (let i = 0; i < 3; i++) {
                 let wasPlayed = this.rival.PlayRandomCard(this);
-                // console.log(wasPlayed + " - rival hand size: " + this.rival.hand.length);
                 if (!wasPlayed) {
                     break;
                 }
+                await delay(1000);
             }
             this.EndTurn(this.rival);
             // turno de jugador

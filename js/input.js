@@ -24,21 +24,23 @@ export default class Input {
     OnKeyDown(e, player, battle) {
 
         if (e.key == "Enter") {
-            if (this.onSection == Input.SECTION.HAND) {
-                this.onSection = Input.SECTION.ZONES;
-                // console.log("selecting zones");
-            } else if (this.onSection == Input.SECTION.ZONES) {
-                let wasPlayed = player.PlayCard(battle.plrZones, this.zoneNumber, player.hand[this.nodeNumber]);
-                if (this.nodeNumber >= player.hand.length) {
-                    this.lastNode = this.nodeNumber;
-                    this.nodeNumber = player.hand.length - 1;
+            if (battle.isPlrTurn) {
+                if (this.onSection == Input.SECTION.HAND) {
+                    this.onSection = Input.SECTION.ZONES;
+                    // console.log("selecting zones");
+                } else if (this.onSection == Input.SECTION.ZONES) {
+                    let wasPlayed = player.PlayCard(battle.plrZones, this.zoneNumber, player.hand[this.nodeNumber]);
+                    if (this.nodeNumber >= player.hand.length) {
+                        this.lastNode = this.nodeNumber;
+                        this.nodeNumber = player.hand.length - 1;
+                    }
+                    if (wasPlayed) {
+                        battle.TurnHandler();
+                    }
+                    this.SelectingNode(player.hand);
+                    this.onSection = Input.SECTION.HAND;
+                    // console.log("selecting hand");
                 }
-                if (wasPlayed) {
-                    battle.TurnHandler();
-                }
-                this.SelectingNode(player.hand);
-                this.onSection = Input.SECTION.HAND;
-                // console.log("selecting hand");
             }
         }
 
