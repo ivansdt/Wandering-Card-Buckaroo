@@ -1,7 +1,9 @@
 
 const GAME_STATES = {
     PLAY: 'PLAY',
-    PAUSE: 'PAUSE'
+    PAUSE: 'PAUSE',
+    WIN: 'WIN',
+    LOSE: 'LOSE'
 }
 
 export default class Input {
