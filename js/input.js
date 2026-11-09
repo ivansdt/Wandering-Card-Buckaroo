@@ -10,6 +10,7 @@ export default class Input {
         PAUSE: "PAUSE",
         WIN: "WIN",
         LOSE: "LOSE",
+        TITLE: "TITLE",
     }
 
 
@@ -33,74 +34,86 @@ export default class Input {
     OnKeyDown(e, player, battle) {
         if (e.key == "Escape") this.togglePause();
 
-        if (e.key == "Enter") {
-            if (battle.isPlrTurn) {
-                if (this.onSection == Input.SECTION.HAND) {
-                    this.onSection = Input.SECTION.ZONES;
-                    // console.log("selecting zones");
-                } else if (this.onSection == Input.SECTION.ZONES) {
-                    let wasPlayed = player.PlayCard(battle.plrZones, this.zoneNumber, player.hand[this.nodeNumber]);
-                    if (this.nodeNumber >= player.hand.length) {
+
+        if (battle.isPlrTurn) {
+            if (e.key == "Enter") {
+                if (battle.isPlrTurn) {
+                    if (this.onSection == Input.SECTION.HAND) {
+                        this.onSection = Input.SECTION.ZONES;
+                        // console.log("selecting zones");
+                    } else if (this.onSection == Input.SECTION.ZONES) {
+                        let wasPlayed = player.PlayCard(battle.plrZones, this.zoneNumber, player.hand[this.nodeNumber]);
+                        if (this.nodeNumber >= player.hand.length) {
+                            this.lastNode = this.nodeNumber;
+                            this.nodeNumber = player.hand.length - 1;
+                        }
+                        if (wasPlayed) {
+                            battle.TurnHandler();
+                        }
+                        this.SelectingNode(player.hand);
+                        this.onSection = Input.SECTION.HAND;
+                        // console.log("selecting hand");
+                    }
+                }
+            }
+
+            if (this.onSection == Input.SECTION.HAND) {
+                if (e.key == "r") {
+                    this.ResetNode();
+                    battle.SkipTurn();
+                }
+
+                if (e.key == "d") {
+                    if (this.nodeNumber != player.hand.length - 1) {
                         this.lastNode = this.nodeNumber;
+                        this.nodeNumber += 1;
+                    } else {
                         this.nodeNumber = player.hand.length - 1;
                     }
-                    if (wasPlayed) {
-                        battle.TurnHandler();
+                    this.SelectingNode(player.hand);
+                    // console.log(this.nodeNumber);
+                    // console.log("last node: " + this.lastNode);
+                }
+
+                if (e.key == "a") {
+                    if (this.nodeNumber > 0) {
+                        this.lastNode = this.nodeNumber;
+                        this.nodeNumber -= 1;
+                    } else {
+                        this.nodeNumber = 0;
                     }
                     this.SelectingNode(player.hand);
+                    // console.log(this.nodeNumber);
+                    // console.log("last node: " + this.lastNode);
+                }
+            } else if (this.onSection == Input.SECTION.ZONES) {
+                if (e.key == "Backspace") {
                     this.onSection = Input.SECTION.HAND;
-                    // console.log("selecting hand");
                 }
-            }
-        }
 
-        if (this.onSection == Input.SECTION.HAND) {
-            if (e.key == "d") {
-                if (this.nodeNumber != player.hand.length - 1) {
-                    this.lastNode = this.nodeNumber;
-                    this.nodeNumber += 1;
-                } else {
-                    this.nodeNumber = player.hand.length - 1;
+                if (e.key == "s") {
+                    if (this.zoneNumber != battle.plrZones.length - 1) {
+                        this.lastZone = this.zoneNumber;
+                        this.zoneNumber += 1;
+                    } else {
+                        this.zoneNumber = battle.plrZones.length - 1;
+                    }
+                    this.SelectingZone(battle.plrZones);
+                    // console.log(this.zoneNumber);
+                    // console.log("last zone: " + this.lastZone);
                 }
-                this.SelectingNode(player.hand);
-                // console.log(this.nodeNumber);
-                // console.log("last node: " + this.lastNode);
-            }
 
-            if (e.key == "a") {
-                if (this.nodeNumber > 0) {
-                    this.lastNode = this.nodeNumber;
-                    this.nodeNumber -= 1;
-                } else {
-                    this.nodeNumber = 0;
+                if (e.key == "w") {
+                    if (this.zoneNumber > 0) {
+                        this.lastZone = this.zoneNumber;
+                        this.zoneNumber -= 1;
+                    } else {
+                        this.zoneNumber = 0;
+                    }
+                    this.SelectingZone(battle.plrZones);
+                    // console.log(this.zoneNumber);
+                    // console.log("last zone: " + this.lastZone);
                 }
-                this.SelectingNode(player.hand);
-                // console.log(this.nodeNumber);
-                // console.log("last node: " + this.lastNode);
-            }
-        } else if (this.onSection == Input.SECTION.ZONES) {
-            if (e.key == "s") {
-                if (this.zoneNumber != battle.plrZones.length - 1) {
-                    this.lastZone = this.zoneNumber;
-                    this.zoneNumber += 1;
-                } else {
-                    this.zoneNumber = battle.plrZones.length - 1;
-                }
-                this.SelectingZone(battle.plrZones);
-                // console.log(this.zoneNumber);
-                // console.log("last zone: " + this.lastZone);
-            }
-
-            if (e.key == "w") {
-                if (this.zoneNumber > 0) {
-                    this.lastZone = this.zoneNumber;
-                    this.zoneNumber -= 1;
-                } else {
-                    this.zoneNumber = 0;
-                }
-                this.SelectingZone(battle.plrZones);
-                // console.log(this.zoneNumber);
-                // console.log("last zone: " + this.lastZone);
             }
         }
     }
@@ -108,6 +121,8 @@ export default class Input {
     togglePause() {
         if (this.state == GAME_STATES.PAUSE) {
             this.state = GAME_STATES.PLAY
+        } else {
+            this.state = GAME_STATES.PAUSE
         }
     }
 

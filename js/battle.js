@@ -114,9 +114,6 @@ export default class Battle {
         for (let i = 0; i < maxHand; i++) {
             let randomIndex = Math.floor(Math.random() * availableCards.length);
             let randomCard = availableCards.splice(randomIndex, 1)[0];
-            if (i == 0) {
-                randomCard.isSelected = true;
-            }
             entity.hand.push(randomCard);
         }
     }
@@ -170,12 +167,12 @@ export default class Battle {
         }
     }
 
-    DoEffects(zones) {
+    DoTurnEffects(zones) {
         for (let i = 0; i < maxZones; i++) {
-            for (let j = 0; j < zones[i].cards.length; i++) {
+            for (let j = 0; j < zones[i].cards.length; j++) {
                 if (zones[i].cards[j]) {
-                    zones[i].cards[j].Effect(zones[i].cards[j], zones[i]);
-                    console.log("doing effect for " + zones[i].cards[j].name + " on zone " + i)
+                    console.log("doing turn effect for " + zones[i].cards[j].name + " on zone " + i)
+                    zones[i].cards[j].TurnEffect(zones[i]);
                 }
             }
         }
@@ -200,7 +197,7 @@ export default class Battle {
         }
     }
 
-    DrawZones(zones) {
+    DrawZones() {
         // dibujar player zone
         let zoneWidth = 150;
         let zoneHeight = 50;
@@ -209,7 +206,7 @@ export default class Battle {
             let zoneX = this.canvas.width / 4;
             let zoneY = offset + (i * (zoneHeight + 20));
             let totalValue = 0;
-            if (zones[i].isSelected && this.input.onSection == Input.SECTION.ZONES) {
+            if (this.plrZones[i].isSelected && this.input.onSection == Input.SECTION.ZONES) {
                 this.ctx.fillStyle = "#367a9f";
             } else {
                 this.ctx.fillStyle = "#7d7d7d";
@@ -314,13 +311,15 @@ export default class Battle {
             this.GetCardsFromDeck(this.player);
             this.GetCardsFromDeck(this.rival);
             this.state = Battle.DUEL_STATE.PLAYING;
+            this.DoTurnEffects(this.plrZones);
+            this.DoTurnEffects(this.rvlZones);
             this.TurnHandler();
 
 
         } else {
             console.log("now player turn");
             this.isPlrTurn = true;
-
+            this.input.SelectingNode(this.player.hand);
         }
         entity.cardsPlayed = 0;
     }
@@ -340,6 +339,10 @@ export default class Battle {
 
     ReceiveDelta(dt) {
         this.dt = dt;
+    }
+
+    SkipTurn() {
+        this.EndTurn(this.player);
     }
 
     async TurnHandler() {
@@ -363,7 +366,7 @@ export default class Battle {
     }
 
     Draw(player) {
-        this.DrawZones(this.plrZones,);
+        this.DrawZones();
         this.DrawHand(player.hand);
         this.DrawHP();
         if (this.state == Battle.DUEL_STATE.CALC || this.state == Battle.DUEL_STATE.REVEAL) {

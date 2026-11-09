@@ -25,7 +25,7 @@ export default class Card {
         this.x;
         this.y;
         // this.nodeCount = 1;
-        this.effect = false; 
+        this.effect = false;
         this.isSelected = false;
         this.width = 150;
         this.height = 200;
@@ -47,7 +47,28 @@ export default class Card {
         this.hologram = holo;
     }
 
-    Effect(zone) {
+    RemoveFromZone(zone) {
+        zone.cards.splice(this.type, 1, null);
+    }
+
+    TurnEffect(zone) {
+        switch (this.name) {
+            case "Mysterious Stranger":
+                if (this.perish) {
+                    this.RemoveFromZone(zone);
+                }
+                break;
+            case "Bandit Leader":
+                if (this.perish) {
+                    this.RemoveFromZone(zone);
+                }
+                break;
+            default:
+            // console.log("no effect");
+        }
+    }
+
+    PlayEffect(zone) {
         switch (this.name) {
             case "Big Iron":
                 if (zone.cards[Card.CARD_TYPE.CREATURE] && zone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !zone.cards[Card.CARD_TYPE.CREATURE].perish) {
@@ -58,7 +79,7 @@ export default class Card {
                 }
                 break;
             default:
-                // console.log("no effect");
+            // console.log("no effect");
         }
     }
 

@@ -73,7 +73,7 @@ export default class Entity {
         for (let i = 0; i < zones[zoneIndex].cards.length; i++) {
           if (zones[zoneIndex].cards[i]) {
             console.log("trying effect on zone " + zoneIndex);
-            zones[zoneIndex].cards[i].Effect(zones[zoneIndex]);
+            zones[zoneIndex].cards[i].PlayEffect(zones[zoneIndex]);
           }
         }
         // card.Effect(zones[zoneIndex]);
