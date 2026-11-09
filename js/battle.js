@@ -1,6 +1,7 @@
 import Card from './card.js';
 import Zone from './zone.js';
 import Input from './input.js';
+import Player from './player.js';
 
 let maxHand = 6;
 let maxZones = 5;
@@ -8,6 +9,12 @@ let maxZones = 5;
 const delay = (ms) => new Promise(r => setTimeout(r, ms))
 
 export default class Battle {
+
+    static DUEL_STATE = {
+        PLAYING: 0,
+        CALC: 1,
+        REVEAL: 2,
+    }
     constructor(plrEnt, rivalEnt, input, dt) {
         this.player = plrEnt;
         this.plrDeck = plrEnt.deck;
@@ -19,6 +26,11 @@ export default class Battle {
         this.input = input;
         this.rvlLife = plrEnt.life;
         this.plrLife = rivalEnt.life;
+        this.plrScore;
+        this.rvlScore;
+        this.canvas;
+        this.ctx;
+        this.state;
 
         /* Reutilizar este codigo en card.js en la funcion de Effect(), probablemente utilizando un switch general sin importar el genero
         
@@ -147,11 +159,14 @@ export default class Battle {
         if (totalValueP > totalValueR) {
             this.rvlLife -= totalValueP - totalValueR
             console.log("Player wins the round");
+            return this.player;
         } else if (totalValueP < totalValueR) {
             this.plrLife -= totalValueR - totalValueP
             console.log("Rival wins the round");
+            return this.rival;
         } else {
             console.log("It's a tie");
+            return null;
         }
     }
 
@@ -166,7 +181,7 @@ export default class Battle {
         }
     }
 
-    DrawHand(hand, canvas, ctx) {
+    DrawHand(hand) {
         let offsetX = 80;
         let offsetY = 50;
         let riseOffset = 150
@@ -174,98 +189,131 @@ export default class Battle {
         for (let i = hand.length - 1; i >= 0; i--) {
             // console.log("i: " + i);
             let totalWidth = hand[i].width + ((hand.length - 1) * offsetX);
-            hand[i].x = (canvas.width / 2) + (i * offsetX) - (totalWidth / 2);
-            hand[i].y = canvas.height - offsetY;
+            hand[i].x = (this.canvas.width / 2) + (i * offsetX) - (totalWidth / 2);
+            hand[i].y = this.canvas.height - offsetY;
             if (hand[i].isSelected) {
                 hand[i].y -= riseOffset;
             }
             const sprite_card = new Image();
             sprite_card.src = hand[i].sprite;
-            ctx.drawImage(sprite_card, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
+            this.ctx.drawImage(sprite_card, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
         }
     }
 
-    DrawZones(zones, canvas, ctx) {
+    DrawZones(zones) {
         // dibujar player zone
         let zoneWidth = 150;
         let zoneHeight = 50;
         let offset = 20;
         for (let i = 0; i < maxZones; i++) {
-            let zoneX = canvas.width / 4;
+            let zoneX = this.canvas.width / 4;
             let zoneY = offset + (i * (zoneHeight + 20));
             let totalValue = 0;
             if (zones[i].isSelected && this.input.onSection == Input.SECTION.ZONES) {
-                ctx.fillStyle = "#367a9f";
+                this.ctx.fillStyle = "#367a9f";
             } else {
-                ctx.fillStyle = "#7d7d7d";
+                this.ctx.fillStyle = "#7d7d7d";
             }
-            ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
+            this.ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             // dibujar sprite de la carta aqui con el .hologram, lo estoy testeando con cajas de colores por ahora. 
             for (let j = 0; j < this.plrZones[i].cards.length; j++) {
                 if (this.plrZones[i].cards[j]) {
                     if (this.plrZones[i].cards[j].type == Card.CARD_TYPE.CREATURE) {
                         totalValue += this.plrZones[i].cards[j].value
                     }
-                    ctx.fillStyle = "orange";
-                    ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    this.ctx.fillStyle = "orange";
+                    this.ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
             }
-            ctx.fillStyle = "#000000";
-            ctx.font = "16px serif";
-            ctx.direction = "ltr";
-            ctx.fillText(totalValue, zoneX - offset, zoneY + (zoneHeight / 2));
+            this.ctx.fillStyle = "#000000";
+            this.ctx.font = "16px serif";
+            this.ctx.direction = "ltr";
+            this.ctx.fillText(totalValue, zoneX - offset, zoneY + (zoneHeight / 2));
 
         }
         // dibujar rival zone
         for (let i = 0; i < maxZones; i++) {
-            let zoneX = ((canvas.width / 4) * 3) - zoneWidth;
+            let zoneX = ((this.canvas.width / 4) * 3) - zoneWidth;
             let zoneY = offset + (i * (zoneHeight + 20));
             let totalValue = 0;
-            ctx.fillStyle = "#9a3f3f";
-            ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
+            this.ctx.fillStyle = "#9a3f3f";
+            this.ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             for (let j = 0; j < this.rvlZones[i].cards.length; j++) {
                 if (this.rvlZones[i].cards[j]) {
                     if (this.rvlZones[i].cards[j].type == Card.CARD_TYPE.CREATURE) {
                         totalValue += this.rvlZones[i].cards[j].value
                     }
-                    ctx.fillStyle = "orange";
-                    ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    this.ctx.fillStyle = "orange";
+                    this.ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
             }
-            ctx.fillStyle = "#000000";
-            ctx.font = "16px serif";
-            ctx.direction = "rtl";
-            ctx.fillText(totalValue, zoneX + zoneWidth + offset, zoneY + (zoneHeight / 2));
+            this.ctx.fillStyle = "#000000";
+            this.ctx.font = "16px serif";
+            this.ctx.direction = "rtl";
+            this.ctx.fillText(totalValue, zoneX + zoneWidth + offset, zoneY + (zoneHeight / 2));
         }
     }
 
-    DrawHP(canvas, ctx) {
+    DrawHP() {
         let offsetX = 20;
         let offsetY = 40;
-        ctx.fillStyle = "#000000";
-        ctx.font = "32px serif";
-        ctx.direction = "ltr";
-        ctx.fillText("Player: " + this.plrLife, offsetX, offsetY);
-        ctx.direction = "rtl";
-        ctx.fillText("Rival: " + this.rvlLife, canvas.width - offsetX, offsetY);
+        this.ctx.fillStyle = "#000000";
+        this.ctx.font = "32px serif";
+        this.ctx.direction = "ltr";
+        this.ctx.fillText("Player: " + this.plrLife, offsetX, offsetY);
+        this.ctx.direction = "rtl";
+        this.ctx.fillText("Rival: " + this.rvlLife, this.canvas.width - offsetX, offsetY);
 
     }
 
-    EndTurn(entity) {
+    DrawTotalScore(score, entity) {
+        this.ctx.direction = "ltr";
+        this.ctx.font = "32px serif";
+        if (entity instanceof Player) {
+            this.ctx.fillStyle = "#4088f5";
+            this.ctx.fillText(score, this.canvas.width / 2, this.canvas.height / 6);
+        } else {
+            this.ctx.fillStyle = "#ff4747";
+            this.ctx.fillText(score, this.canvas.width / 2, (this.canvas.height / 6) * 3);
+        }
+    }
+
+    DrawDifference(plrScore, rvlScore) {
+        let diff;
+        if (plrScore > rvlScore) {
+            this.ctx.fillStyle = "#c24b4b";
+            diff = rvlScore - plrScore;
+        } else if (rvlScore > plrScore) {
+            this.ctx.fillStyle = "#446faf";
+            diff = plrScore - rvlScore;
+        } else {
+            this.ctx.fillStyle = "#727272";
+            diff = 0;
+        }
+        this.ctx.fillText(diff, this.canvas.width / 2, (this.canvas.height / 6) * 2);
+    }
+
+    async EndTurn(entity) {
 
         if (this.isPlrTurn) {
             console.log("now rival turn");
             this.isPlrTurn = false;
-            // calculo de puntos aqui
-            console.log("PLAYER SCORE:");
-            let plrScore = this.CalculateValue(this.plrZones);
-            console.log("RIVAL SCORE:");
-            let rvlScore = this.CalculateValue(this.rvlZones);
-            this.CompareValues(plrScore, rvlScore);
             this.DeleteHand(this.player.hand);
             this.DeleteHand(this.rival.hand);
+            // calculo de puntos aqui
+            await delay(1500);
+            this.state = Battle.DUEL_STATE.CALC;
+            console.log("PLAYER SCORE:");
+            this.plrScore = this.CalculateValue(this.plrZones);
+            console.log("RIVAL SCORE:");
+            this.rvlScore = this.CalculateValue(this.rvlZones);
+            await delay(1500);
+            this.state = Battle.DUEL_STATE.REVEAL;
+            await delay(1500);
+            this.CompareValues(this.plrScore, this.rvlScore)
             this.GetCardsFromDeck(this.player);
             this.GetCardsFromDeck(this.rival);
+            this.state = Battle.DUEL_STATE.PLAYING;
             this.TurnHandler();
 
 
@@ -277,11 +325,14 @@ export default class Battle {
         entity.cardsPlayed = 0;
     }
 
-    StartBattle() {
+    StartBattle(canvas, ctx) {
         this.CreateZones();
         this.GetCardsFromDeck(this.player);
         this.GetCardsFromDeck(this.rival);
         this.TurnHandler();
+        this.canvas = canvas;
+        this.ctx = ctx;
+        this.state = Battle.DUEL_STATE.PLAYING;
 
         // testeo de carta en zona
         // this.plrZones[0].InsertCard(this.player.hand[0]);
@@ -295,11 +346,11 @@ export default class Battle {
         // turno de rival
         if (!this.isPlrTurn) {
             for (let i = 0; i < 3; i++) {
+                await delay(1000);
                 let wasPlayed = this.rival.PlayRandomCard(this);
                 if (!wasPlayed) {
                     break;
                 }
-                await delay(1000);
             }
             this.EndTurn(this.rival);
             // turno de jugador
@@ -311,9 +362,16 @@ export default class Battle {
         }
     }
 
-    Draw(player, rival, canvas, ctx) {
-        this.DrawZones(this.plrZones, canvas, ctx);
-        this.DrawHand(player.hand, canvas, ctx);
-        this.DrawHP(canvas, ctx);
+    Draw(player) {
+        this.DrawZones(this.plrZones,);
+        this.DrawHand(player.hand);
+        this.DrawHP();
+        if (this.state == Battle.DUEL_STATE.CALC || this.state == Battle.DUEL_STATE.REVEAL) {
+            this.DrawTotalScore(this.plrScore, this.player);
+            this.DrawTotalScore(this.rvlScore, this.rival);
+            if (this.state == Battle.DUEL_STATE.REVEAL) {
+                this.DrawDifference(this.plrScore, this.rvlScore);
+            }
+        }
     }
 }
