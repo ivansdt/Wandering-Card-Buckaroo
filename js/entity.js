@@ -22,7 +22,7 @@ export default class Entity {
             Card.CARD_GENRE.COW_COWBOYS, // genre
             Card.CARD_TYPE.CREATURE, // type
             3, // value
-            'assets/card-template-c.png', // sprite
+            'assets/cards/cow-cowboys/MS-Card.png', // sprite
             null // hologram sprite
           )
           break;
@@ -32,7 +32,7 @@ export default class Entity {
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
             2,
-            'assets/card-template-c.png',
+            'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
             null
           )
           break;
@@ -42,7 +42,7 @@ export default class Entity {
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.OBJECT,
             3,
-            'assets/card-template-o.png',
+            'assets/cards/cow-cowboys/Big-Iron-Card.png',
             null
           )
           break;
@@ -52,7 +52,7 @@ export default class Entity {
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.SPELL,
             0,
-            'assets/card-template-s.png',
+            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
             null
           )
           break;
