@@ -24,7 +24,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE, // type
             3, // value
             'assets/cards/cow-cowboys/MS-Card.png', // sprite
-            "assets/holograms/The-Mysterious-Stranger.png" // hologram sprite
+            'assets/holograms/MS Card guy side.png' // hologram sprite
           )
           break;
 
@@ -34,7 +34,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE,
             2,
             'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
-            "assets/holograms/Bandit-Leader.png"
+            'assets/holograms/Ban. Leader Side-alt.png'
           )
           break;
 
@@ -62,7 +62,7 @@ export default class Entity {
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
-            0,
+            1,
             'assets/cards/cow-cowboys/Goon-Card.png',
             'assets/holograms/Cow-Goons.png'
           )
@@ -93,8 +93,8 @@ export default class Entity {
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
             0,
-            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese-Full-Moon.png'
+            'assets/cards/cow-cowboys/Cow-Goon-Card.png',
+            'assets/holograms/Cow-Goons.png'
           )
           break;
 
@@ -102,9 +102,9 @@ export default class Entity {
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
-            0,
-            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese-Full-Moon.png'
+            2,
+            'assets/cards/cow-cowboys/Cow-Bandit-Leader-Card.png',
+            'assets/holograms/Cow-Leader.png'
           )
           break;
 
@@ -112,9 +112,9 @@ export default class Entity {
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
-            0,
-            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese-Full-Moon.png'
+            1,
+            'assets/cards/cow-cowboys/Cow-MS-Card.png',
+            'assets/holograms/Cow-Stranger.png'
           )
           break;
 
@@ -122,7 +122,7 @@ export default class Entity {
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.SPELL,
-            0,
+            2,
             'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
             'assets/holograms/Cheese-Full-Moon.png'
           )
