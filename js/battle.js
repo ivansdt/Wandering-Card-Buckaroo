@@ -131,9 +131,6 @@ export default class Battle {
         // player zones
         for (let i = 0; i < maxZones; i++) {
             this.plrZones[i] = new Zone();
-            if (i == 0) {
-                this.plrZones[i].isSelected = true;
-            }
         }
 
         for (let i = 0; i < maxZones; i++) {
@@ -356,6 +353,7 @@ export default class Battle {
 
     EndBattle(finishState) {
         console.log("ENDING GAME");
+        this.input.ResetZone();
         this.input.gameState = finishState;
     }
 

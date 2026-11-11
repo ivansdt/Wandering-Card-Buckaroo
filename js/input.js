@@ -121,6 +121,8 @@ export default class Input {
                             // console.log("last node: " + this.lastNode);
                         }
                     } else if (this.onSection == Input.SECTION.ZONES) {
+                        this.SelectingZone(battle.plrZones);
+
                         if (e.key == "Backspace") {
                             this.onSection = Input.SECTION.HAND;
                         }
@@ -200,6 +202,10 @@ export default class Input {
 
     ResetNode() {
         this.nodeNumber = 0;
+    }
+
+    ResetZone() {
+        this.zoneNumber = 0;
     }
 }
 
