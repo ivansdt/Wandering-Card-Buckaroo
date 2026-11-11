@@ -23,7 +23,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE, // type
             3, // value
             'assets/cards/cow-cowboys/MS-Card.png', // sprite
-            "assets/holograms/The Mysterious Stranger Card Guy.png" // hologram sprite
+            "assets/holograms/The-Mysterious-Stranger.png" // hologram sprite
           )
           break;
 
@@ -33,7 +33,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE,
             2,
             'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
-            "assets/holograms/Bandit Leader.png"
+            "assets/holograms/Bandit-Leader.png"
           )
           break;
 
@@ -43,7 +43,7 @@ export default class Entity {
             Card.CARD_TYPE.OBJECT,
             3,
             'assets/cards/cow-cowboys/Big-Iron-Card.png',
-            'assets/holograms/Big Iron.png'
+            'assets/holograms/Big-Iron.png'
           )
           break;
 
@@ -53,7 +53,7 @@ export default class Entity {
             Card.CARD_TYPE.SPELL,
             0,
             'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese Full Moon.png'
+            'assets/holograms/Cheese-Full-Moon.png'
           )
           break;
 
@@ -63,7 +63,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE,
             0,
             'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese Full Moon.png'
+            'assets/holograms/Cheese-Full-Moon.png'
           )
           break;
 
@@ -73,17 +73,17 @@ export default class Entity {
             Card.CARD_TYPE.OBJECT,
             0,
             'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese Full Moon.png'
+            'assets/holograms/Cheese-Full-Moon.png'
           )
           break;
 
-        case "Cheese Moon":
+        case "Cow Goon":
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.SPELL,
             0,
             'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese Full Moon.png'
+            'assets/holograms/Cheese-Full-Moon.png'
           )
           break;
 
