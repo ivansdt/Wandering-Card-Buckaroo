@@ -64,7 +64,6 @@ export default class Input {
         }
 
         if (this.gameState == Input.GAME_STATES.PLAY || this.gameState == Input.GAME_STATES.PAUSE) {
-            console.log(e.key)
             if (e.key == "Escape") {
                 this.TogglePause();
             }
@@ -164,13 +163,10 @@ export default class Input {
     }
 
     TogglePause() {
-        console.log("TOGGLING PAUSE");
         if (this.gameState == Input.GAME_STATES.PAUSE) {
             this.gameState = Input.GAME_STATES.PLAY
         } else {
             this.gameState = Input.GAME_STATES.PAUSE
-            console.log("STATE NOW " + this.gameState);
-
         }
     }
 

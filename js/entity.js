@@ -8,6 +8,7 @@ export default class Entity {
     this.hand = new Array();
     this.sprite;
     this.cardsPlayed = 0;
+    this.counts = {};
   }
 
   CreateDeck(cardArray) {
@@ -23,7 +24,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE, // type
             3, // value
             'assets/cards/cow-cowboys/MS-Card.png', // sprite
-            null // hologram sprite
+            'assets/holograms/MS Card guy side.png' // hologram sprite
           )
           break;
 
@@ -33,7 +34,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE,
             2,
             'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
-            null
+            'assets/holograms/Ban. Leader Side-alt.png'
           )
           break;
 
@@ -43,7 +44,7 @@ export default class Entity {
             Card.CARD_TYPE.OBJECT,
             3,
             'assets/cards/cow-cowboys/Big-Iron-Card.png',
-            null
+            'assets/holograms/Big-Iron.png'
           )
           break;
 
@@ -53,7 +54,77 @@ export default class Entity {
             Card.CARD_TYPE.SPELL,
             0,
             'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            null
+            'assets/holograms/Cheese-Full-Moon.png'
+          )
+          break;
+
+        case "Goon":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.CREATURE,
+            1,
+            'assets/cards/cow-cowboys/Goon-Card.png',
+            'assets/holograms/Cow-Goons.png'
+          )
+          break;
+
+        case "Cheese Amulet":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.OBJECT,
+            0,
+            'assets/cards/cow-cowboys/Cheese-Amulet-Card.png',
+            'assets/holograms/Cheese-Amulet.png'
+          )
+          break;
+
+        case "Sheriff Badge":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.OBJECT,
+            0,
+            'assets/cards/cow-cowboys/Sherrif-badge-card.png',
+            'assets/holograms/Sheriff-Badge.png'
+          )
+          break;
+
+        case "Cow Goon":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.CREATURE,
+            0,
+            'assets/cards/cow-cowboys/Cow-Goon-Card.png',
+            'assets/holograms/Cow-Goons.png'
+          )
+          break;
+
+        case "Herd Leader":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.CREATURE,
+            2,
+            'assets/cards/cow-cowboys/Cow-Bandit-Leader-Card.png',
+            'assets/holograms/Cow-Leader.png'
+          )
+          break;
+
+        case "Cow.Cowboy":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.CREATURE,
+            1,
+            'assets/cards/cow-cowboys/Cow-MS-Card.png',
+            'assets/holograms/Cow-Stranger.png'
+          )
+          break;
+
+        case "Milk":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.SPELL,
+            2,
+            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
+            'assets/holograms/Cheese-Full-Moon.png'
           )
           break;
 
@@ -68,12 +139,17 @@ export default class Entity {
     if (this.cardsPlayed < 3) {
       let isPlacementValid = zones[zoneIndex].InsertCard(card);
       if (isPlacementValid) {
+        if (this.counts[card.name]) {
+          this.counts[card.name]++;
+        } else {
+          this.counts[card.name] = 1;
+        }
         this.hand.splice(this.hand.indexOf(card), 1);
         this.deck.splice(this.deck.indexOf(card), 1);
         for (let i = 0; i < zones[zoneIndex].cards.length; i++) {
           if (zones[zoneIndex].cards[i]) {
             console.log("trying effect on zone " + zoneIndex);
-            zones[zoneIndex].cards[i].PlayEffect(zones[zoneIndex]);
+            zones[zoneIndex].cards[i].PlayEffect(this, card, zones, zones[zoneIndex]);
           }
         }
         // card.Effect(zones[zoneIndex]);

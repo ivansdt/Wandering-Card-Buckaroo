@@ -31,36 +31,45 @@ export default class Card {
         this.height = 200;
         this.genre;
         this.type;
-        this.playable = true;
+        // this.played = false;
         this.state = Card.CARD_STATUS.DECK;
-        this.sprite;
-        this.hologram; // Igual es un sprite pero seria el que se muestra en la zona como tal
+        this.sprite = new Image();
+        this.holo = new Image();
         this.zone;
+        this.initValue;
         this.value;
+        this.bonusValue = 0;
     }
 
-    AddParams(genre, type, value, sprite, holo) {
+    AddParams(genre, type, value, spriteSrc, holoSrc) {
         this.genre = genre;
         this.type = type;
-        this.value = value;
-        this.sprite = sprite;
-        this.hologram = holo;
+        this.initValue = value
+        this.value = this.initValue;
+        this.sprite.src = spriteSrc;
+        this.holo.src = holoSrc;
     }
 
     RemoveFromZone(zone) {
         zone.cards.splice(this.type, 1, null);
     }
 
-    TurnEffect(zone) {
+    TurnEffect(ent, zones, thisZone) {
         switch (this.name) {
             case "Mysterious Stranger":
                 if (this.perish) {
-                    this.RemoveFromZone(zone);
+                    ent.counts["Mysterious Stranger"]--;
+                    for (let i = 0; i < zones.length; i++) {
+                        if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == "Mysterious Stranger") {
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].value++;
+                        }
+                    }
+                    this.RemoveFromZone(thisZone);
                 }
                 break;
             case "Bandit Leader":
                 if (this.perish) {
-                    this.RemoveFromZone(zone);
+                    this.RemoveFromZone(thisZone);
                 }
                 break;
             default:
@@ -68,14 +77,24 @@ export default class Card {
         }
     }
 
-    PlayEffect(zone) {
+    PlayEffect(ent, playedCard, zones, thisZone) {
         switch (this.name) {
+            case "Mysterious Stranger":
+                for (let i = 0; i < zones.length; i++) {
+                    if (playedCard.name == "Mysterious Stranger" && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == "Mysterious Stranger") {
+                        if (zones[i].cards[Card.CARD_TYPE.CREATURE].value >= 0) {
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue - (ent.counts["Mysterious Stranger"] - 1);
+                        }
+                    }
+                }
+                break;
             case "Big Iron":
-                if (zone.cards[Card.CARD_TYPE.CREATURE] && zone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !zone.cards[Card.CARD_TYPE.CREATURE].perish) {
-                    zone.cards[Card.CARD_TYPE.CREATURE].value += this.value;
-                    zone.cards[Card.CARD_TYPE.CREATURE].perish = true;
+                if (thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !thisZone.cards[Card.CARD_TYPE.CREATURE].perish) {
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue += this.value;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].value += thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].perish = true;
                     this.perish = true;
-                    console.log(this.name + " effect: " + zone.cards[Card.CARD_TYPE.CREATURE].name + " value now " + zone.cards[Card.CARD_TYPE.CREATURE].value);
+                    console.log(this.name + " effect: " + thisZone.cards[Card.CARD_TYPE.CREATURE].name + " value now " + thisZone.cards[Card.CARD_TYPE.CREATURE].value);
                 }
                 break;
             default:

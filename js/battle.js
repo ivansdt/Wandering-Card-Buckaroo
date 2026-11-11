@@ -167,12 +167,12 @@ export default class Battle {
         }
     }
 
-    DoTurnEffects(zones) {
+    DoTurnEffects(ent, zones) {
         for (let i = 0; i < maxZones; i++) {
             for (let j = 0; j < zones[i].cards.length; j++) {
                 if (zones[i].cards[j]) {
                     console.log("doing turn effect for " + zones[i].cards[j].name + " on zone " + i)
-                    zones[i].cards[j].TurnEffect(zones[i]);
+                    zones[i].cards[j].TurnEffect(ent, zones, zones[i]);
                 }
             }
         }
@@ -191,9 +191,7 @@ export default class Battle {
             if (hand[i].isSelected) {
                 hand[i].y -= riseOffset;
             }
-            const sprite_card = new Image();
-            sprite_card.src = hand[i].sprite;
-            this.ctx.drawImage(sprite_card, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
+            this.ctx.drawImage(hand[i].sprite, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
         }
     }
 
@@ -201,6 +199,7 @@ export default class Battle {
         // dibujar player zone
         let zoneWidth = 150;
         let zoneHeight = 50;
+        let holoSize = 50;
         let offset = 20;
         for (let i = 0; i < maxZones; i++) {
             let zoneX = this.canvas.width / 4;
@@ -219,7 +218,8 @@ export default class Battle {
                         totalValue += this.plrZones[i].cards[j].value
                     }
                     this.ctx.fillStyle = "orange";
-                    this.ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    // this.ctx.fillRect(zoneX + zoneWidth - (j * ((zoneWidth / 2) - 15) + 30), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    this.ctx.drawImage(this.plrZones[i].cards[j].holo, zoneX + zoneWidth - (j * ((zoneWidth / 2) - (holoSize / 2)) + holoSize), zoneY + (zoneHeight / 2) - (holoSize / 2), holoSize, holoSize);
                 }
             }
             this.ctx.fillStyle = "#000000";
@@ -240,8 +240,11 @@ export default class Battle {
                     if (this.rvlZones[i].cards[j].type == Card.CARD_TYPE.CREATURE) {
                         totalValue += this.rvlZones[i].cards[j].value
                     }
-                    this.ctx.fillStyle = "orange";
-                    this.ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    this.ctx.save();
+                    this.ctx.translate(zoneX + (j * ((zoneWidth / 2) - (holoSize / 2))) + holoSize, zoneY + (zoneHeight / 2) - (holoSize / 2));
+                    this.ctx.scale(-1, 1);
+                    this.ctx.drawImage(this.rvlZones[i].cards[j].holo, 0, 0, holoSize, holoSize);
+                    this.ctx.restore();
                 }
             }
             this.ctx.fillStyle = "#000000";
@@ -316,8 +319,8 @@ export default class Battle {
                 this.GetCardsFromDeck(this.player);
                 this.GetCardsFromDeck(this.rival);
                 this.state = Battle.DUEL_STATE.PLAYING;
-                this.DoTurnEffects(this.plrZones);
-                this.DoTurnEffects(this.rvlZones);
+                this.DoTurnEffects(this.player, this.plrZones);
+                this.DoTurnEffects(this.rival, this.rvlZones);
                 this.TurnHandler();
             }
 
