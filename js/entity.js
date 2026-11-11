@@ -23,7 +23,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE, // type
             3, // value
             'assets/cards/cow-cowboys/MS-Card.png', // sprite
-            "assets/holograms/The-Mysterious-Stranger.png" // hologram sprite
+            'assets/holograms/MS Card guy side.png' // hologram sprite
           )
           break;
 
@@ -33,7 +33,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE,
             2,
             'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
-            "assets/holograms/Bandit-Leader.png"
+            'assets/holograms/Ban. Leader Side-alt.png'
           )
           break;
 
