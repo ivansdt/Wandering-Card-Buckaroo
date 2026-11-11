@@ -308,9 +308,9 @@ export default class Battle {
             this.state = Battle.DUEL_STATE.REVEAL;
             await delay(1500);
             this.CompareValues(this.plrScore, this.rvlScore)
-            if (this.player.life <= 0) {
+            if (this.plrLife <= 0) {
                 this.EndBattle(Input.GAME_STATES.LOSE);
-            } else if (this.rival.life <= 0) {
+            } else if (this.rvlLife <= 0) {
                 this.EndBattle(Input.GAME_STATES.WIN);
             } else {
                 this.GetCardsFromDeck(this.player);
@@ -352,6 +352,7 @@ export default class Battle {
     }
 
     EndBattle(finishState) {
+        console.log("ENDING GAME");
         this.input.gameState = finishState;
     }
 

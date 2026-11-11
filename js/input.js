@@ -52,6 +52,17 @@ export default class Input {
             }
         }
 
+
+        if (this.gameState == Input.GAME_STATES.WIN || this.gameState == Input.GAME_STATES.LOSE) {
+            if (e.key == "Escape") {
+                console.log("GOING BACK TO MENU");
+                game.player = null;
+                game.rival = null;
+                game.battle = null;
+                this.gameState = Input.GAME_STATES.TITLE;
+            }
+        }
+
         if (this.gameState == Input.GAME_STATES.PLAY || this.gameState == Input.GAME_STATES.PAUSE) {
             console.log(e.key)
             if (e.key == "Escape") {

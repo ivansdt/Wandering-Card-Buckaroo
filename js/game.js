@@ -138,9 +138,24 @@ export default class Game {
     Draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         if (this.input.gameState != Input.GAME_STATES.TITLE) {
-            // if (this.gameState = Input.gameState == Input.gameState)
-            this.battle.Draw(this.player, this.rival);
-            if (this.input.gameState == Input.GAME_STATES.PAUSE) {
+            if (this.input.gameState == Input.GAME_STATES.WIN) {
+                this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.fillStyle = 'white';
+                this.ctx.font = 'bold 80px serif';
+                this.ctx.direction = "ltr";
+                this.ctx.fillText("VICTORIA", this.canvas.width / 2 - 180, this.canvas.height / 2 - 80);
+                this.ctx.font = '30px serif';
+                this.ctx.fillText("Presiona Escape para regresar al menú principal", this.canvas.width / 2 - 280, this.canvas.height / 3 * 2);
+
+            } else if (this.input.gameState == Input.GAME_STATES.LOSE) {
+                this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.fillStyle = 'white';
+                this.ctx.font = 'bold 80px serif';
+                this.ctx.direction = "ltr";
+                this.ctx.fillText("DERROTA", this.canvas.width / 2 - 180, this.canvas.height / 2 - 80);
+                this.ctx.font = '30px serif';
+                this.ctx.fillText("Presiona Escape para regresar al menú principal", this.canvas.width / 2 - 280, this.canvas.height / 3 * 2);
+            } else if (this.input.gameState == Input.GAME_STATES.PAUSE) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
                 this.ctx.fillStyle = 'white';
                 this.ctx.font = 'bold 80px serif';
@@ -149,7 +164,10 @@ export default class Game {
                 this.ctx.font = '40px serif';
                 this.ctx.fillText("Presiona Escape para regresar", this.canvas.width / 2 - 220, this.canvas.height / 3 + 150);
                 this.ctx.fillText("Presiona R para reiniciar el juego", this.canvas.width / 2 - 240, this.canvas.height / 3 + 220);
+            } else {
+                this.battle.Draw(this.player, this.rival);
             }
+
         } else {
             this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
             this.ctx.drawImage(this.logo, this.canvas.width / 2 - 455 / 2, 50, 455, 270);
