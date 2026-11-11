@@ -8,6 +8,7 @@ export default class Entity {
     this.hand = new Array();
     this.sprite;
     this.cardsPlayed = 0;
+    this.counts = {};
   }
 
   CreateDeck(cardArray) {
@@ -117,7 +118,7 @@ export default class Entity {
           )
           break;
 
-         case "Milk":
+        case "Milk":
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.SPELL,
@@ -138,12 +139,17 @@ export default class Entity {
     if (this.cardsPlayed < 3) {
       let isPlacementValid = zones[zoneIndex].InsertCard(card);
       if (isPlacementValid) {
+        if (this.counts[card.name]) {
+          this.counts[card.name]++;
+        } else {
+          this.counts[card.name] = 1;
+        }
         this.hand.splice(this.hand.indexOf(card), 1);
         this.deck.splice(this.deck.indexOf(card), 1);
         for (let i = 0; i < zones[zoneIndex].cards.length; i++) {
           if (zones[zoneIndex].cards[i]) {
             console.log("trying effect on zone " + zoneIndex);
-            zones[zoneIndex].cards[i].PlayEffect(zones[zoneIndex]);
+            zones[zoneIndex].cards[i].PlayEffect(this, card, zones, zones[zoneIndex]);
           }
         }
         // card.Effect(zones[zoneIndex]);

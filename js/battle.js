@@ -167,12 +167,12 @@ export default class Battle {
         }
     }
 
-    DoTurnEffects(zones) {
+    DoTurnEffects(ent, zones) {
         for (let i = 0; i < maxZones; i++) {
             for (let j = 0; j < zones[i].cards.length; j++) {
                 if (zones[i].cards[j]) {
                     console.log("doing turn effect for " + zones[i].cards[j].name + " on zone " + i)
-                    zones[i].cards[j].TurnEffect(zones[i]);
+                    zones[i].cards[j].TurnEffect(ent, zones, zones[i]);
                 }
             }
         }
@@ -319,8 +319,8 @@ export default class Battle {
                 this.GetCardsFromDeck(this.player);
                 this.GetCardsFromDeck(this.rival);
                 this.state = Battle.DUEL_STATE.PLAYING;
-                this.DoTurnEffects(this.plrZones);
-                this.DoTurnEffects(this.rvlZones);
+                this.DoTurnEffects(this.player, this.plrZones);
+                this.DoTurnEffects(this.rival, this.rvlZones);
                 this.TurnHandler();
             }
 
