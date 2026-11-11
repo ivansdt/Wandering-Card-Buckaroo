@@ -191,9 +191,7 @@ export default class Battle {
             if (hand[i].isSelected) {
                 hand[i].y -= riseOffset;
             }
-            const sprite_card = new Image();
-            sprite_card.src = hand[i].sprite;
-            this.ctx.drawImage(sprite_card, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
+            this.ctx.drawImage(hand[i].sprite, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
         }
     }
 
@@ -219,7 +217,7 @@ export default class Battle {
                         totalValue += this.plrZones[i].cards[j].value
                     }
                     this.ctx.fillStyle = "orange";
-                    this.ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    this.ctx.fillRect(zoneX + zoneWidth - (j * ((zoneWidth / 2) - 15) + 30), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
             }
             this.ctx.fillStyle = "#000000";

@@ -33,18 +33,18 @@ export default class Card {
         this.type;
         this.playable = true;
         this.state = Card.CARD_STATUS.DECK;
-        this.sprite;
-        this.hologram; // Igual es un sprite pero seria el que se muestra en la zona como tal
+        this.sprite = new Image();
+        this.holo = new Image();
         this.zone;
         this.value;
     }
 
-    AddParams(genre, type, value, sprite, holo) {
+    AddParams(genre, type, value, spriteSrc, holoSrc) {
         this.genre = genre;
         this.type = type;
         this.value = value;
-        this.sprite = sprite;
-        this.hologram = holo;
+        this.sprite.src = spriteSrc;
+        this.holo.src = holoSrc;
     }
 
     RemoveFromZone(zone) {
