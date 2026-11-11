@@ -11,127 +11,136 @@ export default class Entity {
     this.counts = {};
   }
 
+  CreateCard(cardName) {
+    let newCard = new Card();
+    newCard.name = cardName;
+    switch (cardName) {
+      case "Mysterious Stranger":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS, // genre
+          Card.CARD_TYPE.CREATURE, // type
+          3, // value
+          'assets/cards/cow-cowboys/MS-Card.png', // sprite
+          'assets/holograms/MS-Side.png' // hologram sprite
+        )
+        break;
+
+      case "Bandit Leader":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS,
+          Card.CARD_TYPE.CREATURE,
+          2,
+          'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
+          'assets/holograms/Bandit-Leader-Side.png'
+        )
+        break;
+
+      case "Big Iron":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS,
+          Card.CARD_TYPE.OBJECT,
+          3,
+          'assets/cards/cow-cowboys/Big-Iron-Card.png',
+          'assets/holograms/Big-Iron.png'
+        )
+        break;
+
+      case "Cheese Moon":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS,
+          Card.CARD_TYPE.SPELL,
+          0,
+          'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
+          'assets/holograms/Cheese-Full-Moon.png'
+        )
+        break;
+
+      case "Goon":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS,
+          Card.CARD_TYPE.CREATURE,
+          1,
+          'assets/cards/cow-cowboys/Goon-Card.png',
+          'assets/holograms/Cow-Goons.png'
+        )
+        break;
+
+      case "Cheese Amulet":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS,
+          Card.CARD_TYPE.OBJECT,
+          0,
+          'assets/cards/cow-cowboys/Cheese-Amulet-Card.png',
+          'assets/holograms/Cheese-Amulet.png'
+        )
+        break;
+
+      case "Sheriff Badge":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS,
+          Card.CARD_TYPE.OBJECT,
+          0,
+          'assets/cards/cow-cowboys/Sherrif-badge-card.png',
+          'assets/holograms/Sheriff-Badge.png'
+        )
+        break;
+
+      case "Cow Goon":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS,
+          Card.CARD_TYPE.CREATURE,
+          0,
+          'assets/cards/cow-cowboys/Cow-Goon-Card.png',
+          'assets/holograms/Cow-Goons.png'
+        )
+        break;
+
+      case "Herd Leader":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS,
+          Card.CARD_TYPE.CREATURE,
+          2,
+          'assets/cards/cow-cowboys/Cow-Bandit-Leader-Card.png',
+          'assets/holograms/Cow-Leader.png'
+        )
+        break;
+
+      case "Cow-Cowboy":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS,
+          Card.CARD_TYPE.CREATURE,
+          1,
+          'assets/cards/cow-cowboys/Cow-MS-Card.png',
+          'assets/holograms/Cow-Stranger.png'
+        )
+        break;
+
+      case "Milk":
+        newCard.AddParams(
+          Card.CARD_GENRE.COW_COWBOYS,
+          Card.CARD_TYPE.SPELL,
+          2,
+          'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
+          'assets/holograms/Cheese-Full-Moon.png'
+        )
+        break;
+      default:
+        console.log(cardName + " no existe");
+    }
+    return newCard;
+  }
+
   CreateDeck(cardArray) {
     for (let i = 0; i < cardArray.length; i++) {
-      this.deck[i] = new Card();
-      this.deck[i].name = cardArray[i];
+      this.deck[i] = this.CreateCard(cardArray[i]);
+    }
+  }
 
-      switch (cardArray[i]) {
-
-        case "Mysterious Stranger":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS, // genre
-            Card.CARD_TYPE.CREATURE, // type
-            3, // value
-            'assets/cards/cow-cowboys/MS-Card.png', // sprite
-            'assets/holograms/MS-Side.png' // hologram sprite
-          )
-          break;
-
-        case "Bandit Leader":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS,
-            Card.CARD_TYPE.CREATURE,
-            2,
-            'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
-            'assets/holograms/Bandit-Leader-Side.png'
-          )
-          break;
-
-        case "Big Iron":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS,
-            Card.CARD_TYPE.OBJECT,
-            3,
-            'assets/cards/cow-cowboys/Big-Iron-Card.png',
-            'assets/holograms/Big-Iron.png'
-          )
-          break;
-
-        case "Cheese Moon":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS,
-            Card.CARD_TYPE.SPELL,
-            0,
-            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese-Full-Moon.png'
-          )
-          break;
-
-        case "Goon":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS,
-            Card.CARD_TYPE.CREATURE,
-            1,
-            'assets/cards/cow-cowboys/Goon-Card.png',
-            'assets/holograms/Cow-Goons.png'
-          )
-          break;
-
-        case "Cheese Amulet":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS,
-            Card.CARD_TYPE.OBJECT,
-            0,
-            'assets/cards/cow-cowboys/Cheese-Amulet-Card.png',
-            'assets/holograms/Cheese-Amulet.png'
-          )
-          break;
-
-        case "Sheriff Badge":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS,
-            Card.CARD_TYPE.OBJECT,
-            0,
-            'assets/cards/cow-cowboys/Sherrif-badge-card.png',
-            'assets/holograms/Sheriff-Badge.png'
-          )
-          break;
-
-        case "Cow Goon":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS,
-            Card.CARD_TYPE.CREATURE,
-            0,
-            'assets/cards/cow-cowboys/Cow-Goon-Card.png',
-            'assets/holograms/Cow-Goons.png'
-          )
-          break;
-
-        case "Herd Leader":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS,
-            Card.CARD_TYPE.CREATURE,
-            2,
-            'assets/cards/cow-cowboys/Cow-Bandit-Leader-Card.png',
-            'assets/holograms/Cow-Leader.png'
-          )
-          break;
-
-        case "Cow.Cowboy":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS,
-            Card.CARD_TYPE.CREATURE,
-            1,
-            'assets/cards/cow-cowboys/Cow-MS-Card.png',
-            'assets/holograms/Cow-Stranger.png'
-          )
-          break;
-
-        case "Milk":
-          this.deck[i].AddParams(
-            Card.CARD_GENRE.COW_COWBOYS,
-            Card.CARD_TYPE.SPELL,
-            2,
-            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese-Full-Moon.png'
-          )
-          break;
-
-        default:
-          console.log(cardArray[i] + "no existe");
-
-      }
+  AddCardCount(card) {
+    if (this.counts[card.name]) {
+      this.counts[card.name]++;
+    } else {
+      this.counts[card.name] = 1;
     }
   }
 
@@ -139,11 +148,7 @@ export default class Entity {
     if (this.cardsPlayed < 3) {
       let isPlacementValid = zones[zoneIndex].InsertCard(card);
       if (isPlacementValid) {
-        if (this.counts[card.name]) {
-          this.counts[card.name]++;
-        } else {
-          this.counts[card.name] = 1;
-        }
+        this.AddCardCount(card);
         this.hand.splice(this.hand.indexOf(card), 1);
         this.deck.splice(this.deck.indexOf(card), 1);
         for (let i = 0; i < zones[zoneIndex].cards.length; i++) {

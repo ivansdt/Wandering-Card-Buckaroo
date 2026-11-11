@@ -331,6 +331,8 @@ export default class Battle {
     }
 
     StartBattle(canvas, ctx) {
+        this.input.ResetZone();
+        this.input.ResetNode();
         this.CreateZones();
         this.GetCardsFromDeck(this.player);
         this.GetCardsFromDeck(this.rival);
@@ -354,6 +356,7 @@ export default class Battle {
     EndBattle(finishState) {
         console.log("ENDING GAME");
         this.input.ResetZone();
+        this.input.ResetNode();
         this.input.gameState = finishState;
     }
 

@@ -31,7 +31,7 @@ export default class Card {
         this.height = 200;
         this.genre;
         this.type;
-        // this.played = false;
+        this.played = false;
         this.state = Card.CARD_STATUS.DECK;
         this.sprite = new Image();
         this.holo = new Image();
@@ -52,6 +52,20 @@ export default class Card {
 
     RemoveFromZone(zone) {
         zone.cards.splice(this.type, 1, null);
+    }
+
+    ReplaceCard(ent, zone, card, targetCardName) {
+        ent.counts[card.name]--;
+        let bonusVal = zone.cards[card.type].bonusValue;
+        if (zone.cards[card.type].perish) {
+            zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName));
+            zone.cards[card.type].perish = true;
+            zone.cards[card.type].bonusValue = bonusVal;
+        } else {
+            zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName));
+            zone.cards[card.type].bonusValue = bonusVal;
+        }
+        ent.AddCardCount(zone.cards[card.type]);
     }
 
     TurnEffect(ent, zones, thisZone) {
@@ -81,9 +95,9 @@ export default class Card {
         switch (this.name) {
             case "Mysterious Stranger":
                 for (let i = 0; i < zones.length; i++) {
-                    if (playedCard.name == "Mysterious Stranger" && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == "Mysterious Stranger") {
+                    if (playedCard.name == this.name && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
                         if (zones[i].cards[Card.CARD_TYPE.CREATURE].value >= 0) {
-                            zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue - (ent.counts["Mysterious Stranger"] - 1);
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue - (ent.counts[this.name] - 1);
                         }
                     }
                 }
@@ -95,6 +109,41 @@ export default class Card {
                     thisZone.cards[Card.CARD_TYPE.CREATURE].perish = true;
                     this.perish = true;
                     console.log(this.name + " effect: " + thisZone.cards[Card.CARD_TYPE.CREATURE].name + " value now " + thisZone.cards[Card.CARD_TYPE.CREATURE].value);
+                }
+                break;
+            case "Cheese Moon":
+                for (let i = 0; i < zones.length; i++) {
+                    if (!this.played && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS) {
+                        switch (zones[i].cards[Card.CARD_TYPE.CREATURE].name) {
+                            case "Mysterious Stranger":
+                                this.ReplaceCard(ent, zones[i], zones[i].cards[Card.CARD_TYPE.CREATURE], "Cow-Cowboy")
+                                zones[i].cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, zones[i].cards[Card.CARD_TYPE.CREATURE], zones, zones[i]);
+                                break;
+                            case "Bandit Leader":
+                                this.ReplaceCard(ent, zones[i], zones[i].cards[Card.CARD_TYPE.CREATURE], "Herd Leader")
+                                zones[i].cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, zones[i].cards[Card.CARD_TYPE.CREATURE], zones, zones[i]);
+                                break;
+                            case "Goon":
+                                this.ReplaceCard(ent, zones[i], zones[i].cards[Card.CARD_TYPE.CREATURE], "Cow Goon")
+                                zones[i].cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, zones[i].cards[Card.CARD_TYPE.CREATURE], zones, zones[i]);
+                                break;
+                            default:
+                                console.log("invalid cowboy creature");
+                        }
+                    }
+                }
+                this.played = true;
+                break;
+            case "Cow-Cowboy":
+                for (let i = 0; i < zones.length; i++) {
+                    if (playedCard.name == this.name && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
+                        zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue + ((ent.counts[this.name] - 1) * 2);
+                    }
+                }
+                break;
+            case "Herd Leader":
+                for (let i = 0; i < zones.length; i++) {
+                    
                 }
                 break;
             default:
