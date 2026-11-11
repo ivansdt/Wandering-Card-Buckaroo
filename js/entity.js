@@ -57,6 +57,36 @@ export default class Entity {
           )
           break;
 
+        case "Goon":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.CREATURE,
+            0,
+            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
+            'assets/holograms/Cheese Full Moon.png'
+          )
+          break;
+
+        case "Cheese Moon Amulet":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.OBJECT,
+            0,
+            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
+            'assets/holograms/Cheese Full Moon.png'
+          )
+          break;
+
+        case "Cheese Moon":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.SPELL,
+            0,
+            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
+            'assets/holograms/Cheese Full Moon.png'
+          )
+          break;
+
         default:
           console.log(cardArray[i] + "no existe");
 
