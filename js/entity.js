@@ -92,8 +92,8 @@ export default class Entity {
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
             0,
-            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese-Full-Moon.png'
+            'assets/cards/cow-cowboys/Cow-Goon-Card.png',
+            'assets/holograms/Cow-Goons.png'
           )
           break;
 
@@ -102,8 +102,8 @@ export default class Entity {
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
             0,
-            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese-Full-Moon.png'
+            'assets/cards/cow-cowboys/Cow-Bandit-Leader-Card.png',
+            'assets/holograms/Cow-Leader.png'
           )
           break;
 
@@ -112,8 +112,8 @@ export default class Entity {
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
             0,
-            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese-Full-Moon.png'
+            'assets/cards/cow-cowboys/Cow-MS-Card.png',
+            'assets/holograms/Cow-Stranger.png'
           )
           break;
 
