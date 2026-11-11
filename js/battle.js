@@ -199,6 +199,7 @@ export default class Battle {
         // dibujar player zone
         let zoneWidth = 150;
         let zoneHeight = 50;
+        let holoSize = 50;
         let offset = 20;
         for (let i = 0; i < maxZones; i++) {
             let zoneX = this.canvas.width / 4;
@@ -218,7 +219,7 @@ export default class Battle {
                     }
                     this.ctx.fillStyle = "orange";
                     // this.ctx.fillRect(zoneX + zoneWidth - (j * ((zoneWidth / 2) - 15) + 30), zoneY + (zoneHeight / 2) - 15, 30, 30);
-                    this.ctx.drawImage(this.plrZones[i].cards[j].holo, zoneX + zoneWidth - (j * ((zoneWidth / 2) - 15) + 30), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    this.ctx.drawImage(this.plrZones[i].cards[j].holo, zoneX + zoneWidth - (j * ((zoneWidth / 2) - (holoSize / 2)) + holoSize), zoneY + (zoneHeight / 2) - (holoSize / 2), holoSize, holoSize);
                 }
             }
             this.ctx.fillStyle = "#000000";
@@ -239,8 +240,11 @@ export default class Battle {
                     if (this.rvlZones[i].cards[j].type == Card.CARD_TYPE.CREATURE) {
                         totalValue += this.rvlZones[i].cards[j].value
                     }
-                    this.ctx.fillStyle = "orange";
-                    this.ctx.fillRect(zoneX + (j * ((zoneWidth / 2) - 15)), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    this.ctx.save();
+                    this.ctx.translate(zoneX + (j * ((zoneWidth / 2) - (holoSize / 2))) + holoSize, zoneY + (zoneHeight / 2) - (holoSize / 2));
+                    this.ctx.scale(-1, 1);
+                    this.ctx.drawImage(this.rvlZones[i].cards[j].holo, 0, 0, holoSize, holoSize);
+                    this.ctx.restore();
                 }
             }
             this.ctx.fillStyle = "#000000";
