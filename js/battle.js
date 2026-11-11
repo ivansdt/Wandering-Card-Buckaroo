@@ -308,12 +308,18 @@ export default class Battle {
             this.state = Battle.DUEL_STATE.REVEAL;
             await delay(1500);
             this.CompareValues(this.plrScore, this.rvlScore)
-            this.GetCardsFromDeck(this.player);
-            this.GetCardsFromDeck(this.rival);
-            this.state = Battle.DUEL_STATE.PLAYING;
-            this.DoTurnEffects(this.plrZones);
-            this.DoTurnEffects(this.rvlZones);
-            this.TurnHandler();
+            if (this.player.life <= 0) {
+                this.EndBattle(Input.GAME_STATES.LOSE);
+            } else if (this.rival.life <= 0) {
+                this.EndBattle(Input.GAME_STATES.WIN);
+            } else {
+                this.GetCardsFromDeck(this.player);
+                this.GetCardsFromDeck(this.rival);
+                this.state = Battle.DUEL_STATE.PLAYING;
+                this.DoTurnEffects(this.plrZones);
+                this.DoTurnEffects(this.rvlZones);
+                this.TurnHandler();
+            }
 
 
         } else {
@@ -343,6 +349,10 @@ export default class Battle {
 
     SkipTurn() {
         this.EndTurn(this.player);
+    }
+
+    EndBattle(finishState) {
+        this.input.gameState = finishState;
     }
 
     async TurnHandler() {
