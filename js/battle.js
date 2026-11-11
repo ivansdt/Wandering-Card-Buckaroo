@@ -3,7 +3,6 @@ import Zone from './zone.js';
 import Input from './input.js';
 import Player from './player.js';
 
-//ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
 let maxHand = 6;
 let maxZones = 5;
 
@@ -218,7 +217,8 @@ export default class Battle {
                         totalValue += this.plrZones[i].cards[j].value
                     }
                     this.ctx.fillStyle = "orange";
-                    this.ctx.fillRect(zoneX + zoneWidth - (j * ((zoneWidth / 2) - 15) + 30), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    // this.ctx.fillRect(zoneX + zoneWidth - (j * ((zoneWidth / 2) - 15) + 30), zoneY + (zoneHeight / 2) - 15, 30, 30);
+                    this.ctx.drawImage(this.plrZones[i].cards[j].holo, zoneX + zoneWidth - (j * ((zoneWidth / 2) - 15) + 30), zoneY + (zoneHeight / 2) - 15, 30, 30);
                 }
             }
             this.ctx.fillStyle = "#000000";
