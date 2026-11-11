@@ -61,7 +61,7 @@ export default class Entity {
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
-            0,
+            1,
             'assets/cards/cow-cowboys/Goon-Card.png',
             'assets/holograms/Cow-Goons.png'
           )
@@ -101,7 +101,7 @@ export default class Entity {
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
-            0,
+            2,
             'assets/cards/cow-cowboys/Cow-Bandit-Leader-Card.png',
             'assets/holograms/Cow-Leader.png'
           )
@@ -111,7 +111,7 @@ export default class Entity {
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
-            0,
+            1,
             'assets/cards/cow-cowboys/Cow-MS-Card.png',
             'assets/holograms/Cow-Stranger.png'
           )
@@ -121,7 +121,7 @@ export default class Entity {
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.SPELL,
-            0,
+            2,
             'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
             'assets/holograms/Cheese-Full-Moon.png'
           )
