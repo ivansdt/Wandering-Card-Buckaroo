@@ -62,22 +62,62 @@ export default class Entity {
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.CREATURE,
             0,
-            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            'assets/holograms/Cheese-Full-Moon.png'
+            'assets/cards/cow-cowboys/Goon-Card.png',
+            'assets/holograms/Cow-Goons.png'
           )
           break;
 
-        case "Cheese Moon Amulet":
+        case "Cheese Amulet":
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.OBJECT,
+            0,
+            'assets/cards/cow-cowboys/Cheese-Amulet-Card.png',
+            'assets/holograms/Cheese-Amulet.png'
+          )
+          break;
+
+        case "Sheriff Badge":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.OBJECT,
+            0,
+            'assets/cards/cow-cowboys/Sherrif-badge-card.png',
+            'assets/holograms/Sheriff-Badge.png'
+          )
+          break;
+
+        case "Cow Goon":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.CREATURE,
             0,
             'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
             'assets/holograms/Cheese-Full-Moon.png'
           )
           break;
 
-        case "Cow Goon":
+        case "Herd Leader":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.CREATURE,
+            0,
+            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
+            'assets/holograms/Cheese-Full-Moon.png'
+          )
+          break;
+
+        case "Cow.Cowboy":
+          this.deck[i].AddParams(
+            Card.CARD_GENRE.COW_COWBOYS,
+            Card.CARD_TYPE.CREATURE,
+            0,
+            'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
+            'assets/holograms/Cheese-Full-Moon.png'
+          )
+          break;
+
+         case "Milk":
           this.deck[i].AddParams(
             Card.CARD_GENRE.COW_COWBOYS,
             Card.CARD_TYPE.SPELL,
