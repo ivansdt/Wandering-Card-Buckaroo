@@ -23,7 +23,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE, // type
             3, // value
             'assets/cards/cow-cowboys/MS-Card.png', // sprite
-            null // hologram sprite
+            "assets/cards/holograms/The Mysterious Stranger Card Guy.png" // hologram sprite
           )
           break;
 
@@ -33,7 +33,7 @@ export default class Entity {
             Card.CARD_TYPE.CREATURE,
             2,
             'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
-            null
+            "assets/cards/holograms/Bandit Leader.png"
           )
           break;
 
@@ -43,7 +43,7 @@ export default class Entity {
             Card.CARD_TYPE.OBJECT,
             3,
             'assets/cards/cow-cowboys/Big-Iron-Card.png',
-            null
+            'assets/cards/holograms/Big Iron.png'
           )
           break;
 
@@ -53,7 +53,7 @@ export default class Entity {
             Card.CARD_TYPE.SPELL,
             0,
             'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-            null
+            'assets/cards/holograms/Cheese Full Moon.png'
           )
           break;
 
