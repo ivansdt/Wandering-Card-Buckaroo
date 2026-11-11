@@ -22,7 +22,9 @@ export default class Input {
         this.lastZone = 0;
         this.onSection = Input.SECTION.HAND;
         this.canSelect = true;
-        this.gameState = Input.GAME_STATES.PAUSE;
+        this.gameState = Input.GAME_STATES.TITLE;
+        this.onButton;
+        this.lastButton;
     }
 
     /*
@@ -31,98 +33,133 @@ export default class Input {
     }
     */
 
-    OnKeyDown(e, player, battle) {
-        if (e.key == "Escape") this.togglePause();
+    OnKeyDown(e, game, player, battle) {
 
-
-        if (battle.isPlrTurn) {
+        if (this.gameState == Input.GAME_STATES.TITLE) {
+            /*
+            if (e.key == "s") {
+                this.SelectingButton(game.creditsButton);
+            }
+            if (e.key == "w") {
+                this.SelectingButton(game.playButton);
+            }
+            */
             if (e.key == "Enter") {
-                if (battle.isPlrTurn) {
-                    if (this.onSection == Input.SECTION.HAND) {
-                        this.onSection = Input.SECTION.ZONES;
-                        // console.log("selecting zones");
-                    } else if (this.onSection == Input.SECTION.ZONES) {
-                        let wasPlayed = player.PlayCard(battle.plrZones, this.zoneNumber, player.hand[this.nodeNumber]);
-                        if (this.nodeNumber >= player.hand.length) {
-                            this.lastNode = this.nodeNumber;
-                            this.nodeNumber = player.hand.length - 1;
-                        }
-                        if (wasPlayed) {
-                            battle.TurnHandler();
-                        }
-                        this.SelectingNode(player.hand);
-                        this.onSection = Input.SECTION.HAND;
-                        // console.log("selecting hand");
-                    }
+                if (this.onButton == game.playButton) {
+                    this.gameState = Input.GAME_STATES.PLAY;
+                    game.CreateBattle();
                 }
             }
+        }
 
-            if (this.onSection == Input.SECTION.HAND) {
+        if (this.gameState == Input.GAME_STATES.PLAY || this.gameState == Input.GAME_STATES.PAUSE) {
+            console.log(e.key)
+            if (e.key == "Escape") {
+                this.TogglePause();
+            }
+            if (this.gameState == Input.GAME_STATES.PLAY) {
+
+                if (battle && battle.isPlrTurn) {
+                    if (e.key == "Enter") {
+                        if (battle.isPlrTurn) {
+                            if (this.onSection == Input.SECTION.HAND) {
+                                this.onSection = Input.SECTION.ZONES;
+                                // console.log("selecting zones");
+                            } else if (this.onSection == Input.SECTION.ZONES) {
+                                let wasPlayed = player.PlayCard(battle.plrZones, this.zoneNumber, player.hand[this.nodeNumber]);
+                                if (this.nodeNumber >= player.hand.length) {
+                                    this.lastNode = this.nodeNumber;
+                                    this.nodeNumber = player.hand.length - 1;
+                                }
+                                if (wasPlayed) {
+                                    battle.TurnHandler();
+                                }
+                                this.SelectingNode(player.hand);
+                                this.onSection = Input.SECTION.HAND;
+                                // console.log("selecting hand");
+                            }
+                        }
+                    }
+
+                    if (this.onSection == Input.SECTION.HAND) {
+                        if (e.key == "r") {
+                            this.ResetNode();
+                            battle.SkipTurn();
+                        }
+
+                        if (e.key == "d") {
+                            if (this.nodeNumber != player.hand.length - 1) {
+                                this.lastNode = this.nodeNumber;
+                                this.nodeNumber += 1;
+                            } else {
+                                this.nodeNumber = player.hand.length - 1;
+                            }
+                            this.SelectingNode(player.hand);
+                            // console.log(this.nodeNumber);
+                            // console.log("last node: " + this.lastNode);
+                        }
+
+                        if (e.key == "a") {
+                            if (this.nodeNumber > 0) {
+                                this.lastNode = this.nodeNumber;
+                                this.nodeNumber -= 1;
+                            } else {
+                                this.nodeNumber = 0;
+                            }
+                            this.SelectingNode(player.hand);
+                            // console.log(this.nodeNumber);
+                            // console.log("last node: " + this.lastNode);
+                        }
+                    } else if (this.onSection == Input.SECTION.ZONES) {
+                        if (e.key == "Backspace") {
+                            this.onSection = Input.SECTION.HAND;
+                        }
+
+                        if (e.key == "s") {
+                            if (this.zoneNumber != battle.plrZones.length - 1) {
+                                this.lastZone = this.zoneNumber;
+                                this.zoneNumber += 1;
+                            } else {
+                                this.zoneNumber = battle.plrZones.length - 1;
+                            }
+                            this.SelectingZone(battle.plrZones);
+                            // console.log(this.zoneNumber);
+                            // console.log("last zone: " + this.lastZone);
+                        }
+
+                        if (e.key == "w") {
+                            if (this.zoneNumber > 0) {
+                                this.lastZone = this.zoneNumber;
+                                this.zoneNumber -= 1;
+                            } else {
+                                this.zoneNumber = 0;
+                            }
+                            this.SelectingZone(battle.plrZones);
+                            // console.log(this.zoneNumber);
+                            // console.log("last zone: " + this.lastZone);
+                        }
+                    }
+                }
+            } else if (this.gameState == Input.GAME_STATES.PAUSE) {
                 if (e.key == "r") {
-                    this.ResetNode();
-                    battle.SkipTurn();
-                }
-
-                if (e.key == "d") {
-                    if (this.nodeNumber != player.hand.length - 1) {
-                        this.lastNode = this.nodeNumber;
-                        this.nodeNumber += 1;
-                    } else {
-                        this.nodeNumber = player.hand.length - 1;
-                    }
-                    this.SelectingNode(player.hand);
-                    // console.log(this.nodeNumber);
-                    // console.log("last node: " + this.lastNode);
-                }
-
-                if (e.key == "a") {
-                    if (this.nodeNumber > 0) {
-                        this.lastNode = this.nodeNumber;
-                        this.nodeNumber -= 1;
-                    } else {
-                        this.nodeNumber = 0;
-                    }
-                    this.SelectingNode(player.hand);
-                    // console.log(this.nodeNumber);
-                    // console.log("last node: " + this.lastNode);
-                }
-            } else if (this.onSection == Input.SECTION.ZONES) {
-                if (e.key == "Backspace") {
-                    this.onSection = Input.SECTION.HAND;
-                }
-
-                if (e.key == "s") {
-                    if (this.zoneNumber != battle.plrZones.length - 1) {
-                        this.lastZone = this.zoneNumber;
-                        this.zoneNumber += 1;
-                    } else {
-                        this.zoneNumber = battle.plrZones.length - 1;
-                    }
-                    this.SelectingZone(battle.plrZones);
-                    // console.log(this.zoneNumber);
-                    // console.log("last zone: " + this.lastZone);
-                }
-
-                if (e.key == "w") {
-                    if (this.zoneNumber > 0) {
-                        this.lastZone = this.zoneNumber;
-                        this.zoneNumber -= 1;
-                    } else {
-                        this.zoneNumber = 0;
-                    }
-                    this.SelectingZone(battle.plrZones);
-                    // console.log(this.zoneNumber);
-                    // console.log("last zone: " + this.lastZone);
+                    game.player = null;
+                    game.rival = null;
+                    game.battle = null;
+                    this.gameState = Input.GAME_STATES.PLAY;
+                    game.CreateBattle();
                 }
             }
         }
     }
 
-    togglePause() {
-        if (this.state == GAME_STATES.PAUSE) {
-            this.state = GAME_STATES.PLAY
+    TogglePause() {
+        console.log("TOGGLING PAUSE");
+        if (this.gameState == Input.GAME_STATES.PAUSE) {
+            this.gameState = Input.GAME_STATES.PLAY
         } else {
-            this.state = GAME_STATES.PAUSE
+            this.gameState = Input.GAME_STATES.PAUSE
+            console.log("STATE NOW " + this.gameState);
+
         }
     }
 
@@ -145,6 +182,13 @@ export default class Input {
         if (zones[this.zoneNumber]) {
             zones[this.zoneNumber].isSelected = true;
         }
+    }
+
+    SelectingButton(button) {
+        this.lastButton = this.onButton;
+        this.lastButton.isSelected = false;
+        this.onButton = button;
+        this.onButton.isSelected = true;
     }
 
     ResetNode() {
