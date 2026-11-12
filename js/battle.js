@@ -110,13 +110,17 @@ export default class Battle {
         for (let i = 0; i < entity.deck.length; i++) {
             availableCards.push(entity.deck[i]);
         }
-
         for (let i = 0; i < maxHand; i++) {
-            let randomIndex = Math.floor(Math.random() * availableCards.length);
-            let randomCard = availableCards.splice(randomIndex, 1)[0];
-            entity.hand.push(randomCard);
-            entity.hand[i].isSelected = false;
+            if (availableCards.length > 0) {
+                let randomIndex = Math.floor(Math.random() * availableCards.length);
+                let randomCard = availableCards.splice(randomIndex, 1)[0];
+                entity.hand.push(randomCard);
+                entity.hand[i].isSelected = false;
+            } else {
+                break;
+            }
         }
+
     }
 
     DeleteHand(hand) {
@@ -327,6 +331,7 @@ export default class Battle {
             console.log("now player turn");
             this.isPlrTurn = true;
             this.input.SelectingNode(this.player.hand);
+            this.TurnHandler();
         }
         entity.cardsPlayed = 0;
     }
@@ -374,8 +379,12 @@ export default class Battle {
             this.EndTurn(this.rival);
             // turno de jugador
         } else {
-            if (this.player.cardsPlayed >= 3) {
+            if (this.player.cardsPlayed >= 3 || this.player.hand.length <= 0) {
                 this.input.ResetNode();
+                if (this.player.cardsPlayed < 3 && this.player.hand.length <= 0) {
+                    console.log("no more cards");
+                    await delay(1000);
+                }
                 this.EndTurn(this.player);
             }
         }

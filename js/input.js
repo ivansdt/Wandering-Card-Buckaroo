@@ -34,7 +34,6 @@ export default class Input {
     */
 
     OnKeyDown(e, game, player, battle) {
-        console.log(e.key);
         if (this.gameState == Input.GAME_STATES.TITLE) {
             /*
             if (e.key == "s") {
