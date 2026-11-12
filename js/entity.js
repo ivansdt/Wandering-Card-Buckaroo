@@ -150,7 +150,10 @@ export default class Entity {
       if (isPlacementValid) {
         this.AddCardCount(card);
         this.hand.splice(this.hand.indexOf(card), 1);
-        this.deck.splice(this.deck.indexOf(card), 1);
+        if (this.deck.indexOf(card) >= 0) {
+          //console.log("card index: " + this.deck.indexOf(card))
+          this.deck.splice(this.deck.indexOf(card), 1);
+        }
         for (let i = 0; i < zones[zoneIndex].cards.length; i++) {
           if (zones[zoneIndex].cards[i]) {
             console.log("trying effect on zone " + zoneIndex);

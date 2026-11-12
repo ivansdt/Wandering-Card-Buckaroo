@@ -22,16 +22,16 @@ export default class Battle {
         this.rvlGraveyard = [];
         this.rival = rivalEnt;
         this.rvlDeck = rivalEnt.deck;
-        this.DeckSprites = {
+        this.deckSprites = {
             Full: new Image(),
             Mid: new Image(),
             Low: new Image(),
             Empty: new Image(),
         };
-        this.DeckSprites.Full.src = 'Aseprite Sprites/Deck Visuals/Deck Full.png';
-        this.DeckSprites.Mid.src = 'Aseprite Sprites/Deck Visuals/Deck Mid.png';
-        this.DeckSprites.Low.src = 'Aseprite Sprites/Deck Visuals/Deck Low.png';
-        this.DeckSprites.Empty.src = 'Aseprite Sprites/Deck Visuals/Deck Empty.png';
+        this.deckSprites.Full.src = 'assets/cards/deck/Deck Full.png';
+        this.deckSprites.Mid.src = 'assets/cards/deck/Deck Mid.png';
+        this.deckSprites.Low.src = 'assets/cards/deck/Deck Low.png';
+        this.deckSprites.Empty.src = 'assets/cards/deck/Deck Empty.png';
         this.isPlrTurn = false;
         this.plrZones = new Array();
         this.rvlZones = new Array();
@@ -404,15 +404,15 @@ export default class Battle {
 
     GetDeckSprite(currentCount, maxCount = 20) {
         if (currentCount <= 0) {
-            return this.DeckSprites.Empty;
+            return this.deckSprites.Empty;
         }
         const ratio = currentCount / maxCount;
         if (ratio > 0.7) {
-            return this.DeckSprites.Full;
+            return this.deckSprites.Full;
         } else if (ratio > 0.35) {
-            return this.DeckSprites.Mid;
+            return this.deckSprites.Mid;
         } else {
-            return this.DeckSprites.Low;
+            return this.deckSprites.Low;
         }
     }
 
