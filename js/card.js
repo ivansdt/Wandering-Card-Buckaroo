@@ -39,6 +39,7 @@ export default class Card {
         this.initValue;
         this.value;
         this.bonusValue = 0;
+        this.perish = false;
     }
 
     AddParams(genre, type, value, spriteSrc, holoSrc) {
@@ -83,22 +84,34 @@ export default class Card {
                 break;
             case "Bandit Leader":
                 if (this.perish) {
+                    ent.counts[this.name]--;
                     this.RemoveFromZone(thisZone);
                 } else {
                     ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Goon"))
                 }
                 break;
-            case "Cow-Cowboy":
-                ent.counts[this.name]--;
-                for (let i = 0; i < zones.length; i++) {
-                    if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
-                        zones[i].cards[Card.CARD_TYPE.CREATURE].value -= 2;
-                    }
+            case "Goon":
+                if (this.perish) {
+                    ent.counts[this.name]--;
+                    this.RemoveFromZone(thisZone);
+                } else {
+                    ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Cow Goon"))
                 }
-                this.RemoveFromZone(thisZone);
+                break;
+            case "Cow-Cowboy":
+                if (this.perish) {
+                    ent.counts[this.name]--;
+                    for (let i = 0; i < zones.length; i++) {
+                        if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].value -= 2;
+                        }
+                    }
+                    this.RemoveFromZone(thisZone);
+                }
                 break;
             case "Herd Leader":
                 if (this.perish) {
+                    ent.counts[this.name]--;
                     this.RemoveFromZone(thisZone);
                 } else {
                     ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Cow Goon"))
@@ -114,8 +127,9 @@ export default class Card {
             case "Mysterious Stranger":
                 for (let i = 0; i < zones.length; i++) {
                     if (playedCard.name == this.name && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
-                        if (zones[i].cards[Card.CARD_TYPE.CREATURE].value >= 0) {
-                            zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue - (ent.counts[this.name] - 1);
+                        zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue - (ent.counts[this.name] - 1);
+                        if (zones[i].cards[Card.CARD_TYPE.CREATURE].value < 0) {
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].value = 0;
                         }
                     }
                 }
@@ -125,7 +139,6 @@ export default class Card {
                     thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue += this.value;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value += thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].perish = true;
-                    this.perish = true;
                     console.log(this.name + " effect: " + thisZone.cards[Card.CARD_TYPE.CREATURE].name + " value now " + thisZone.cards[Card.CARD_TYPE.CREATURE].value);
                 }
                 break;
@@ -153,6 +166,7 @@ export default class Card {
                 this.played = true;
                 break;
             case "Cow-Cowboy":
+                console.log(this.perish);
                 for (let i = 0; i < zones.length; i++) {
                     if (playedCard.name == this.name && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
                         zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue + ((ent.counts[this.name] - 1) * 2);
