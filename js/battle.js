@@ -18,8 +18,20 @@ export default class Battle {
     constructor(plrEnt, rivalEnt, input, dt) {
         this.player = plrEnt;
         this.plrDeck = plrEnt.deck;
+        this.plrGraveyard = [];
+        this.rvlGraveyard = [];
         this.rival = rivalEnt;
         this.rvlDeck = rivalEnt.deck;
+        this.DeckSprites = {
+            Full: new Image(),
+            Mid: new Image(),
+            Low: new Image(),
+            Empty: new Image(),
+        };
+        this.DeckSprites.Full.src = 'Aseprite Sprites/Deck Visuals/Deck Full.png';
+        this.DeckSprites.Mid.src = 'Aseprite Sprites/Deck Visuals/Deck Mid.png';
+        this.DeckSprites.Low.src = 'Aseprite Sprites/Deck Visuals/Deck Low.png';
+        this.DeckSprites.Empty.src = 'Aseprite Sprites/Deck Visuals/Deck Empty.png';
         this.isPlrTurn = false;
         this.plrZones = new Array();
         this.rvlZones = new Array();
@@ -390,10 +402,85 @@ export default class Battle {
         }
     }
 
+    GetDeckSprite(currentCount, maxCount = 20) {
+        if (currentCount <= 0) {
+            return this.DeckSprites.Empty;
+        }
+        const ratio = currentCount / maxCount;
+        if (ratio > 0.7) {
+            return this.DeckSprites.Full;
+        } else if (ratio > 0.35) {
+            return this.DeckSprites.Mid;
+        } else {
+            return this.DeckSprites.Low;
+        }
+    }
+
+    DrawDeckAndGraveyard() {
+        const zoneWidth = 80;
+        const zoneHeight = 110;
+
+        // Left Side (Player)
+        const plrGyX = 30;
+        const plrGyY = 75;
+        const plrDeckX = 30;
+        const plrDeckY = 225;
+
+        // Right Side (Rival)
+        const rvlGyX = this.canvas.width - 30 - zoneWidth;
+        const rvlGyY = 75;
+        const rvlDeckX = this.canvas.width - 30 - zoneWidth;
+        const rvlDeckY = 225;
+
+        this.ctx.save();
+        this.ctx.direction = "ltr";
+
+        // 1. Zonas de Cementerios (GY)
+        this.ctx.strokeStyle = "#555555";
+        this.ctx.lineWidth = 2;
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+
+        // Player
+        this.ctx.fillRect(plrGyX, plrGyY, zoneWidth, zoneHeight);
+        this.ctx.strokeRect(plrGyX, plrGyY, zoneWidth, zoneHeight);
+
+        // Rival
+        this.ctx.fillRect(rvlGyX, rvlGyY, zoneWidth, zoneHeight);
+        this.ctx.strokeRect(rvlGyX, rvlGyY, zoneWidth, zoneHeight);
+
+        this.ctx.fillStyle = "#000000";
+        this.ctx.font = "bold 14px serif";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText("GY: " + this.plrGraveyard.length, plrGyX + zoneWidth / 2, plrGyY + zoneHeight / 2);
+        this.ctx.fillText("GY: " + this.rvlGraveyard.length, rvlGyX + zoneWidth / 2, rvlGyY + zoneHeight / 2);
+
+        // 2. Zonas de Deck (4 Visuales)
+        const plrCurrentSprite = this.GetDeckSprite(this.plrDeck.length);
+        const rvlCurrentSprite = this.GetDeckSprite(this.rvlDeck.length);
+
+        if (plrCurrentSprite.complete && plrCurrentSprite.naturalWidth !== 0) {
+            this.ctx.drawImage(plrCurrentSprite, plrDeckX, plrDeckY, zoneWidth, zoneHeight);
+        }
+
+        if (rvlCurrentSprite.complete && rvlCurrentSprite.naturalWidth !== 0) {
+            this.ctx.drawImage(rvlCurrentSprite, rvlDeckX, rvlDeckY, zoneWidth, zoneHeight);
+        }
+
+        // Deck counters debajo de cada mazo
+        this.ctx.fillStyle = "#000000";
+        this.ctx.font = "bold 14px serif";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText("Deck: " + this.plrDeck.length, plrDeckX + zoneWidth / 2, plrDeckY + zoneHeight + 16);
+        this.ctx.fillText("Deck: " + this.rvlDeck.length, rvlDeckX + zoneWidth / 2, rvlDeckY + zoneHeight + 16);
+
+        this.ctx.restore();
+    }
+
     Draw(player) {
         this.DrawZones();
         this.DrawHand(player.hand);
         this.DrawHP();
+        this.DrawDeckAndGraveyard();
         if (this.state == Battle.DUEL_STATE.CALC || this.state == Battle.DUEL_STATE.REVEAL) {
             this.DrawTotalScore(this.plrScore, this.player);
             this.DrawTotalScore(this.rvlScore, this.rival);
