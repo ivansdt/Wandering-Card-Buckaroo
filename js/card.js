@@ -43,10 +43,7 @@ export default class Card {
         this.initValue;
         this.value;
         this.bonusValue = 0;
-        this.effects = {
-            "Perish": false,
-            "Boosted": false,
-        }
+        this.effects = {};
     }
 
     AddParams(genre, type, value, spriteSrc, holoSrc) {
