@@ -212,15 +212,15 @@ export default class Battle {
                 this.ctx.fillStyle = "#7d7d7d";
             }
             this.ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
-            // dibujar sprite de la carta aqui con el .hologram, lo estoy testeando con cajas de colores por ahora. 
             for (let j = 0; j < this.plrZones[i].cards.length; j++) {
                 if (this.plrZones[i].cards[j]) {
                     if (this.plrZones[i].cards[j].type == Card.CARD_TYPE.CREATURE) {
                         totalValue += this.plrZones[i].cards[j].value
                     }
-                    this.ctx.fillStyle = "orange";
-                    // this.ctx.fillRect(zoneX + zoneWidth - (j * ((zoneWidth / 2) - 15) + 30), zoneY + (zoneHeight / 2) - 15, 30, 30);
-                    this.ctx.drawImage(this.plrZones[i].cards[j].holo.sprite, zoneX + zoneWidth - (j * ((zoneWidth / 2) - (this.plrZones[i].cards[j].holo.sizeX / 2)) + this.plrZones[i].cards[j].holo.sizeX), zoneY + (zoneHeight / 2) - (this.plrZones[i].cards[j].holo.sizeY / 2), this.plrZones[i].cards[j].holo.sizeX, this.plrZones[i].cards[j].holo.sizeY);
+                    this.plrZones[i].cards[j].holo.x = zoneX + zoneWidth - (j * ((zoneWidth / 2) - (this.plrZones[i].cards[j].holo.sizeX / 2)) + this.plrZones[i].cards[j].holo.sizeX);
+                    this.plrZones[i].cards[j].holo.y = zoneY + (zoneHeight / 2) - (this.plrZones[i].cards[j].holo.sizeY / 2);
+                    this.plrZones[i].cards[j].holo.Draw(this.ctx, this.player);
+                    //this.ctx.drawImage(this.plrZones[i].cards[j].holo.sprite, this.plrZones[i].cards[j].holo.x, this.plrZones[i].cards[j].holo.y, this.plrZones[i].cards[j].holo.sizeX, this.plrZones[i].cards[j].holo.sizeY);
                 }
             }
             this.ctx.fillStyle = "#000000";
@@ -242,9 +242,10 @@ export default class Battle {
                         totalValue += this.rvlZones[i].cards[j].value
                     }
                     this.ctx.save();
-                    this.ctx.translate(zoneX + (j * ((zoneWidth / 2) - (this.rvlZones[i].cards[j].holo.sizeX / 2))) + this.rvlZones[i].cards[j].holo.sizeX, zoneY + (zoneHeight / 2) - (this.rvlZones[i].cards[j].holo.sizeY / 2));
-                    this.ctx.scale(-1, 1);
-                    this.ctx.drawImage(this.rvlZones[i].cards[j].holo.sprite, 0, 0, this.rvlZones[i].cards[j].holo.sizeX, this.rvlZones[i].cards[j].holo.sizeY);
+                    this.rvlZones[i].cards[j].holo.x = zoneX + (j * ((zoneWidth / 2) - (this.rvlZones[i].cards[j].holo.sizeX / 2))) + this.rvlZones[i].cards[j].holo.sizeX;
+                    this.rvlZones[i].cards[j].holo.y = zoneY + (zoneHeight / 2) - (this.rvlZones[i].cards[j].holo.sizeY / 2)
+                    this.rvlZones[i].cards[j].holo.Draw(this.ctx, this.rival);
+                    //this.ctx.drawImage(this.rvlZones[i].cards[j].holo.sprite, 0, 0, this.rvlZones[i].cards[j].holo.sizeX, this.rvlZones[i].cards[j].holo.sizeY);
                     this.ctx.restore();
                 }
             }

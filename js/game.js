@@ -73,6 +73,23 @@ export default class Game {
     }
 
     Update(dt) {
+        if (this.input.gameState == Input.GAME_STATES.PLAY) {
+            for (let i = 0; i < this.battle.plrZones.length; i++) {
+                for (let j = 0; j < this.battle.plrZones[i].cards.length; j++) {
+                    if (this.battle.plrZones[i].cards[j]) {
+                        this.battle.plrZones[i].cards[j].holo.Update(dt);
+                        //console.log(this.battle.plrZones[i].cards[j].holo.scaleX);
+                    }
+                }
+            }
+            for (let i = 0; i < this.battle.rvlZones.length; i++) {
+                for (let j = 0; j < this.battle.rvlZones[i].cards.length; j++) {
+                    if (this.battle.rvlZones[i].cards[j]) {
+                        this.battle.rvlZones[i].cards[j].holo.Update(dt);
+                    }
+                }
+            }
+        }
     }
 
     DrawPause() {
