@@ -72,9 +72,9 @@ export default class Card {
         switch (this.name) {
             case "Mysterious Stranger":
                 if (this.perish) {
-                    ent.counts["Mysterious Stranger"]--;
+                    ent.counts[this.name]--;
                     for (let i = 0; i < zones.length; i++) {
-                        if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == "Mysterious Stranger") {
+                        if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
                             zones[i].cards[Card.CARD_TYPE.CREATURE].value++;
                         }
                     }
@@ -84,6 +84,24 @@ export default class Card {
             case "Bandit Leader":
                 if (this.perish) {
                     this.RemoveFromZone(thisZone);
+                } else {
+                    ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Goon"))
+                }
+                break;
+            case "Cow-Cowboy":
+                ent.counts[this.name]--;
+                for (let i = 0; i < zones.length; i++) {
+                    if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
+                        zones[i].cards[Card.CARD_TYPE.CREATURE].value -= 2;
+                    }
+                }
+                this.RemoveFromZone(thisZone);
+                break;
+            case "Herd Leader":
+                if (this.perish) {
+                    this.RemoveFromZone(thisZone);
+                } else {
+                    ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Cow Goon"))
                 }
                 break;
             default:
@@ -142,9 +160,7 @@ export default class Card {
                 }
                 break;
             case "Herd Leader":
-                for (let i = 0; i < zones.length; i++) {
-                    
-                }
+                // no tiene efecto de jugada
                 break;
             default:
             // console.log("no effect");
