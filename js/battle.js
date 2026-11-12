@@ -115,6 +115,7 @@ export default class Battle {
             let randomIndex = Math.floor(Math.random() * availableCards.length);
             let randomCard = availableCards.splice(randomIndex, 1)[0];
             entity.hand.push(randomCard);
+            entity.hand[i].isSelected = false;
         }
     }
 

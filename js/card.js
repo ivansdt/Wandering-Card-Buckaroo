@@ -20,12 +20,16 @@ export default class Card {
         KNIGHTS: 'Knights',
     }
 
+    static CARD_EFFECT = {
+        PERISH: 'Perish',
+        BOOSTED: 'Boosted',
+    }
+
     constructor() {
         this.name;
         this.x;
         this.y;
         // this.nodeCount = 1;
-        this.effect = false;
         this.isSelected = false;
         this.width = 150;
         this.height = 200;
@@ -39,7 +43,10 @@ export default class Card {
         this.initValue;
         this.value;
         this.bonusValue = 0;
-        this.perish = false;
+        this.effects = {
+            "Perish": false,
+            "Boosted": false,
+        }
     }
 
     AddParams(genre, type, value, spriteSrc, holoSrc) {
@@ -58,9 +65,9 @@ export default class Card {
     ReplaceCard(ent, zone, card, targetCardName) {
         ent.counts[card.name]--;
         let bonusVal = zone.cards[card.type].bonusValue;
-        if (zone.cards[card.type].perish) {
+        if (zone.cards[card.type].effects[Card.CARD_EFFECT.PERISH]) {
             zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName));
-            zone.cards[card.type].perish = true;
+            zone.cards[card.type].effects[Card.CARD_EFFECT.PERISH] = true;
             zone.cards[card.type].bonusValue = bonusVal;
         } else {
             zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName));
@@ -72,7 +79,7 @@ export default class Card {
     TurnEffect(ent, zones, thisZone) {
         switch (this.name) {
             case "Mysterious Stranger":
-                if (this.perish) {
+                if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     for (let i = 0; i < zones.length; i++) {
                         if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
@@ -83,7 +90,7 @@ export default class Card {
                 }
                 break;
             case "Bandit Leader":
-                if (this.perish) {
+                if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     this.RemoveFromZone(thisZone);
                 } else {
@@ -91,7 +98,7 @@ export default class Card {
                 }
                 break;
             case "Goon":
-                if (this.perish) {
+                if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     this.RemoveFromZone(thisZone);
                 } else {
@@ -101,7 +108,7 @@ export default class Card {
                 }
                 break;
             case "Cow-Cowboy":
-                if (this.perish) {
+                if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     for (let i = 0; i < zones.length; i++) {
                         if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
@@ -112,12 +119,24 @@ export default class Card {
                 }
                 break;
             case "Herd Leader":
-                if (this.perish) {
+                if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     this.RemoveFromZone(thisZone);
                 } else {
                     ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Cow Goon"))
                 }
+                break;
+            case "Cow Goon":
+                if (this.effects[Card.CARD_EFFECT.PERISH]) {
+                    ent.counts[this.name]--;
+                    this.RemoveFromZone(thisZone);
+                } else {
+                    ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Milk"))
+                }
+                break;
+            case "Milk":
+                ent.counts[this.name]--;
+                this.RemoveFromZone(thisZone);
                 break;
             default:
             // console.log("no effect");
@@ -137,10 +156,10 @@ export default class Card {
                 }
                 break;
             case "Big Iron":
-                if (thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !thisZone.cards[Card.CARD_TYPE.CREATURE].perish) {
+                if (thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.PERISH]) {
                     thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue += this.value;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value += thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue;
-                    thisZone.cards[Card.CARD_TYPE.CREATURE].perish = true;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.PERISH] = true;
                     console.log(this.name + " effect: " + thisZone.cards[Card.CARD_TYPE.CREATURE].name + " value now " + thisZone.cards[Card.CARD_TYPE.CREATURE].value);
                 }
                 break;
@@ -168,11 +187,17 @@ export default class Card {
                 this.played = true;
                 break;
             case "Cow-Cowboy":
-                console.log(this.perish);
                 for (let i = 0; i < zones.length; i++) {
                     if (playedCard.name == this.name && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
                         zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue + ((ent.counts[this.name] - 1) * 2);
                     }
+                }
+                break;
+            case "Milk":
+                if (thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.BOOSTED]) {
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue += this.value;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].value += thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.BOOSTED];
                 }
                 break;
             case "Herd Leader":

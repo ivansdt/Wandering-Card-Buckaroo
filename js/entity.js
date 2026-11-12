@@ -120,8 +120,8 @@ export default class Entity {
           Card.CARD_GENRE.COW_COWBOYS,
           Card.CARD_TYPE.SPELL,
           2,
-          'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-          'assets/holograms/Cheese-Full-Moon.png'
+          'assets/cards/cow-cowboys/Milk-Card.png',
+          'assets/holograms/Milk.png'
         )
         break;
       default:
