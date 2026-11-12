@@ -1,3 +1,5 @@
+import Hologram from './hologram.js';
+
 export default class Card {
 
     static CARD_TYPE = {
@@ -39,7 +41,7 @@ export default class Card {
         this.played = false;
         this.state = Card.CARD_STATUS.DECK;
         this.sprite = new Image();
-        this.holo = new Image();
+        this.holo = new Hologram();
         this.zone;
         this.initValue;
         this.value;
@@ -55,7 +57,7 @@ export default class Card {
         this.initValue = value
         this.value = this.initValue;
         this.sprite.src = spriteSrc;
-        this.holo.src = holoSrc;
+        this.holo.sprite.src = holoSrc;
     }
 
     RemoveFromZone(zone) {
@@ -228,8 +230,6 @@ export default class Card {
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     //thisZone.cards[Card.CARD_TYPE.CREATURE].value *= thisZone.cards[Card.CARD_TYPE.CREATURE].multValue;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.MULT] = true;
-                    console.log("MULT NOW " + thisZone.cards[Card.CARD_TYPE.CREATURE].multValue)
-                    console.log(thisZone.cards[Card.CARD_TYPE.CREATURE].effects);
                 }
                 break;
             default:

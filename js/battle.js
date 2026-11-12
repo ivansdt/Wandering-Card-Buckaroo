@@ -201,7 +201,6 @@ export default class Battle {
         // dibujar player zone
         let zoneWidth = 150;
         let zoneHeight = 50;
-        let holoSize = 50;
         let offset = 20;
         for (let i = 0; i < maxZones; i++) {
             let zoneX = this.canvas.width / 4;
@@ -221,7 +220,7 @@ export default class Battle {
                     }
                     this.ctx.fillStyle = "orange";
                     // this.ctx.fillRect(zoneX + zoneWidth - (j * ((zoneWidth / 2) - 15) + 30), zoneY + (zoneHeight / 2) - 15, 30, 30);
-                    this.ctx.drawImage(this.plrZones[i].cards[j].holo, zoneX + zoneWidth - (j * ((zoneWidth / 2) - (holoSize / 2)) + holoSize), zoneY + (zoneHeight / 2) - (holoSize / 2), holoSize, holoSize);
+                    this.ctx.drawImage(this.plrZones[i].cards[j].holo.sprite, zoneX + zoneWidth - (j * ((zoneWidth / 2) - (this.plrZones[i].cards[j].holo.sizeX / 2)) + this.plrZones[i].cards[j].holo.sizeX), zoneY + (zoneHeight / 2) - (this.plrZones[i].cards[j].holo.sizeY / 2), this.plrZones[i].cards[j].holo.sizeX, this.plrZones[i].cards[j].holo.sizeY);
                 }
             }
             this.ctx.fillStyle = "#000000";
@@ -243,9 +242,9 @@ export default class Battle {
                         totalValue += this.rvlZones[i].cards[j].value
                     }
                     this.ctx.save();
-                    this.ctx.translate(zoneX + (j * ((zoneWidth / 2) - (holoSize / 2))) + holoSize, zoneY + (zoneHeight / 2) - (holoSize / 2));
+                    this.ctx.translate(zoneX + (j * ((zoneWidth / 2) - (this.rvlZones[i].cards[j].holo.sizeX / 2))) + this.rvlZones[i].cards[j].holo.sizeX, zoneY + (zoneHeight / 2) - (this.rvlZones[i].cards[j].holo.sizeY / 2));
                     this.ctx.scale(-1, 1);
-                    this.ctx.drawImage(this.rvlZones[i].cards[j].holo, 0, 0, holoSize, holoSize);
+                    this.ctx.drawImage(this.rvlZones[i].cards[j].holo.sprite, 0, 0, this.rvlZones[i].cards[j].holo.sizeX, this.rvlZones[i].cards[j].holo.sizeY);
                     this.ctx.restore();
                 }
             }
