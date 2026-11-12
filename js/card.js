@@ -95,7 +95,9 @@ export default class Card {
                     ent.counts[this.name]--;
                     this.RemoveFromZone(thisZone);
                 } else {
-                    ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Cow Goon"))
+                    if (!ent.counts["Bandit Leader"] || ent.counts["Bandit Leader"] == 0) {
+                        this.ReplaceCard(ent, thisZone, this, "Bandit Leader");
+                    }
                 }
                 break;
             case "Cow-Cowboy":

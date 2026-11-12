@@ -61,7 +61,7 @@ export default class Entity {
           Card.CARD_TYPE.CREATURE,
           1,
           'assets/cards/cow-cowboys/Goon-Card.png',
-          'assets/holograms/Cow-Goons.png'
+          'assets/holograms/Goons-Side.png'
         )
         break;
 
