@@ -62,14 +62,10 @@ export default class Card {
     ReplaceCard(ent, zone, card, targetCardName) {
         ent.counts[card.name]--;
         let bonusVal = zone.cards[card.type].bonusValue;
-        if (zone.cards[card.type].effects[Card.CARD_EFFECT.PERISH]) {
-            zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName));
-            zone.cards[card.type].effects[Card.CARD_EFFECT.PERISH] = true;
-            zone.cards[card.type].bonusValue = bonusVal;
-        } else {
-            zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName));
-            zone.cards[card.type].bonusValue = bonusVal;
-        }
+        let oldEffects = zone.cards[card.type].effects;
+        zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName));
+        zone.cards[card.type].effects = oldEffects
+        zone.cards[card.type].bonusValue = bonusVal;
         ent.AddCardCount(zone.cards[card.type]);
     }
 
