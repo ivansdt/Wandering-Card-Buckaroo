@@ -43,78 +43,10 @@ export default class Battle {
         this.canvas;
         this.ctx;
         this.state;
-
-        /* Reutilizar este codigo en card.js en la funcion de Effect(), probablemente utilizando un switch general sin importar el genero
-        
-        this.executeCowboyEffect = function (sourceCard, targetCard, playerDeck, board) {
-            console.log("Procesando efecto de: " + sourceCard.name);
-
-            switch (sourceCard.name) {
-                case "Mysterious Stranger":
-                    let totalCowboys = board.filter(card => card && card.genre === sourceCard.CARD_GENRE.COW_COWBOYS).length;
-
-                    sourceCard.attack -= totalCowboys;
-                    if (sourceCard.attack < 0) {
-                        sourceCard.attack = 0;
-                    }
-
-                    console.log("Mysterious Stranger cambia a tener: " + sourceCard.attack);
-                    break;
-
-                case "Bandit Leader":
-                    // EFFECT: Al ser jugado, invoca un Goon en tu hand/deck
-                    console.log("Efecto activado de Bandit Leader: Invocando Goon");
-
-                    let goon = {
-                        name: "Goon",
-                        value: 1,
-                        attack: 1,
-                        genre: sourceCard.CARD_GENRE.COW_COWBOYS,
-                        type: sourceCard.CARD_TYPE.CREATURE,
-                        sprite: 'assets/card-template-goon.png'
-                    };
-
-                    if (playerDeck.length < 6) {
-                        playerDeck.push(goon);
-                        console.log("Goon invocado con exito.");
-                    } else {
-                        console.log("Hand llena. El Goon no pudo ser invocado.");
-                    }
-                    break;
-
-                case "Big Iron":
-                    // EFFECT: Otorga +3 de ataque, pero la carta muere al siguiente turno. El objeto permanece en el sitio
-                    if (targetCard && targetCard.type === targetCard.CARD_TYPE.CREATURE) {
-                        console.log("Equipando Big Iron a" + targetCard.name);
-
-                        targetCard.attack += 3;
-                        targetCard.doomedByBigIron = true;
-                        if (targetCard.zone !== undefined && board[targetCard.zone]) {
-                            board[targetCard.zone].permanentObject = "Big Iron";
-                        }
-                    }
-                    break;
-
-                default:
-                    console.log("Ningún efecto inmediato requerido en esta carta.");
-                    break;
-            }
-        }
-
-        {
-            advanceTurn(board)
-            console.log("Avanzando al siguiente turno...");
-
-            for (let i = 0; i < board.length; i++) {
-                let card = board[i];
-
-                if (card && card.doomedByBigIron) {
-                    console.log("Efecto del Big Iron activado, destruyendo: " + card.name);
-                    board[i] = null;
-                }
-            }
-        }
-        */
+        this.bg = new Image();
+        this.light = new Image();
+        this.bg.src = 'assets/bg/battle-bg/test-bg.png';
+        this.light.src = 'assets/bg/battle-bg/lighting.png';
     }
 
     GetCardsFromDeck(entity) {
@@ -213,8 +145,8 @@ export default class Battle {
         // dibujar player zone
         let zoneWidth = 180;
         let zoneHeight = 20;
-        let offset = 120;
-        let zoneOffset = 30;
+        let offset = 210;
+        let zoneOffset = 25;
         let numOffset = 10;
         let diagonalOffset = 10;
         let extraDiagonalOffset = diagonalOffset;
@@ -223,11 +155,16 @@ export default class Battle {
             let zoneY = offset + (i * (zoneHeight + zoneOffset));
             let totalValue = 0;
             if (this.plrZones[i].isSelected && this.input.onSection == Input.SECTION.ZONES) {
-                this.ctx.strokeStyle = "#367a9f";
+                this.ctx.strokeStyle = "#5ba7cf";
             } else {
-                this.ctx.strokeStyle = "#a8a8a8";
+                this.ctx.strokeStyle = "#ffffff";
             }
+            this.ctx.save();
             this.ctx.lineWidth = 3;
+            this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+            this.ctx.shadowBlur = 10;
+            this.ctx.shadowOffsetX = -5;
+            this.ctx.shadowOffsetY = 5;
             this.ctx.beginPath();
             this.ctx.moveTo(zoneX, zoneY);
             this.ctx.lineTo(zoneX + zoneWidth, zoneY);
@@ -235,6 +172,7 @@ export default class Battle {
             this.ctx.lineTo(zoneX - diagonalOffset, zoneY + zoneHeight);
             this.ctx.closePath();
             this.ctx.stroke();
+            this.ctx.restore();
             //this.ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             for (let j = 0; j < this.plrZones[i].cards.length; j++) {
                 if (this.plrZones[i].cards[j]) {
@@ -245,21 +183,28 @@ export default class Battle {
                     this.plrZones[i].cards[j].holo.y = zoneY + zoneHeight - this.plrZones[i].cards[j].holo.sizeY - (zoneHeight / 2);
 
                     this.ctx.save()
-                    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+                    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
                     this.ctx.shadowBlur = 10;
-                    this.ctx.shadowOffsetX = -3;
+                    this.ctx.shadowOffsetX = 0;
                     this.ctx.shadowOffsetY = 5;
                     this.plrZones[i].cards[j].holo.Draw(this.ctx, this.player);
                     this.ctx.restore();
                     //this.ctx.drawImage(this.plrZones[i].cards[j].holo.sprite, this.plrZones[i].cards[j].holo.x, this.plrZones[i].cards[j].holo.y, this.plrZones[i].cards[j].holo.sizeX, this.plrZones[i].cards[j].holo.sizeY);
                 }
             }
+            this.ctx.save();
             this.ctx.fillStyle = "#000000";
-            this.ctx.font = "16px serif";
+            this.ctx.font = "20px serif";
             this.ctx.direction = "rtl";
             this.ctx.textAlign = "right";
             this.ctx.textBaseline = "middle";
+            this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+            this.ctx.shadowBlur = 10;
+            this.ctx.shadowOffsetX = 0;
+            this.ctx.shadowOffsetY = 3;
+            this.ctx.strokeText(totalValue, zoneX - diagonalOffset - numOffset, zoneY + (zoneHeight / 2));
             this.ctx.fillText(totalValue, zoneX - diagonalOffset - numOffset, zoneY + (zoneHeight / 2));
+            this.ctx.restore();
 
         }
         // dibujar rival zone
@@ -267,6 +212,11 @@ export default class Battle {
             let zoneX = ((this.canvas.width / 8) * 6) - zoneWidth + (diagonalOffset + extraDiagonalOffset) * (maxZones - 1 - i);
             let zoneY = offset + (i * (zoneHeight + zoneOffset));
             let totalValue = 0;
+            this.ctx.save();
+            this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+            this.ctx.shadowBlur = 10;
+            this.ctx.shadowOffsetX = -5;
+            this.ctx.shadowOffsetY = 5;
             this.ctx.strokeStyle = "#9a3f3f";
             this.ctx.lineWidth = 3;
             this.ctx.beginPath();
@@ -276,6 +226,7 @@ export default class Battle {
             this.ctx.lineTo(zoneX - diagonalOffset, zoneY + zoneHeight);
             this.ctx.closePath();
             this.ctx.stroke();
+            this.ctx.restore();
             //this.ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             for (let j = 0; j < this.rvlZones[i].cards.length; j++) {
                 if (this.rvlZones[i].cards[j]) {
@@ -286,28 +237,36 @@ export default class Battle {
                     this.rvlZones[i].cards[j].holo.x = zoneX + this.rvlZones[i].cards[j].holo.sizeX + (zoneWidth / 2 * j) - (this.rvlZones[i].cards[j].holo.sizeX / 2 * j) - (diagonalOffset * (1 - (j * 0.5)));
                     this.rvlZones[i].cards[j].holo.y = zoneY + zoneHeight - this.rvlZones[i].cards[j].holo.sizeY - (zoneHeight / 2);
                     this.ctx.save()
-                    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+                    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
                     this.ctx.shadowBlur = 10;
-                    this.ctx.shadowOffsetX = -3;
+                    this.ctx.shadowOffsetX = 0;
                     this.ctx.shadowOffsetY = 5;
                     this.rvlZones[i].cards[j].holo.Draw(this.ctx, this.rival);
                     //this.ctx.drawImage(this.rvlZones[i].cards[j].holo.sprite, 0, 0, this.rvlZones[i].cards[j].holo.sizeX, this.rvlZones[i].cards[j].holo.sizeY);
                     this.ctx.restore();
                 }
             }
-            this.ctx.fillStyle = "#000000";
-            this.ctx.font = "16px serif";
+            this.ctx.save();
+            this.ctx.strokeStyle = "#b55a5a";
+            this.ctx.fillStyle = "#501717";
+            this.ctx.font = "20px serif";
+            this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+            this.ctx.shadowBlur = 10;
+            this.ctx.shadowOffsetX = 0;
+            this.ctx.shadowOffsetY = 3;
             this.ctx.direction = "ltr";
             this.ctx.textAlign = "left";
             this.ctx.textBaseline = "middle";
+            this.ctx.strokeText(totalValue, zoneX + zoneWidth + numOffset, zoneY + (zoneHeight / 2));
             this.ctx.fillText(totalValue, zoneX + zoneWidth + numOffset, zoneY + (zoneHeight / 2));
+            this.ctx.restore();
         }
     }
 
     DrawHP() {
         let offsetX = 20;
         let offsetY = 20;
-        this.ctx.fillStyle = "#000000";
+        this.ctx.fillStyle = "#ffffff";
         this.ctx.font = "32px serif";
         this.ctx.textAlign = "left";
         this.ctx.textBaseline = "top";
@@ -318,6 +277,17 @@ export default class Battle {
         this.ctx.direction = "rtl";
         this.ctx.fillText("Rival: " + this.rvlLife, this.canvas.width - offsetX, offsetY);
 
+    }
+
+    DrawLight() {
+        this.ctx.save();
+        this.ctx.globalAlpha = 0.15;
+        this.ctx.globalCompositeOperation = 'lighter';
+        this.ctx.drawImage(this.light, 0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.globalAlpha = 0.05;
+        this.ctx.globalCompositeOperation = 'hard-light';
+        this.ctx.drawImage(this.light, 0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.restore();
     }
 
     DrawTotalScore(score, entity) {
@@ -458,6 +428,10 @@ export default class Battle {
         }
     }
 
+    DrawBackground() {
+        this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
+    }
+
     DrawDeckAndGraveyard() {
         const zoneWidth = 80;
         const zoneHeight = 110;
@@ -490,7 +464,7 @@ export default class Battle {
         this.ctx.fillRect(rvlGyX, rvlGyY, zoneWidth, zoneHeight);
         this.ctx.strokeRect(rvlGyX, rvlGyY, zoneWidth, zoneHeight);
 
-        this.ctx.fillStyle = "#000000";
+        this.ctx.fillStyle = "#ffffff";
         this.ctx.font = "bold 14px serif";
         this.ctx.textAlign = "center";
         this.ctx.fillText("GY: " + this.plrGraveyard.length, plrGyX + zoneWidth / 2, plrGyY + zoneHeight / 2);
@@ -509,7 +483,7 @@ export default class Battle {
         }
 
         // Deck counters debajo de cada mazo
-        this.ctx.fillStyle = "#000000";
+        this.ctx.fillStyle = "#ffffff";
         this.ctx.font = "bold 14px serif";
         this.ctx.textAlign = "center";
         this.ctx.fillText("Deck: " + this.plrDeck.length, plrDeckX + zoneWidth / 2, plrDeckY + zoneHeight + 16);
@@ -519,7 +493,9 @@ export default class Battle {
     }
 
     Draw(player) {
+        this.DrawBackground();
         this.DrawZones();
+        this.DrawLight();
         this.DrawHand(player.hand);
         this.DrawHP();
         this.DrawDeckAndGraveyard();
