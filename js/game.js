@@ -31,7 +31,7 @@ export default class Game {
         this.rival = new Rival("Mouse");
         this.battle = new Battle(this.player, this.rival, this.input);
 
-        const plrDeck = [
+        const deck = [
             "Mysterious Stranger",
             "Mysterious Stranger",
             "Mysterious Stranger",
@@ -47,28 +47,13 @@ export default class Game {
             "Sheriff Badge",
             "Sheriff Badge",
             "Sheriff Badge",
+            "Cheese Amulet",
+            "Cheese Amulet",
+            "Cheese Amulet",
         ];
 
-        const rvlDeck = [
-            "Mysterious Stranger",
-            "Mysterious Stranger",
-            "Mysterious Stranger",
-            "Bandit Leader",
-            "Bandit Leader",
-            "Bandit Leader",
-            "Big Iron",
-            "Big Iron",
-            "Big Iron",
-            "Cheese Moon",
-            "Cheese Moon",
-            "Cheese Moon",
-            "Sheriff Badge",
-            "Sheriff Badge",
-            "Sheriff Badge",
-        ];
-
-        this.player.CreateDeck(plrDeck);
-        this.rival.CreateDeck(rvlDeck);
+        this.player.CreateDeck(deck);
+        this.rival.CreateDeck(deck);
         this.battle.StartBattle(this.canvas, this.ctx);
     }
 
@@ -133,7 +118,7 @@ export default class Game {
                 this.ctx.fillText("Presiona Escape para regresar", this.canvas.width / 2, this.canvas.height - offset - 70);
                 this.ctx.fillText("Presiona R para reiniciar el juego", this.canvas.width / 2, this.canvas.height - offset);
             } else {
-                this.battle.Draw(this.player, this.rival);
+                this.battle.Draw();
             }
 
         } else {

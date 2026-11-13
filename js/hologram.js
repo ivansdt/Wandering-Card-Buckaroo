@@ -34,7 +34,7 @@ export default class Hologram {
             ctx.restore();
         } else {
             ctx.save();
-            ctx.translate(this.x + (this.sizeX - (this.sizeX * this.scaleX)) / 2, this.y + (this.sizeY - (this.sizeY * this.scaleY)));
+            ctx.translate(this.x - (this.sizeX - (this.sizeX * this.scaleX)) / 2, this.y + (this.sizeY - (this.sizeY * this.scaleY)));
             ctx.scale(-1, 1);
             ctx.drawImage(this.sprite, 0, 0, this.sizeX * this.scaleX, this.sizeY * this.scaleY);
             ctx.restore();

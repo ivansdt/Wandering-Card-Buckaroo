@@ -42,7 +42,6 @@ export default class Card {
         this.state = Card.CARD_STATUS.DECK;
         this.sprite = new Image();
         this.holo = new Hologram();
-        this.zone;
         this.initValue;
         this.value;
         this.bonusValue = 0;
@@ -230,6 +229,26 @@ export default class Card {
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     //thisZone.cards[Card.CARD_TYPE.CREATURE].value *= thisZone.cards[Card.CARD_TYPE.CREATURE].multValue;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.MULT] = true;
+                }
+                break;
+            case "Cheese Amulet":
+                if (!this.played && thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS) {
+                    switch (thisZone.cards[Card.CARD_TYPE.CREATURE].name) {
+                        case "Mysterious Stranger":
+                            thisZone.cards[Card.CARD_TYPE.CREATURE].minusValue = 0;
+                            this.ReplaceCard(ent, thisZone, thisZone.cards[Card.CARD_TYPE.CREATURE], "Cow-Cowboy")
+                            break;
+                        case "Bandit Leader":
+                            this.ReplaceCard(ent, thisZone, thisZone.cards[Card.CARD_TYPE.CREATURE], "Herd Leader")
+                            thisZone.cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, thisZone.cards[Card.CARD_TYPE.CREATURE], zones, thisZone);
+                            break;
+                        case "Goon":
+                            this.ReplaceCard(ent, thisZone, thisZone.cards[Card.CARD_TYPE.CREATURE], "Cow Goon")
+                            thisZone.cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, thisZone.cards[Card.CARD_TYPE.CREATURE], zones, thisZone);
+                            break;
+                        default:
+                            console.log("invalid cowboy creature");
+                    }
                 }
                 break;
             default:

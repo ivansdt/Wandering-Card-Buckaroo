@@ -124,7 +124,7 @@ export default class Battle {
         }
     }
 
-    DrawHand(hand) {
+    DrawHand(hand, dt) {
         let offsetX = 80;
         let offsetY = 50;
         let riseOffset = 150
@@ -492,11 +492,11 @@ export default class Battle {
         this.ctx.restore();
     }
 
-    Draw(player) {
+    Draw(dt) {
         this.DrawBackground();
         this.DrawZones();
         this.DrawLight();
-        this.DrawHand(player.hand);
+        this.DrawHand(this.player.hand, dt);
         this.DrawHP();
         this.DrawDeckAndGraveyard();
         if (this.state == Battle.DUEL_STATE.CALC || this.state == Battle.DUEL_STATE.REVEAL) {
