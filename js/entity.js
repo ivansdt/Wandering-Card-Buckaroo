@@ -3,7 +3,7 @@ import Card from './card.js';
 export default class Entity {
   constructor(name) {
     this.name = name;
-    this.life = 100;
+    this.life = 10;
     this.deck = new Array();
     this.hand = new Array();
     this.sprite;

@@ -211,51 +211,85 @@ export default class Battle {
 
     DrawZones() {
         // dibujar player zone
-        let zoneWidth = 150;
-        let zoneHeight = 50;
-        let offset = 20;
+        let zoneWidth = 180;
+        let zoneHeight = 20;
+        let offset = 120;
+        let zoneOffset = 30;
+        let numOffset = 10;
+        let diagonalOffset = 10;
+        let extraDiagonalOffset = diagonalOffset;
         for (let i = 0; i < maxZones; i++) {
-            let zoneX = this.canvas.width / 4;
-            let zoneY = offset + (i * (zoneHeight + 20));
+            let zoneX = (this.canvas.width / 8) * 2 - (diagonalOffset + extraDiagonalOffset) * i + diagonalOffset;
+            let zoneY = offset + (i * (zoneHeight + zoneOffset));
             let totalValue = 0;
             if (this.plrZones[i].isSelected && this.input.onSection == Input.SECTION.ZONES) {
-                this.ctx.fillStyle = "#367a9f";
+                this.ctx.strokeStyle = "#367a9f";
             } else {
-                this.ctx.fillStyle = "#7d7d7d";
+                this.ctx.strokeStyle = "#a8a8a8";
             }
-            this.ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
+            this.ctx.lineWidth = 3;
+            this.ctx.beginPath();
+            this.ctx.moveTo(zoneX, zoneY);
+            this.ctx.lineTo(zoneX + zoneWidth, zoneY);
+            this.ctx.lineTo(zoneX + zoneWidth - diagonalOffset, zoneY + zoneHeight);
+            this.ctx.lineTo(zoneX - diagonalOffset, zoneY + zoneHeight);
+            this.ctx.closePath();
+            this.ctx.stroke();
+            //this.ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             for (let j = 0; j < this.plrZones[i].cards.length; j++) {
                 if (this.plrZones[i].cards[j]) {
                     if (this.plrZones[i].cards[j].type == Card.CARD_TYPE.CREATURE) {
                         totalValue += this.plrZones[i].cards[j].value
                     }
-                    this.plrZones[i].cards[j].holo.x = zoneX + zoneWidth - (j * ((zoneWidth / 2) - (this.plrZones[i].cards[j].holo.sizeX / 2)) + this.plrZones[i].cards[j].holo.sizeX);
-                    this.plrZones[i].cards[j].holo.y = zoneY + (zoneHeight / 2) - (this.plrZones[i].cards[j].holo.sizeY / 2);
+                    this.plrZones[i].cards[j].holo.x = zoneX - diagonalOffset + zoneWidth - (j * (zoneWidth / 2)) - (this.plrZones[i].cards[j].holo.sizeX / 2 * (2 - j)) + (diagonalOffset * (1 - (j * 0.5)));
+                    this.plrZones[i].cards[j].holo.y = zoneY + zoneHeight - this.plrZones[i].cards[j].holo.sizeY - (zoneHeight / 2);
+
+                    this.ctx.save()
+                    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+                    this.ctx.shadowBlur = 10;
+                    this.ctx.shadowOffsetX = -3;
+                    this.ctx.shadowOffsetY = 5;
                     this.plrZones[i].cards[j].holo.Draw(this.ctx, this.player);
+                    this.ctx.restore();
                     //this.ctx.drawImage(this.plrZones[i].cards[j].holo.sprite, this.plrZones[i].cards[j].holo.x, this.plrZones[i].cards[j].holo.y, this.plrZones[i].cards[j].holo.sizeX, this.plrZones[i].cards[j].holo.sizeY);
                 }
             }
             this.ctx.fillStyle = "#000000";
             this.ctx.font = "16px serif";
-            this.ctx.direction = "ltr";
-            this.ctx.fillText(totalValue, zoneX - offset, zoneY + (zoneHeight / 2));
+            this.ctx.direction = "rtl";
+            this.ctx.textAlign = "right";
+            this.ctx.textBaseline = "middle";
+            this.ctx.fillText(totalValue, zoneX - diagonalOffset - numOffset, zoneY + (zoneHeight / 2));
 
         }
         // dibujar rival zone
         for (let i = 0; i < maxZones; i++) {
-            let zoneX = ((this.canvas.width / 4) * 3) - zoneWidth;
-            let zoneY = offset + (i * (zoneHeight + 20));
+            let zoneX = ((this.canvas.width / 8) * 6) - zoneWidth + (diagonalOffset + extraDiagonalOffset) * (maxZones - 1 - i);
+            let zoneY = offset + (i * (zoneHeight + zoneOffset));
             let totalValue = 0;
-            this.ctx.fillStyle = "#9a3f3f";
-            this.ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
+            this.ctx.strokeStyle = "#9a3f3f";
+            this.ctx.lineWidth = 3;
+            this.ctx.beginPath();
+            this.ctx.moveTo(zoneX, zoneY);
+            this.ctx.lineTo(zoneX + zoneWidth, zoneY);
+            this.ctx.lineTo(zoneX + zoneWidth - diagonalOffset, zoneY + zoneHeight);
+            this.ctx.lineTo(zoneX - diagonalOffset, zoneY + zoneHeight);
+            this.ctx.closePath();
+            this.ctx.stroke();
+            //this.ctx.fillRect(zoneX, zoneY, zoneWidth, zoneHeight);
             for (let j = 0; j < this.rvlZones[i].cards.length; j++) {
                 if (this.rvlZones[i].cards[j]) {
                     if (this.rvlZones[i].cards[j].type == Card.CARD_TYPE.CREATURE) {
                         totalValue += this.rvlZones[i].cards[j].value
                     }
                     this.ctx.save();
-                    this.rvlZones[i].cards[j].holo.x = zoneX + (j * ((zoneWidth / 2) - (this.rvlZones[i].cards[j].holo.sizeX / 2))) + this.rvlZones[i].cards[j].holo.sizeX;
-                    this.rvlZones[i].cards[j].holo.y = zoneY + (zoneHeight / 2) - (this.rvlZones[i].cards[j].holo.sizeY / 2)
+                    this.rvlZones[i].cards[j].holo.x = zoneX + this.rvlZones[i].cards[j].holo.sizeX + (zoneWidth / 2 * j) - (this.rvlZones[i].cards[j].holo.sizeX / 2 * j) - (diagonalOffset * (1 - (j * 0.5)));
+                    this.rvlZones[i].cards[j].holo.y = zoneY + zoneHeight - this.rvlZones[i].cards[j].holo.sizeY - (zoneHeight / 2);
+                    this.ctx.save()
+                    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+                    this.ctx.shadowBlur = 10;
+                    this.ctx.shadowOffsetX = -3;
+                    this.ctx.shadowOffsetY = 5;
                     this.rvlZones[i].cards[j].holo.Draw(this.ctx, this.rival);
                     //this.ctx.drawImage(this.rvlZones[i].cards[j].holo.sprite, 0, 0, this.rvlZones[i].cards[j].holo.sizeX, this.rvlZones[i].cards[j].holo.sizeY);
                     this.ctx.restore();
@@ -263,18 +297,24 @@ export default class Battle {
             }
             this.ctx.fillStyle = "#000000";
             this.ctx.font = "16px serif";
-            this.ctx.direction = "rtl";
-            this.ctx.fillText(totalValue, zoneX + zoneWidth + offset, zoneY + (zoneHeight / 2));
+            this.ctx.direction = "ltr";
+            this.ctx.textAlign = "left";
+            this.ctx.textBaseline = "middle";
+            this.ctx.fillText(totalValue, zoneX + zoneWidth + numOffset, zoneY + (zoneHeight / 2));
         }
     }
 
     DrawHP() {
         let offsetX = 20;
-        let offsetY = 40;
+        let offsetY = 20;
         this.ctx.fillStyle = "#000000";
         this.ctx.font = "32px serif";
+        this.ctx.textAlign = "left";
+        this.ctx.textBaseline = "top";
         this.ctx.direction = "ltr";
         this.ctx.fillText("Player: " + this.plrLife, offsetX, offsetY);
+        this.ctx.textAlign = "right";
+        this.ctx.textBaseline = "top";
         this.ctx.direction = "rtl";
         this.ctx.fillText("Rival: " + this.rvlLife, this.canvas.width - offsetX, offsetY);
 
@@ -283,6 +323,8 @@ export default class Battle {
     DrawTotalScore(score, entity) {
         this.ctx.direction = "ltr";
         this.ctx.font = "32px serif";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
         if (entity instanceof Player) {
             this.ctx.fillStyle = "#4088f5";
             this.ctx.fillText(score, this.canvas.width / 2, this.canvas.height / 6);

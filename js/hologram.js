@@ -10,8 +10,8 @@ export default class Hologram {
         this.sprite = new Image();
         this.x;
         this.y;
-        this.sizeX = 50;
-        this.sizeY = 50;
+        this.sizeX = 70;
+        this.sizeY = 70;
         this.scaleX = 1.0;
         this.scaleY = 1.0;
         this.idleTimer = Math.random() * Math.PI * 2;
@@ -28,12 +28,13 @@ export default class Hologram {
     Draw(ctx, ent) {
         if (ent instanceof Player) {
             ctx.save();
-            ctx.translate(this.x, this.y);
-            ctx.drawImage(this.sprite, 0, 0, this.sizeX * this.scaleX, this.sizeY * this.scaleY);
+            //ctx.translate(this.x  - (this.scaleX * 10), this.y);
+            //console.log(this.scaleY);
+            ctx.drawImage(this.sprite, this.x + (this.sizeX - (this.sizeX * this.scaleX)) / 2, this.y + (this.sizeY - (this.sizeY * this.scaleY)), this.sizeX * this.scaleX, this.sizeY * this.scaleY);
             ctx.restore();
         } else {
             ctx.save();
-            ctx.translate(this.x, this.y);
+            ctx.translate(this.x + (this.sizeX - (this.sizeX * this.scaleX)) / 2, this.y + (this.sizeY - (this.sizeY * this.scaleY)));
             ctx.scale(-1, 1);
             ctx.drawImage(this.sprite, 0, 0, this.sizeX * this.scaleX, this.sizeY * this.scaleY);
             ctx.restore();
