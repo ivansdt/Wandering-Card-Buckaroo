@@ -22,16 +22,18 @@ export default class Battle {
         this.rvlGraveyard = [];
         this.rival = rivalEnt;
         this.rvlDeck = rivalEnt.deck;
+        this.graveSprite = new Image();
         this.deckSprites = {
             Full: new Image(),
             Mid: new Image(),
             Low: new Image(),
             Empty: new Image(),
         };
-        this.deckSprites.Full.src = 'assets/cards/deck/Deck Full.png';
-        this.deckSprites.Mid.src = 'assets/cards/deck/Deck Mid.png';
-        this.deckSprites.Low.src = 'assets/cards/deck/Deck Low.png';
-        this.deckSprites.Empty.src = 'assets/cards/deck/Deck Empty.png';
+        this.graveSprite.src = 'assets/misc/graveyard.png'
+        this.deckSprites.Full.src = 'assets/cards/deck/DeckFull.png';
+        this.deckSprites.Mid.src = 'assets/cards/deck/DeckMid.png';
+        this.deckSprites.Low.src = 'assets/cards/deck/DeckLow.png';
+        this.deckSprites.Empty.src = 'assets/cards/deck/DeckEmpty.png';
         this.isPlrTurn = false;
         this.plrZones = new Array();
         this.rvlZones = new Array();
@@ -45,6 +47,10 @@ export default class Battle {
         this.state;
         this.bg = new Image();
         this.light = new Image();
+        this.plrHrt = new Image();
+        this.rvlHrt = new Image();
+        this.plrHrt.src = 'assets/misc/heart-p.png';
+        this.rvlHrt.src = 'assets/misc/heart-r.png';
         this.bg.src = 'assets/bg/battle-bg/test-bg.png';
         this.light.src = 'assets/bg/battle-bg/lighting.png';
     }
@@ -162,9 +168,9 @@ export default class Battle {
             this.ctx.save();
             this.ctx.lineWidth = 3;
             this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-            this.ctx.shadowBlur = 10;
+            this.ctx.shadowBlur = 5;
             this.ctx.shadowOffsetX = -5;
-            this.ctx.shadowOffsetY = 5;
+            this.ctx.shadowOffsetY = 3;
             this.ctx.beginPath();
             this.ctx.moveTo(zoneX, zoneY);
             this.ctx.lineTo(zoneX + zoneWidth, zoneY);
@@ -184,7 +190,7 @@ export default class Battle {
 
                     this.ctx.save()
                     this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-                    this.ctx.shadowBlur = 10;
+                    this.ctx.shadowBlur = 5;
                     this.ctx.shadowOffsetX = 0;
                     this.ctx.shadowOffsetY = 5;
                     this.plrZones[i].cards[j].holo.Draw(this.ctx, this.player);
@@ -194,14 +200,15 @@ export default class Battle {
             }
             this.ctx.save();
             this.ctx.fillStyle = "#000000";
-            this.ctx.font = "20px serif";
+            this.ctx.font = "15px Aseprite";
             this.ctx.direction = "rtl";
             this.ctx.textAlign = "right";
             this.ctx.textBaseline = "middle";
             this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-            this.ctx.shadowBlur = 10;
+            this.ctx.shadowBlur = 5;
             this.ctx.shadowOffsetX = 0;
-            this.ctx.shadowOffsetY = 3;
+            this.ctx.shadowOffsetY = 2;
+            this.ctx.lineWidth = 4;
             this.ctx.strokeText(totalValue, zoneX - diagonalOffset - numOffset, zoneY + (zoneHeight / 2));
             this.ctx.fillText(totalValue, zoneX - diagonalOffset - numOffset, zoneY + (zoneHeight / 2));
             this.ctx.restore();
@@ -214,9 +221,9 @@ export default class Battle {
             let totalValue = 0;
             this.ctx.save();
             this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-            this.ctx.shadowBlur = 10;
+            this.ctx.shadowBlur = 5;
             this.ctx.shadowOffsetX = -5;
-            this.ctx.shadowOffsetY = 5;
+            this.ctx.shadowOffsetY = 3;
             this.ctx.strokeStyle = "#9a3f3f";
             this.ctx.lineWidth = 3;
             this.ctx.beginPath();
@@ -233,12 +240,12 @@ export default class Battle {
                     if (this.rvlZones[i].cards[j].type == Card.CARD_TYPE.CREATURE) {
                         totalValue += this.rvlZones[i].cards[j].value
                     }
-                    this.ctx.save();
                     this.rvlZones[i].cards[j].holo.x = zoneX + this.rvlZones[i].cards[j].holo.sizeX + (zoneWidth / 2 * j) - (this.rvlZones[i].cards[j].holo.sizeX / 2 * j) - (diagonalOffset * (1 - (j * 0.5)));
                     this.rvlZones[i].cards[j].holo.y = zoneY + zoneHeight - this.rvlZones[i].cards[j].holo.sizeY - (zoneHeight / 2);
-                    this.ctx.save()
+
+                    this.ctx.save();
                     this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-                    this.ctx.shadowBlur = 10;
+                    this.ctx.shadowBlur = 5;
                     this.ctx.shadowOffsetX = 0;
                     this.ctx.shadowOffsetY = 5;
                     this.rvlZones[i].cards[j].holo.Draw(this.ctx, this.rival);
@@ -248,15 +255,16 @@ export default class Battle {
             }
             this.ctx.save();
             this.ctx.strokeStyle = "#b55a5a";
-            this.ctx.fillStyle = "#501717";
-            this.ctx.font = "20px serif";
+            this.ctx.fillStyle = "#000000";
+            this.ctx.font = "15px Aseprite";
             this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-            this.ctx.shadowBlur = 10;
+            this.ctx.shadowBlur = 5;
             this.ctx.shadowOffsetX = 0;
-            this.ctx.shadowOffsetY = 3;
+            this.ctx.shadowOffsetY = 2;
             this.ctx.direction = "ltr";
             this.ctx.textAlign = "left";
             this.ctx.textBaseline = "middle";
+            this.ctx.lineWidth = 4;
             this.ctx.strokeText(totalValue, zoneX + zoneWidth + numOffset, zoneY + (zoneHeight / 2));
             this.ctx.fillText(totalValue, zoneX + zoneWidth + numOffset, zoneY + (zoneHeight / 2));
             this.ctx.restore();
@@ -266,16 +274,48 @@ export default class Battle {
     DrawHP() {
         let offsetX = 20;
         let offsetY = 20;
+        let imgWidth = 100;
+        let imgHeight = 100;
+        this.ctx.save();
+        this.ctx.lineWidth = 5;
+        this.ctx.strokeStyle = "#000000";
         this.ctx.fillStyle = "#ffffff";
-        this.ctx.font = "32px serif";
+        this.ctx.font = "32px Aseprite";
+
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 5;
+
         this.ctx.textAlign = "left";
         this.ctx.textBaseline = "top";
         this.ctx.direction = "ltr";
-        this.ctx.fillText("Player: " + this.plrLife, offsetX, offsetY);
+
+        this.ctx.strokeText("Player", offsetX, offsetY);
+        this.ctx.fillText("Player", offsetX, offsetY);
+
         this.ctx.textAlign = "right";
         this.ctx.textBaseline = "top";
         this.ctx.direction = "rtl";
-        this.ctx.fillText("Rival: " + this.rvlLife, this.canvas.width - offsetX, offsetY);
+
+        this.ctx.strokeText("Rival", this.canvas.width - offsetX, offsetY);
+        this.ctx.fillText("Rival", this.canvas.width - offsetX, offsetY);
+
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
+        this.ctx.direction = "ltr";
+
+        this.ctx.drawImage(this.plrHrt, offsetX, offsetY + 35, imgWidth, imgHeight);
+        this.ctx.drawImage(this.rvlHrt, this.canvas.width - imgWidth - offsetX, offsetY + 35, imgWidth, imgHeight);
+
+        this.ctx.font = "38px Aseprite";
+
+        this.ctx.strokeText(this.plrLife, offsetX + (imgWidth / 2) + 4, offsetY + (imgHeight / 2) + 35);
+        this.ctx.fillText(this.plrLife, offsetX + (imgWidth / 2) + 4, offsetY + (imgHeight / 2) + 35);
+        this.ctx.strokeText(this.rvlLife, this.canvas.width - offsetX - (imgWidth / 2), offsetY + (imgHeight / 2) + 35);
+        this.ctx.fillText(this.rvlLife, this.canvas.width - offsetX - (imgWidth / 2), offsetY + (imgHeight / 2) + 35);
+
+        this.ctx.restore();
 
     }
 
@@ -291,32 +331,54 @@ export default class Battle {
     }
 
     DrawTotalScore(score, entity) {
+        this.ctx.save();
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 5;
         this.ctx.direction = "ltr";
-        this.ctx.font = "32px serif";
+        this.ctx.font = "50px Aseprite";
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
+        this.ctx.lineWidth = 5;
+        this.ctx.strokeStyle = "#000000";
         if (entity instanceof Player) {
-            this.ctx.fillStyle = "#4088f5";
-            this.ctx.fillText(score, this.canvas.width / 2, this.canvas.height / 6);
+            this.ctx.fillStyle = "#35ad3f";
+            this.ctx.strokeText(score, this.canvas.width / 8 * 2 + 90, this.canvas.height / 7);
+            this.ctx.fillText(score, this.canvas.width / 8 * 2 + 90, this.canvas.height / 7);
         } else {
-            this.ctx.fillStyle = "#ff4747";
-            this.ctx.fillText(score, this.canvas.width / 2, (this.canvas.height / 6) * 3);
+            this.ctx.fillStyle = "#c43434";
+            this.ctx.strokeText(score, this.canvas.width - (this.canvas.width / 8 * 2) - 90, this.canvas.height / 7);
+            this.ctx.fillText(score, this.canvas.width - (this.canvas.width / 8 * 2) - 90, this.canvas.height / 7);
         }
+        this.ctx.restore();
     }
 
     DrawDifference(plrScore, rvlScore) {
         let diff;
+        this.ctx.save();
+        this.ctx.lineWidth = 5;
+        this.ctx.strokeStyle = "#000000";
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 5;
+        this.ctx.font = "40px Aseprite";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
         if (plrScore > rvlScore) {
-            this.ctx.fillStyle = "#c24b4b";
+            this.ctx.fillStyle = "#6d2121";
             diff = rvlScore - plrScore;
         } else if (rvlScore > plrScore) {
-            this.ctx.fillStyle = "#446faf";
+            this.ctx.fillStyle = "#206b25";
             diff = plrScore - rvlScore;
         } else {
-            this.ctx.fillStyle = "#727272";
+            this.ctx.fillStyle = "#aeaeae";
             diff = 0;
         }
-        this.ctx.fillText(diff, this.canvas.width / 2, (this.canvas.height / 6) * 2);
+        this.ctx.strokeText(diff, this.canvas.width / 2, this.canvas.height / 7);
+        this.ctx.fillText(diff, this.canvas.width / 2, this.canvas.height / 7);
+        this.ctx.restore();
     }
 
     async EndTurn(entity) {
@@ -433,61 +495,68 @@ export default class Battle {
     }
 
     DrawDeckAndGraveyard() {
-        const zoneWidth = 80;
-        const zoneHeight = 110;
+        const gyWidth = 70;
+        const gyHeight = 70;
+        const deckWidth = 90;
+        const deckHeight = 48;
+        const offsetX = 50;
+        const offsetPd = 11;
+        const offsetGd = 21;
 
-        // Left Side (Player)
-        const plrGyX = 30;
-        const plrGyY = 75;
-        const plrDeckX = 30;
-        const plrDeckY = 225;
-
-        // Right Side (Rival)
-        const rvlGyX = this.canvas.width - 30 - zoneWidth;
-        const rvlGyY = 75;
-        const rvlDeckX = this.canvas.width - 30 - zoneWidth;
-        const rvlDeckY = 225;
+        const plrGyX = this.canvas.width / 8 * 2 - gyWidth + 10 - offsetX;
+        const plrGyY = 160;
+        const plrDeckX = this.canvas.width / 8 * 2 - 80 - deckWidth + 10 - offsetX;
+        const plrDeckY = 365;
+        const rvlGyX = this.canvas.width - (this.canvas.width / 8 * 2) + 80 + offsetX;
+        const rvlGyY = plrGyY;
+        const rvlDeckX = this.canvas.width - (this.canvas.width / 8 * 2) + offsetX;
+        const rvlDeckY = plrDeckY;
 
         this.ctx.save();
         this.ctx.direction = "ltr";
 
-        // 1. Zonas de Cementerios (GY)
-        this.ctx.strokeStyle = "#555555";
-        this.ctx.lineWidth = 2;
-        this.ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 2;
 
-        // Player
-        this.ctx.fillRect(plrGyX, plrGyY, zoneWidth, zoneHeight);
-        this.ctx.strokeRect(plrGyX, plrGyY, zoneWidth, zoneHeight);
-
-        // Rival
-        this.ctx.fillRect(rvlGyX, rvlGyY, zoneWidth, zoneHeight);
-        this.ctx.strokeRect(rvlGyX, rvlGyY, zoneWidth, zoneHeight);
+        this.ctx.drawImage(this.graveSprite, plrGyX, plrGyY, gyWidth, gyHeight);
+        this.ctx.drawImage(this.graveSprite, rvlGyX, rvlGyY, gyWidth, gyHeight);
 
         this.ctx.fillStyle = "#ffffff";
-        this.ctx.font = "bold 14px serif";
+        this.ctx.font = "bold 24px Aseprite";
         this.ctx.textAlign = "center";
-        this.ctx.fillText("GY: " + this.plrGraveyard.length, plrGyX + zoneWidth / 2, plrGyY + zoneHeight / 2);
-        this.ctx.fillText("GY: " + this.rvlGraveyard.length, rvlGyX + zoneWidth / 2, rvlGyY + zoneHeight / 2);
+        this.ctx.textBaseline = "middle";
+        this.ctx.lineWidth = 3;
+        this.ctx.strokeStyle = "#000000";
+        this.ctx.strokeText(this.plrGraveyard.length, plrGyX + gyWidth / 2 + 7, plrGyY + gyHeight / 2 + 3);
+        this.ctx.fillText(this.plrGraveyard.length, plrGyX + gyWidth / 2 + 7, plrGyY + gyHeight / 2 + 3);
+        this.ctx.strokeText(this.rvlGraveyard.length, rvlGyX + gyWidth / 2 + 7, rvlGyY + gyHeight / 2 + 3);
+        this.ctx.fillText(this.rvlGraveyard.length, rvlGyX + gyWidth / 2 + 7, rvlGyY + gyHeight / 2 + 3);
 
-        // 2. Zonas de Deck (4 Visuales)
         const plrCurrentSprite = this.GetDeckSprite(this.plrDeck.length);
         const rvlCurrentSprite = this.GetDeckSprite(this.rvlDeck.length);
 
         if (plrCurrentSprite.complete && plrCurrentSprite.naturalWidth !== 0) {
-            this.ctx.drawImage(plrCurrentSprite, plrDeckX, plrDeckY, zoneWidth, zoneHeight);
+            this.ctx.drawImage(plrCurrentSprite, plrDeckX, plrDeckY, deckWidth, deckHeight);
         }
 
         if (rvlCurrentSprite.complete && rvlCurrentSprite.naturalWidth !== 0) {
-            this.ctx.drawImage(rvlCurrentSprite, rvlDeckX, rvlDeckY, zoneWidth, zoneHeight);
+            this.ctx.drawImage(rvlCurrentSprite, rvlDeckX, rvlDeckY, deckWidth, deckHeight);
         }
 
-        // Deck counters debajo de cada mazo
         this.ctx.fillStyle = "#ffffff";
-        this.ctx.font = "bold 14px serif";
+        this.ctx.font = "bold 24px Aseprite";
         this.ctx.textAlign = "center";
-        this.ctx.fillText("Deck: " + this.plrDeck.length, plrDeckX + zoneWidth / 2, plrDeckY + zoneHeight + 16);
-        this.ctx.fillText("Deck: " + this.rvlDeck.length, rvlDeckX + zoneWidth / 2, rvlDeckY + zoneHeight + 16);
+        this.ctx.textBaseline = "middle";
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.lineWidth = 3;
+        this.ctx.strokeStyle = "#000000";
+        this.ctx.strokeText(this.plrDeck.length, plrDeckX + ((deckWidth - offsetPd) / 2) + 2, plrDeckY + deckHeight + 22);
+        this.ctx.fillText(this.plrDeck.length, plrDeckX + ((deckWidth - offsetPd) / 2) + 2, plrDeckY + deckHeight + 22);
+        this.ctx.strokeText(this.rvlDeck.length, rvlDeckX + ((deckWidth - offsetPd) / 2) + 2, rvlDeckY + deckHeight + 22);
+        this.ctx.fillText(this.rvlDeck.length, rvlDeckX + ((deckWidth - offsetPd) / 2) + 2, rvlDeckY + deckHeight + 22);
 
         this.ctx.restore();
     }
