@@ -53,6 +53,9 @@ export default class Battle {
         this.rvlHrt.src = 'assets/misc/heart-r.png';
         this.bg.src = 'assets/bg/battle-bg/test-bg.png';
         this.light.src = 'assets/bg/battle-bg/lighting.png';
+        this.hrtTimer = Math.random() * Math.PI * 2;
+        this.hrtScaleX = 1.0;
+        this.hrtScaleY = 1.0;
     }
 
     GetCardsFromDeck(entity) {
@@ -161,7 +164,7 @@ export default class Battle {
             let zoneY = offset + (i * (zoneHeight + zoneOffset));
             let totalValue = 0;
             if (this.plrZones[i].isSelected && this.input.onSection == Input.SECTION.ZONES) {
-                this.ctx.strokeStyle = "#5ba7cf";
+                this.ctx.strokeStyle = "#5dd967";
             } else {
                 this.ctx.strokeStyle = "#ffffff";
             }
@@ -305,16 +308,15 @@ export default class Battle {
         this.ctx.textBaseline = "middle";
         this.ctx.direction = "ltr";
 
-        this.ctx.drawImage(this.plrHrt, offsetX, offsetY + 35, imgWidth, imgHeight);
-        this.ctx.drawImage(this.rvlHrt, this.canvas.width - imgWidth - offsetX, offsetY + 35, imgWidth, imgHeight);
+        this.ctx.drawImage(this.plrHrt, offsetX + (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + 35 + (imgHeight - (imgHeight* this.hrtScaleY)), imgWidth * this.hrtScaleX, imgHeight + this.hrtScaleY);
+        this.ctx.drawImage(this.rvlHrt, this.canvas.width - imgWidth - offsetX - (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + 35 - (imgHeight - (imgHeight* this.hrtScaleY)), imgWidth, imgHeight);
 
         this.ctx.font = "38px Aseprite";
 
-        this.ctx.strokeText(this.plrLife, offsetX + (imgWidth / 2) + 4, offsetY + (imgHeight / 2) + 35);
-        this.ctx.fillText(this.plrLife, offsetX + (imgWidth / 2) + 4, offsetY + (imgHeight / 2) + 35);
-        this.ctx.strokeText(this.rvlLife, this.canvas.width - offsetX - (imgWidth / 2), offsetY + (imgHeight / 2) + 35);
-        this.ctx.fillText(this.rvlLife, this.canvas.width - offsetX - (imgWidth / 2), offsetY + (imgHeight / 2) + 35);
-
+        this.ctx.strokeText(this.plrLife, offsetX + (imgWidth / 2) + 4 + (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + (imgHeight / 2) + 35 + (imgHeight - (imgHeight* this.hrtScaleY)));
+        this.ctx.fillText(this.plrLife, offsetX + (imgWidth / 2) + 4 + (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + (imgHeight / 2) + 35 + (imgHeight - (imgHeight* this.hrtScaleY)));
+        this.ctx.strokeText(this.rvlLife, this.canvas.width - offsetX - (imgWidth / 2) - (imgWidth - (imgWidth * this.hrtScaleX)) / 2 , offsetY + (imgHeight / 2) + 35 - (imgHeight - (imgHeight* this.hrtScaleY)));
+        this.ctx.fillText(this.rvlLife, this.canvas.width - offsetX - (imgWidth / 2) - (imgWidth - (imgWidth * this.hrtScaleX)) / 2 , offsetY + (imgHeight / 2) + 35 - (imgHeight - (imgHeight* this.hrtScaleY)));
         this.ctx.restore();
 
     }
@@ -488,6 +490,14 @@ export default class Battle {
         } else {
             return this.deckSprites.Low;
         }
+    }
+
+    UpdateHearts(dt) {
+        this.hrtTimer += dt * 1.5;
+
+        let breathe = Math.sin(this.hrtTimer) * 0.035;
+        this.hrtScaleY = 1.0 + breathe;
+        this.hrtScaleX = 1.0 - breathe * 0.25;
     }
 
     DrawBackground() {

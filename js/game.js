@@ -59,6 +59,7 @@ export default class Game {
 
     Update(dt) {
         if (this.input.gameState == Input.GAME_STATES.PLAY) {
+            this.battle.UpdateHearts(dt);
             for (let i = 0; i < this.battle.plrZones.length; i++) {
                 for (let j = 0; j < this.battle.plrZones[i].cards.length; j++) {
                     if (this.battle.plrZones[i].cards[j]) {
