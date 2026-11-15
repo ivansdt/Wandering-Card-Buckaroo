@@ -146,7 +146,11 @@ export default class Battle {
             if (hand[i].isSelected) {
                 hand[i].y -= riseOffset;
             }
+            if (hand[i].transparent) {
+                this.ctx.globalAlpha = 0.15;
+            }
             this.ctx.drawImage(hand[i].sprite, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
+            this.ctx.globalAlpha = 1;
         }
     }
 
@@ -308,15 +312,15 @@ export default class Battle {
         this.ctx.textBaseline = "middle";
         this.ctx.direction = "ltr";
 
-        this.ctx.drawImage(this.plrHrt, offsetX + (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + 35 + (imgHeight - (imgHeight* this.hrtScaleY)), imgWidth * this.hrtScaleX, imgHeight + this.hrtScaleY);
-        this.ctx.drawImage(this.rvlHrt, this.canvas.width - imgWidth - offsetX - (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + 35 - (imgHeight - (imgHeight* this.hrtScaleY)), imgWidth, imgHeight);
+        this.ctx.drawImage(this.plrHrt, offsetX + (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + 35 + (imgHeight - (imgHeight * this.hrtScaleY)), imgWidth * this.hrtScaleX, imgHeight + this.hrtScaleY);
+        this.ctx.drawImage(this.rvlHrt, this.canvas.width - imgWidth - offsetX - (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + 35 - (imgHeight - (imgHeight * this.hrtScaleY)), imgWidth, imgHeight);
 
         this.ctx.font = "38px Aseprite";
 
-        this.ctx.strokeText(this.plrLife, offsetX + (imgWidth / 2) + 4 + (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + (imgHeight / 2) + 35 + (imgHeight - (imgHeight* this.hrtScaleY)));
-        this.ctx.fillText(this.plrLife, offsetX + (imgWidth / 2) + 4 + (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + (imgHeight / 2) + 35 + (imgHeight - (imgHeight* this.hrtScaleY)));
-        this.ctx.strokeText(this.rvlLife, this.canvas.width - offsetX - (imgWidth / 2) - (imgWidth - (imgWidth * this.hrtScaleX)) / 2 , offsetY + (imgHeight / 2) + 35 - (imgHeight - (imgHeight* this.hrtScaleY)));
-        this.ctx.fillText(this.rvlLife, this.canvas.width - offsetX - (imgWidth / 2) - (imgWidth - (imgWidth * this.hrtScaleX)) / 2 , offsetY + (imgHeight / 2) + 35 - (imgHeight - (imgHeight* this.hrtScaleY)));
+        this.ctx.strokeText(this.plrLife, offsetX + (imgWidth / 2) + 4 + (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + (imgHeight / 2) + 35 + (imgHeight - (imgHeight * this.hrtScaleY)));
+        this.ctx.fillText(this.plrLife, offsetX + (imgWidth / 2) + 4 + (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + (imgHeight / 2) + 35 + (imgHeight - (imgHeight * this.hrtScaleY)));
+        this.ctx.strokeText(this.rvlLife, this.canvas.width - offsetX - (imgWidth / 2) - (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + (imgHeight / 2) + 35 - (imgHeight - (imgHeight * this.hrtScaleY)));
+        this.ctx.fillText(this.rvlLife, this.canvas.width - offsetX - (imgWidth / 2) - (imgWidth - (imgWidth * this.hrtScaleX)) / 2, offsetY + (imgHeight / 2) + 35 - (imgHeight - (imgHeight * this.hrtScaleY)));
         this.ctx.restore();
 
     }
@@ -571,6 +575,13 @@ export default class Battle {
         this.ctx.restore();
     }
 
+    DrawIndex() {
+        this.ctx.save();
+        this.ctx.fillStyle = "#00000075"
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.restore();
+    }
+
     Draw(dt) {
         this.DrawBackground();
         this.DrawZones();
@@ -584,6 +595,9 @@ export default class Battle {
             if (this.state == Battle.DUEL_STATE.REVEAL) {
                 this.DrawDifference(this.plrScore, this.rvlScore);
             }
+        }
+        if (this.input.onSection == Input.SECTION.INDEX) {
+            this.DrawIndex();
         }
     }
 }

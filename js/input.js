@@ -1,8 +1,11 @@
+import Battle from './battle.js';
+
 export default class Input {
 
     static SECTION = {
         HAND: 0,
-        ZONES: 1
+        ZONES: 1,
+        INDEX: 2,
     }
 
     static GAME_STATES = {
@@ -25,6 +28,7 @@ export default class Input {
         this.gameState = Input.GAME_STATES.TITLE;
         this.onButton;
         this.lastButton;
+        this.lastSection;
     }
 
     /*
@@ -72,6 +76,7 @@ export default class Input {
                     if (e.key == "Enter") {
                         if (battle.isPlrTurn) {
                             if (this.onSection == Input.SECTION.HAND) {
+                                this.lastSection == Input.SECTION.HAND;
                                 this.onSection = Input.SECTION.ZONES;
                                 // console.log("selecting zones");
                             } else if (this.onSection == Input.SECTION.ZONES) {
@@ -84,9 +89,22 @@ export default class Input {
                                     battle.TurnHandler();
                                 }
                                 this.SelectingNode(player.hand);
+                                this.lastSection == Input.SECTION.ZONES;
                                 this.onSection = Input.SECTION.HAND;
                                 // console.log("selecting hand");
                             }
+                        }
+                    }
+
+                    if (e.key == "e" && battle.state == Battle.DUEL_STATE.PLAYING) {
+                        if (this.onSection != Input.SECTION.INDEX) {
+                            console.log("OPENING INDEX");
+                            this.lastSection = this.onSection
+                            this.onSection = Input.SECTION.INDEX;
+                        } else {
+                            console.log("CLOSING INDEX");
+                            this.onSection = this.lastSection
+                            this.lastSection = Input.SECTION.INDEX;
                         }
                     }
 
@@ -120,10 +138,11 @@ export default class Input {
                             // console.log("last node: " + this.lastNode);
                         }
                     } else if (this.onSection == Input.SECTION.ZONES) {
-                        this.SelectingZone(battle.plrZones);
+                        this.SelectingZone(battle.plrZones, game.player.hand);
 
                         if (e.key == "Backspace") {
                             this.onSection = Input.SECTION.HAND;
+                            game.player.hand[this.nodeNumber].transparent = false;
                         }
 
                         if (e.key == "s") {
@@ -133,7 +152,7 @@ export default class Input {
                             } else {
                                 this.zoneNumber = battle.plrZones.length - 1;
                             }
-                            this.SelectingZone(battle.plrZones);
+                            this.SelectingZone(battle.plrZones, game.player.hand);
                             // console.log(this.zoneNumber);
                             // console.log("last zone: " + this.lastZone);
                         }
@@ -145,7 +164,7 @@ export default class Input {
                             } else {
                                 this.zoneNumber = 0;
                             }
-                            this.SelectingZone(battle.plrZones);
+                            this.SelectingZone(battle.plrZones, game.player.hand);
                             // console.log(this.zoneNumber);
                             // console.log("last zone: " + this.lastZone);
                         }
@@ -182,13 +201,19 @@ export default class Input {
         }
     }
 
-    SelectingZone(zones) {
+    SelectingZone(zones, hand) {
         if (zones[this.lastZone]) {
             zones[this.lastZone].isSelected = false;
+            if (this.zoneNumber < 3) {
+                hand[this.nodeNumber].transparent = false;
+            }
         }
 
         if (zones[this.zoneNumber]) {
             zones[this.zoneNumber].isSelected = true;
+            if (this.zoneNumber > 2 && this.nodeNumber <= hand.length / 2 - 1) {
+                hand[this.nodeNumber].transparent = true;
+            }
         }
     }
 

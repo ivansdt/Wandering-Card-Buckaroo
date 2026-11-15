@@ -48,6 +48,7 @@ export default class Card {
         this.multValue = 1;
         this.minusValue = 0;
         this.effects = {};
+        this.transparent = false;
     }
 
     AddParams(genre, type, value, spriteSrc, holoSrc) {
