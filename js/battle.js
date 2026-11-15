@@ -146,11 +146,16 @@ export default class Battle {
             if (hand[i].isSelected) {
                 hand[i].y -= riseOffset;
             }
+            this.ctx.save();
+            this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+            this.ctx.shadowBlur = 8;
+            this.ctx.shadowOffsetX = 0;
+            this.ctx.shadowOffsetY = 0;
             if (hand[i].transparent) {
                 this.ctx.globalAlpha = 0.15;
             }
             this.ctx.drawImage(hand[i].sprite, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
-            this.ctx.globalAlpha = 1;
+            this.ctx.restore();
         }
     }
 

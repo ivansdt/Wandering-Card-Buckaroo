@@ -87,6 +87,8 @@ export default class Input {
                                 }
                                 if (wasPlayed) {
                                     battle.TurnHandler();
+                                } else {
+                                    game.player.hand[this.nodeNumber].transparent = false;
                                 }
                                 this.SelectingNode(player.hand);
                                 this.lastSection == Input.SECTION.ZONES;
