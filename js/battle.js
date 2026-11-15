@@ -45,10 +45,12 @@ export default class Battle {
         this.canvas;
         this.ctx;
         this.state;
+        this.cardIndex = new Image();
         this.bg = new Image();
         this.light = new Image();
         this.plrHrt = new Image();
         this.rvlHrt = new Image();
+        this.cardIndex.src = 'assets/bg/battle-bg/card-background.png';
         this.plrHrt.src = 'assets/misc/heart-p.png';
         this.rvlHrt.src = 'assets/misc/heart-r.png';
         this.bg.src = 'assets/bg/battle-bg/test-bg.png';
@@ -143,16 +145,21 @@ export default class Battle {
             let totalWidth = hand[i].width + ((hand.length - 1) * offsetX);
             hand[i].x = (this.canvas.width / 2) + (i * offsetX) - (totalWidth / 2);
             hand[i].y = this.canvas.height - offsetY;
-            if (hand[i].isSelected) {
-                hand[i].y -= riseOffset;
-            }
             this.ctx.save();
+            this.ctx.strokeStyle = "#65ea50";
+            this.ctx.lineWidth = 5;
             this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
             this.ctx.shadowBlur = 8;
             this.ctx.shadowOffsetX = 0;
             this.ctx.shadowOffsetY = 0;
             if (hand[i].transparent) {
                 this.ctx.globalAlpha = 0.15;
+            }
+            if (hand[i].isSelected) {
+                hand[i].y -= riseOffset;
+                if (this.input.onSection == Input.SECTION.ZONES) {
+                    this.ctx.strokeRect(hand[i].x - 5, hand[i].y - 5, hand[i].width + 10, hand[i].height + 10);
+                }
             }
             this.ctx.drawImage(hand[i].sprite, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
             this.ctx.restore();
@@ -582,8 +589,70 @@ export default class Battle {
 
     DrawIndex() {
         this.ctx.save();
-        this.ctx.fillStyle = "#00000075"
+        this.ctx.fillStyle = "#000000dd"
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.drawImage(this.cardIndex, this.canvas.width / 2 - this.cardIndex.width / 2, this.canvas.height / 2 - this.cardIndex.height / 2);
+        this.ctx.restore();
+    }
+
+    DrawControls() {
+        let offsetX = 6;
+        let offsetY = 6;
+
+        this.ctx.save();
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 1;
+        this.ctx.lineWidth = 3;
+        this.ctx.fillStyle = "#ffffff";
+        this.ctx.strokeStyle = "#000000";
+        this.ctx.font = "bold 14px Aseprite";
+        this.ctx.textAlign = "left";
+        this.ctx.textBaseline = "bottom";
+        this.ctx.direction = "ltr";
+
+        if (this.state == Battle.DUEL_STATE.PLAYING && this.isPlrTurn) {
+            switch (this.input.onSection) {
+                case Input.SECTION.HAND:
+                    this.ctx.strokeText("A/D - Cambiar carta", offsetX, this.canvas.height - offsetY);
+                    this.ctx.fillText("A/D - Cambiar carta", offsetX, this.canvas.height - offsetY);
+                    this.ctx.strokeText("Enter - Elegir carta", offsetX, this.canvas.height - offsetY - 14 - 2);
+                    this.ctx.fillText("Enter - Elegir carta", offsetX, this.canvas.height - offsetY - 14 - 2);
+                    this.ctx.strokeText("R - Terminar turno", offsetX, this.canvas.height - offsetY - 28 - 2);
+                    this.ctx.fillText("R - Terminar turno", offsetX, this.canvas.height - offsetY - 28 - 2);
+                    this.ctx.strokeText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 2);
+                    this.ctx.fillText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 2);
+                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 2);
+                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 2);
+                    break;
+                case Input.SECTION.ZONES:
+                    this.ctx.strokeText("W/S - Cambiar zona", offsetX, this.canvas.height - offsetY);
+                    this.ctx.fillText("W/S - Cambiar zona", offsetX, this.canvas.height - offsetY);
+                    this.ctx.strokeText("Enter - Jugar carta", offsetX, this.canvas.height - offsetY - 14 - 2);
+                    this.ctx.fillText("Enter - Jugar carta", offsetX, this.canvas.height - offsetY - 14 - 2);
+                    this.ctx.strokeText("Retroceso - Cancelar", offsetX, this.canvas.height - offsetY - 28 - 2);
+                    this.ctx.fillText("Retroceso - Cancelar", offsetX, this.canvas.height - offsetY - 28 - 2);
+                    this.ctx.strokeText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 2);
+                    this.ctx.fillText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 2);
+                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 2);
+                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 2);
+                    break;
+                case Input.SECTION.INDEX:
+                    this.ctx.strokeText("A/D - Cambiar carta", offsetX, this.canvas.height - offsetY);
+                    this.ctx.fillText("A/D - Cambiar carta ", offsetX, this.canvas.height - offsetY);
+                    this.ctx.strokeText("E - Cerrar info de carta", offsetX, this.canvas.height - offsetY - 14 - 2);
+                    this.ctx.fillText("E - Cerrar info de carta", offsetX, this.canvas.height - offsetY - 14 - 2);
+                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 28 - 2);
+                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 28 - 2);
+                    break;
+                default:
+                    console.log("invalid section");
+            }
+        } else {
+            this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY);
+            this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY);
+        }
         this.ctx.restore();
     }
 
@@ -604,5 +673,6 @@ export default class Battle {
         if (this.input.onSection == Input.SECTION.INDEX) {
             this.DrawIndex();
         }
+        this.DrawControls();
     }
 }

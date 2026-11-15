@@ -85,6 +85,7 @@ export default class Game {
     Draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         if (this.input.gameState != Input.GAME_STATES.TITLE) {
+            let offset = 150;
             if (this.input.gameState == Input.GAME_STATES.WIN) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
                 this.ctx.fillStyle = 'white';
@@ -92,9 +93,9 @@ export default class Game {
                 this.ctx.direction = "ltr";
                 this.ctx.textAlign = "center";
                 this.ctx.textBaseline = "middle";
-                this.ctx.fillText("VICTORIA", this.canvas.width / 2, this.canvas.height / 3);
+                this.ctx.fillText("VICTORIA", this.canvas.width / 2, offset);
                 this.ctx.font = '30px serif';
-                this.ctx.fillText("Presiona Escape para regresar al menú principal", this.canvas.width / 2 - 280, this.canvas.height / 3 * 2);
+                this.ctx.fillText("Presiona Escape para regresar al menú principal", this.canvas.width / 2, this.canvas.height - offset);
 
             } else if (this.input.gameState == Input.GAME_STATES.LOSE) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
@@ -103,11 +104,10 @@ export default class Game {
                 this.ctx.direction = "ltr";
                 this.ctx.textAlign = "center";
                 this.ctx.textBaseline = "middle";
-                this.ctx.fillText("DERROTA", this.canvas.width / 2, this.canvas.height / 3);
+                this.ctx.fillText("DERROTA", this.canvas.width / 2, offset);
                 this.ctx.font = '30px serif';
-                this.ctx.fillText("Presiona Escape para regresar al menú principal", this.canvas.width / 2 - 280, this.canvas.height / 3 * 2);
+                this.ctx.fillText("Presiona Escape para regresar al menú principal", this.canvas.width / 2, this.canvas.height - offset);
             } else if (this.input.gameState == Input.GAME_STATES.PAUSE) {
-                let offset = 150;
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
                 this.ctx.fillStyle = 'white';
                 this.ctx.font = 'bold 80px serif';

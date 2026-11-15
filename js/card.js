@@ -147,9 +147,11 @@ export default class Card {
                 break;
             case "Milk":
                 ent.counts[this.name]--;
-                thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue -= this.value;
-                thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
-                thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.BOOSTED] = false;
+                if (thisZones.cards[Card.CARD_TYPE.CREATURE]) {
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue -= this.value;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.BOOSTED] = false;
+                }
                 this.RemoveFromZone(thisZone);
                 break;
             default:
@@ -161,7 +163,7 @@ export default class Card {
         switch (this.name) {
             case "Mysterious Stranger":
                 for (let i = 0; i < zones.length; i++) {
-                    if (playedCard.name == this.name && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
+                    if (playedCard.name == "Mysterious Stranger" && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
                         zones[i].cards[Card.CARD_TYPE.CREATURE].minusValue = ent.counts[this.name] - 1;
                         zones[i].cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(zones[i].cards[Card.CARD_TYPE.CREATURE]);
                         if (zones[i].cards[Card.CARD_TYPE.CREATURE].value < 0) {
@@ -208,7 +210,7 @@ export default class Card {
                 this.played = true;
                 break;
             case "Cow-Cowboy":
-                if (playedCard.name == this.name && thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].name == this.name) {
+                if (playedCard.name == "Cow-Cowboy" && thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].name == this.name) {
                     thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue += (ent.counts[this.name] - 1) * 2;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     //zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue + ((ent.counts[this.name] - 1) * 2);

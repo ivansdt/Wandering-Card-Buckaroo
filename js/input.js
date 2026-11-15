@@ -98,7 +98,7 @@ export default class Input {
                         }
                     }
 
-                    if (e.key == "e" && battle.state == Battle.DUEL_STATE.PLAYING) {
+                    if ((e.key == "e" || e.key == "E") && battle.state == Battle.DUEL_STATE.PLAYING) {
                         if (this.onSection != Input.SECTION.INDEX) {
                             console.log("OPENING INDEX");
                             this.lastSection = this.onSection
@@ -111,12 +111,12 @@ export default class Input {
                     }
 
                     if (this.onSection == Input.SECTION.HAND) {
-                        if (e.key == "r") {
+                        if (e.key == "r" || e.key == "R") {
                             this.ResetNode();
                             battle.SkipTurn();
                         }
 
-                        if (e.key == "d") {
+                        if (e.key == "d" || e.key == "D") {
                             if (this.nodeNumber != player.hand.length - 1) {
                                 this.lastNode = this.nodeNumber;
                                 this.nodeNumber += 1;
@@ -128,7 +128,7 @@ export default class Input {
                             // console.log("last node: " + this.lastNode);
                         }
 
-                        if (e.key == "a") {
+                        if (e.key == "a" || e.key == "A") {
                             if (this.nodeNumber > 0) {
                                 this.lastNode = this.nodeNumber;
                                 this.nodeNumber -= 1;
@@ -147,7 +147,7 @@ export default class Input {
                             game.player.hand[this.nodeNumber].transparent = false;
                         }
 
-                        if (e.key == "s") {
+                        if (e.key == "s" || e.key == "S") {
                             if (this.zoneNumber != battle.plrZones.length - 1) {
                                 this.lastZone = this.zoneNumber;
                                 this.zoneNumber += 1;
@@ -159,7 +159,7 @@ export default class Input {
                             // console.log("last zone: " + this.lastZone);
                         }
 
-                        if (e.key == "w") {
+                        if (e.key == "w" || e.key == "W") {
                             if (this.zoneNumber > 0) {
                                 this.lastZone = this.zoneNumber;
                                 this.zoneNumber -= 1;
