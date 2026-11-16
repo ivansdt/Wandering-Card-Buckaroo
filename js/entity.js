@@ -22,7 +22,7 @@ export default class Entity {
           3, // value
           'assets/cards/cow-cowboys/MS-Card.png', // sprite
           'assets/holograms/cow-cowboys/MS-Side.png', // hologram sprite
-          'Prueba\nPrueba' // desc
+          'Pierde 1 de valor por criatura "cowboy" en tu\ncampo.\n \n\nForma vaca: Pierde 2 de ataque. Gana 2 de \nataque por criatura "Vaca" en tu campo. \n\n\n\n𝘍𝘭𝘢𝘷𝘰𝘳' // desc
         )
         break;
 
@@ -33,7 +33,7 @@ export default class Entity {
           2,
           'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
           'assets/holograms/cow-cowboys/Bandit-Leader-Side.png',
-          'Prueba\nPrueba'
+          'Al inicio del turno pon un Goon en tu mano.\n \n\nForma vaca: Al inicio del turno pon un Cow\nGoon en tu mano.\n\n\n\nFlavor'
         )
         break;
 
@@ -44,7 +44,7 @@ export default class Entity {
           3,
           'assets/cards/cow-cowboys/Big-Iron-Card.png',
           'assets/holograms/cow-cowboys/Big-Iron.png',
-          'Prueba\nPrueba'
+          'Otorga 3 de valor a la criatura en esta zona,\ndestruyela al inicio del turno.\n\n\n\n\nFlavor'
         )
         break;
 
@@ -55,7 +55,7 @@ export default class Entity {
           0,
           'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
           'assets/holograms/cow-cowboys/Cheese-Full-Moon.png',
-          'Prueba\nPrueba'
+          'Convierte todas las criaturas "cowboy" en tu \ncampo en su forma "vaca".\n\n\n\nFlavor'
         )
         break;
 
@@ -66,7 +66,7 @@ export default class Entity {
           1,
           'assets/cards/cow-cowboys/Goon-Card.png',
           'assets/holograms/cow-cowboys/Goons-Side.png',
-          'Prueba\nPrueba'
+          'Si no hay criaturas con el nombre "Bandit \nLeader" en tu deck convierte esta criatura en \n "Bandit Leader"\n \n\nForma vaca: pierde 1 de ataque. Al inicio del\nturno otorga una carta de "leche" a tu mano\n\n\n\nFlavor'
         )
         break;
 
@@ -77,7 +77,7 @@ export default class Entity {
           0,
           'assets/cards/cow-cowboys/Cheese-Amulet-Card.png',
           'assets/holograms/cow-cowboys/Cheese-Amulet.png',
-          'Prueba\nPrueba'
+          'Convierte las criaturas "cowboy" \nen esta zona en su forma "vaca".\n\n\n\nFlavor'
         )
         break;
 
@@ -88,7 +88,7 @@ export default class Entity {
           2,
           'assets/cards/cow-cowboys/Sherrif-badge-card.png',
           'assets/holograms/cow-cowboys/Sheriff-Badge.png',
-          'Prueba\nPrueba'
+          'Duplica el ataque de la criaturas en esta zona\n\n\n\nFlavor'
         )
         break;
 
@@ -99,7 +99,7 @@ export default class Entity {
           0,
           'assets/cards/cow-cowboys/Cow-Goon-Card.png',
           'assets/holograms/cow-cowboys/Cow-Goons.png',
-          'Prueba\nPrueba'
+          'Forma vaca: pierde 1 de ataque. Al inicio del\nturno otorga una carta de "leche" a tu mano\n\n\n\nFlavor'
         )
         break;
 
@@ -132,7 +132,7 @@ export default class Entity {
           2,
           'assets/cards/cow-cowboys/Milk-Card.png',
           'assets/holograms/cow-cowboys/Milk.png',
-          'Prueba\nPrueba'
+          'Agrega 2 de ataque a la criatura de esta zona. \nDestruye esta carta.\n\n\n\nFlavor'
         )
         break;
       default:
