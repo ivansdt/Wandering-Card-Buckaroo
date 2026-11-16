@@ -588,10 +588,31 @@ export default class Battle {
     }
 
     DrawIndex() {
+        let offsetX = 35;
+        let textOffset = 50;
+        let descLines = this.player.hand[this.input.nodeNumber].desc.split('\n');
         this.ctx.save();
-        this.ctx.fillStyle = "#000000dd"
+        this.ctx.fillStyle = "#000000";
+        this.ctx.font = "bold 38px Aseprite";
+        this.ctx.textAlign = "left";
+        this.ctx.textBaseline = "top";
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.lineWidth = 3;
+        this.ctx.strokeStyle = "#000000";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = "#ffffff";
         this.ctx.drawImage(this.cardIndex, this.canvas.width / 2 - this.cardIndex.width / 2, this.canvas.height / 2 - this.cardIndex.height / 2);
+        this.ctx.drawImage(this.player.hand[this.input.nodeNumber].sprite, this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2, this.player.hand[this.input.nodeNumber].width * 1.5, this.player.hand[this.input.nodeNumber].height * 1.5);
+        this.ctx.strokeText(this.player.hand[this.input.nodeNumber].name, this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2);
+        this.ctx.fillText(this.player.hand[this.input.nodeNumber].name, this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2);
+        this.ctx.font = "bold 24px Aseprite";
+        for (let i = 0; i < descLines.length; i++) {
+            let lineOffset = 26;
+            this.ctx.strokeText(descLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset + lineOffset * i);
+            this.ctx.fillText(descLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset +  lineOffset * i);
+        }
+        this.ctx.font = "bold 32px Aseprite";
         this.ctx.restore();
     }
 
@@ -639,12 +660,10 @@ export default class Battle {
                     this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 2);
                     break;
                 case Input.SECTION.INDEX:
-                    this.ctx.strokeText("A/D - Cambiar carta", offsetX, this.canvas.height - offsetY);
-                    this.ctx.fillText("A/D - Cambiar carta ", offsetX, this.canvas.height - offsetY);
-                    this.ctx.strokeText("E - Cerrar info de carta", offsetX, this.canvas.height - offsetY - 14 - 2);
-                    this.ctx.fillText("E - Cerrar info de carta", offsetX, this.canvas.height - offsetY - 14 - 2);
-                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 28 - 2);
-                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 28 - 2);
+                    this.ctx.strokeText("E - Cerrar info de carta", offsetX, this.canvas.height - offsetY);
+                    this.ctx.fillText("E - Cerrar info de carta", offsetX, this.canvas.height - offsetY);
+                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 14 - 2);
+                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 14 - 2);
                     break;
                 default:
                     console.log("invalid section");

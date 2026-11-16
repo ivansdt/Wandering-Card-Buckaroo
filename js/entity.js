@@ -21,7 +21,8 @@ export default class Entity {
           Card.CARD_TYPE.CREATURE, // type
           3, // value
           'assets/cards/cow-cowboys/MS-Card.png', // sprite
-          'assets/holograms/cow-cowboys/MS-Side.png' // hologram sprite
+          'assets/holograms/cow-cowboys/MS-Side.png', // hologram sprite
+          'Prueba\nPrueba'
         )
         break;
 
@@ -31,7 +32,8 @@ export default class Entity {
           Card.CARD_TYPE.CREATURE,
           2,
           'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
-          'assets/holograms/cow-cowboys/Bandit-Leader-Side.png'
+          'assets/holograms/cow-cowboys/Bandit-Leader-Side.png',
+          'Prueba\nPrueba'
         )
         break;
 
@@ -41,7 +43,8 @@ export default class Entity {
           Card.CARD_TYPE.OBJECT,
           3,
           'assets/cards/cow-cowboys/Big-Iron-Card.png',
-          'assets/holograms/cow-cowboys/Big-Iron.png'
+          'assets/holograms/cow-cowboys/Big-Iron.png',
+          'Prueba\nPrueba'
         )
         break;
 
@@ -51,7 +54,8 @@ export default class Entity {
           Card.CARD_TYPE.SPELL,
           0,
           'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
-          'assets/holograms/cow-cowboys/Cheese-Full-Moon.png'
+          'assets/holograms/cow-cowboys/Cheese-Full-Moon.png',
+          'Prueba\nPrueba'
         )
         break;
 
@@ -61,7 +65,8 @@ export default class Entity {
           Card.CARD_TYPE.CREATURE,
           1,
           'assets/cards/cow-cowboys/Goon-Card.png',
-          'assets/holograms/cow-cowboys/Goons-Side.png'
+          'assets/holograms/cow-cowboys/Goons-Side.png',
+          'Prueba\nPrueba'
         )
         break;
 
@@ -71,7 +76,8 @@ export default class Entity {
           Card.CARD_TYPE.OBJECT,
           0,
           'assets/cards/cow-cowboys/Cheese-Amulet-Card.png',
-          'assets/holograms/cow-cowboys/Cheese-Amulet.png'
+          'assets/holograms/cow-cowboys/Cheese-Amulet.png',
+          'Prueba\nPrueba'
         )
         break;
 
@@ -81,7 +87,8 @@ export default class Entity {
           Card.CARD_TYPE.OBJECT,
           2,
           'assets/cards/cow-cowboys/Sherrif-badge-card.png',
-          'assets/holograms/cow-cowboys/Sheriff-Badge.png'
+          'assets/holograms/cow-cowboys/Sheriff-Badge.png',
+          'Prueba\nPrueba'
         )
         break;
 
@@ -91,7 +98,8 @@ export default class Entity {
           Card.CARD_TYPE.CREATURE,
           0,
           'assets/cards/cow-cowboys/Cow-Goon-Card.png',
-          'assets/holograms/cow-cowboys/Cow-Goons.png'
+          'assets/holograms/cow-cowboys/Cow-Goons.png',
+          'Prueba\nPrueba'
         )
         break;
 
@@ -101,7 +109,8 @@ export default class Entity {
           Card.CARD_TYPE.CREATURE,
           2,
           'assets/cards/cow-cowboys/Cow-Bandit-Leader-Card.png',
-          'assets/holograms/cow-cowboys/Cow-Leader.png'
+          'assets/holograms/cow-cowboys/Cow-Leader.png',
+          'Prueba\nPrueba'
         )
         break;
 
@@ -111,7 +120,8 @@ export default class Entity {
           Card.CARD_TYPE.CREATURE,
           1,
           'assets/cards/cow-cowboys/Cow-MS-Card.png',
-          'assets/holograms/cow-cowboys/Cow-Stranger.png'
+          'assets/holograms/cow-cowboys/Cow-Stranger.png',
+          'Prueba\nPrueba'
         )
         break;
 
@@ -121,7 +131,8 @@ export default class Entity {
           Card.CARD_TYPE.SPELL,
           2,
           'assets/cards/cow-cowboys/Milk-Card.png',
-          'assets/holograms/cow-cowboys/Milk.png'
+          'assets/holograms/cow-cowboys/Milk.png',
+          'Prueba\nPrueba'
         )
         break;
       default:

@@ -39,7 +39,8 @@ export default class Card {
         this.genre;
         this.type;
         this.played = false;
-        this.state = Card.CARD_STATUS.DECK;
+        // this.state = Card.CARD_STATUS.DECK;
+        this.desc = '';
         this.sprite = new Image();
         this.holo = new Hologram();
         this.initValue;
@@ -51,13 +52,14 @@ export default class Card {
         this.transparent = false;
     }
 
-    AddParams(genre, type, value, spriteSrc, holoSrc) {
+    AddParams(genre, type, value, spriteSrc, holoSrc, desc) {
         this.genre = genre;
         this.type = type;
         this.initValue = value
         this.value = this.initValue;
         this.sprite.src = spriteSrc;
         this.holo.sprite.src = holoSrc;
+        this.desc = desc;
     }
 
     RemoveFromZone(zone) {
