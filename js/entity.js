@@ -22,7 +22,7 @@ export default class Entity {
           3, // value
           'assets/cards/cow-cowboys/MS-Card.png', // sprite
           'assets/holograms/cow-cowboys/MS-Side.png', // hologram sprite
-          'Prueba\nPrueba'
+          'Prueba\nPrueba' // desc
         )
         break;
 
