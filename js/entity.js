@@ -167,7 +167,8 @@ export default class Entity {
         }
         for (let i = 0; i < zones[zoneIndex].cards.length; i++) {
           if (zones[zoneIndex].cards[i]) {
-            console.log("trying effect on zone " + zoneIndex);
+            console.log("trying effect on zone " + zoneIndex +  " (played card: " + card.name + ")");
+            //console.log(card);
             zones[zoneIndex].cards[i].PlayEffect(this, card, zones, zones[zoneIndex]);
           }
         }

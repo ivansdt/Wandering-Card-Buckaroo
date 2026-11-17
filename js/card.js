@@ -193,6 +193,7 @@ export default class Card {
             case "Cheese Moon":
                 for (let i = 0; i < zones.length; i++) {
                     if (!this.played && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS) {
+                        console.log(zones[i].cards[Card.CARD_TYPE.CREATURE].name);
                         switch (zones[i].cards[Card.CARD_TYPE.CREATURE].name) {
                             case "Mysterious Stranger":
                                 zones[i].cards[Card.CARD_TYPE.CREATURE].minusValue = 0;
@@ -207,12 +208,12 @@ export default class Card {
                                 zones[i].cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, zones[i].cards[Card.CARD_TYPE.CREATURE], zones, zones[i]);
                                 break;
                             default:
-                                console.log("invalid cowboy creature");
+                            //console.log("invalid cowboy creature");
                         }
                     }
                 }
                 for (let i = 0; i < zones.length; i++) {
-                    if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == "Cow-Cowboy") {
+                    if (!this.played && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == "Cow-Cowboy") {
                         zones[i].cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, zones[i].cards[Card.CARD_TYPE.CREATURE], zones, zones[i]);
                     }
                 }
@@ -222,6 +223,7 @@ export default class Card {
                 if (playedCard.name == "Cow-Cowboy" && thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].name == this.name) {
                     thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue += (ent.counts[this.name] - 1) * 2;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
+                    console.log("(" + zones.indexOf(thisZone) + ") CCB NOW " + thisZone.cards[Card.CARD_TYPE.CREATURE].value);
                     //zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue + ((ent.counts[this.name] - 1) * 2);
                     //zones[i].cards[Card.CARD_TYPE.CREATURE].value *= zones[i].cards[Card.CARD_TYPE.CREATURE].multValue;
                 }
