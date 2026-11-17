@@ -606,7 +606,7 @@ export default class Battle {
         this.ctx.drawImage(this.player.hand[this.input.nodeNumber].sprite, this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2, this.player.hand[this.input.nodeNumber].width * 1.5, this.player.hand[this.input.nodeNumber].height * 1.5);
         this.ctx.strokeText(this.player.hand[this.input.nodeNumber].name, this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2);
         this.ctx.fillText(this.player.hand[this.input.nodeNumber].name, this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2);
-        this.ctx.font = "bold 24px Aseprite";
+        this.ctx.font = "24px Aseprite";
         for (let i = 0; i < descLines.length; i++) {
             let lineOffset = 26;
             this.ctx.strokeText(descLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset + lineOffset * i);
@@ -628,7 +628,7 @@ export default class Battle {
         this.ctx.lineWidth = 3;
         this.ctx.fillStyle = "#ffffff";
         this.ctx.strokeStyle = "#000000";
-        this.ctx.font = "bold 14px Aseprite";
+        this.ctx.font = "14px Aseprite";
         this.ctx.textAlign = "left";
         this.ctx.textBaseline = "bottom";
         this.ctx.direction = "ltr";

@@ -84,39 +84,44 @@ export default class Game {
 
     Draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.save();
+        let offset = 150;
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.strokeStyle = "#000000";
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 1;
+        this.ctx.lineWidth = 5;
+        this.ctx.direction = "ltr";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
+        this.ctx.font = 'bold 80px Aseprite'
         if (this.input.gameState != Input.GAME_STATES.TITLE) {
-            let offset = 150;
             if (this.input.gameState == Input.GAME_STATES.WIN) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
-                this.ctx.fillStyle = 'white';
-                this.ctx.font = 'bold 80px serif';
-                this.ctx.direction = "ltr";
-                this.ctx.textAlign = "center";
-                this.ctx.textBaseline = "middle";
+                this.ctx.strokeText("VICTORIA", this.canvas.width / 2, offset);
                 this.ctx.fillText("VICTORIA", this.canvas.width / 2, offset);
-                this.ctx.font = '30px serif';
+                this.ctx.font = '30px Aseprite';
+                this.ctx.lineWidth = 4;
+                this.ctx.strokeText("Presiona Escape para regresar al menú principal", this.canvas.width / 2, this.canvas.height - offset);
                 this.ctx.fillText("Presiona Escape para regresar al menú principal", this.canvas.width / 2, this.canvas.height - offset);
 
             } else if (this.input.gameState == Input.GAME_STATES.LOSE) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
-                this.ctx.fillStyle = 'white';
-                this.ctx.font = 'bold 80px serif';
-                this.ctx.direction = "ltr";
-                this.ctx.textAlign = "center";
-                this.ctx.textBaseline = "middle";
+                this.ctx.strokeText("DERROTA", this.canvas.width / 2, offset);
                 this.ctx.fillText("DERROTA", this.canvas.width / 2, offset);
-                this.ctx.font = '30px serif';
+                this.ctx.font = '30px Aseprite';
+                this.ctx.lineWidth = 4;
+                this.ctx.strokeText("Presiona Escape para regresar al menú principal", this.canvas.width / 2, this.canvas.height - offset);
                 this.ctx.fillText("Presiona Escape para regresar al menú principal", this.canvas.width / 2, this.canvas.height - offset);
             } else if (this.input.gameState == Input.GAME_STATES.PAUSE) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
-                this.ctx.fillStyle = 'white';
-                this.ctx.font = 'bold 80px serif';
-                this.ctx.direction = "ltr";
-                this.ctx.textAlign = "center";
-                this.ctx.textBaseline = "middle";
-                this.ctx.fillText("PAUSADO", this.canvas.width / 2, offset);
-                this.ctx.font = '40px serif';
-                this.ctx.fillText("Presiona Escape para regresar", this.canvas.width / 2, this.canvas.height - offset - 70);
+                this.ctx.strokeText("PAUSA", this.canvas.width / 2, offset);
+                this.ctx.fillText("PAUSA", this.canvas.width / 2, offset);
+                this.ctx.font = '40px Aseprite';
+                this.ctx.lineWidth = 4;
+                this.ctx.strokeText("Presiona Escape para regresar", this.canvas.width / 2, this.canvas.height - offset - 70);
                 this.ctx.fillText("Presiona R para reiniciar el juego", this.canvas.width / 2, this.canvas.height - offset);
             } else {
                 this.battle.Draw();
@@ -127,13 +132,16 @@ export default class Game {
             this.ctx.drawImage(this.logo, this.canvas.width / 2 - 455 / 2, 50, 455, 270);
             this.playButton.Draw(this.canvas, this.ctx);
             // this.creditsButton.Draw(this.canvas, this.ctx);
-            this.ctx.fillStyle = "#ffffff";
-            this.ctx.font = "20px serif";
+            this.ctx.lineWidth = 3;
+            this.ctx.font = "14px Aseprite";
             this.ctx.direction = "ltr";
-            // this.ctx.fillText('W - Mover hacia arriba', 10, this.canvas.height - 70);
+            this.ctx.textAlign = "left";
+            this.ctx.textBaseline = "bottom";
             // this.ctx.fillText('S - Mover hacia abajo', 10, this.canvas.height - 40);
-            this.ctx.fillText('ENTER - Seleccionar', 10, this.canvas.height - 10);
+            this.ctx.strokeText('Enter - Seleccionar', 6, this.canvas.height - 6);
+            this.ctx.fillText('Enter - Seleccionar', 6, this.canvas.height - 6);
         }
+        this.ctx.restore();
     }
 
     Loop(currentTime) {

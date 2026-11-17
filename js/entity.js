@@ -22,7 +22,7 @@ export default class Entity {
           3, // value
           'assets/cards/cow-cowboys/MS-Card.png', // sprite
           'assets/holograms/cow-cowboys/MS-Side.png', // hologram sprite
-          'Pierde 1 de valor por criatura "cowboy" en tu\ncampo.\n \n\nForma vaca: Pierde 2 de ataque. Gana 2 de \nataque por criatura "Vaca" en tu campo. \n\n\n\n𝘍𝘭𝘢𝘷𝘰𝘳' // desc
+          'Pierde 1 de valor por criatura\n"cowboy" en tu campo. \n\nForma vaca: Pierde 2 de ataque.\nGana 2 de ataque por criatura\n"Vaca" en tu campo.\n\n\nFlavor' // desc
         )
         break;
 
@@ -33,7 +33,7 @@ export default class Entity {
           2,
           'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
           'assets/holograms/cow-cowboys/Bandit-Leader-Side.png',
-          'Al inicio del turno pon un Goon en tu mano.\n \n\nForma vaca: Al inicio del turno pon un Cow\nGoon en tu mano.\n\n\n\nFlavor'
+          'Al inicio del turno pon un Goon en\ntu mano.\n\nForma vaca: Al inicio del turno,  pon\nun Cow Goon en tu mano.\n\n\n\nFlavor'
         )
         break;
 
@@ -44,7 +44,7 @@ export default class Entity {
           3,
           'assets/cards/cow-cowboys/Big-Iron-Card.png',
           'assets/holograms/cow-cowboys/Big-Iron.png',
-          'Otorga 3 de valor a la criatura en esta zona,\ndestruyela al inicio del turno.\n\n\n\n\nFlavor'
+          'Otorga 3 de valor a la criatura\nen esta zona, pero esta se destruye\nal inicio del turno.\n\n\n\nFlavor'
         )
         break;
 
@@ -55,7 +55,7 @@ export default class Entity {
           0,
           'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
           'assets/holograms/cow-cowboys/Cheese-Full-Moon.png',
-          'Convierte todas las criaturas "cowboy" en tu \ncampo en su forma "vaca".\n\n\n\nFlavor'
+          'Convierte todas las criaturas\n"cowboy" en tu campo en su forma\n"vaca".\n\n\nFlavor'
         )
         break;
 
@@ -88,7 +88,7 @@ export default class Entity {
           2,
           'assets/cards/cow-cowboys/Sherrif-badge-card.png',
           'assets/holograms/cow-cowboys/Sheriff-Badge.png',
-          'Duplica el ataque de la criaturas en esta zona\n\n\n\nFlavor'
+          'Duplica el ataque de la criaturas en\nesta zona\n\n\nFlavor'
         )
         break;
 
