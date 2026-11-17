@@ -149,7 +149,7 @@ export default class Card {
                 break;
             case "Milk":
                 ent.counts[this.name]--;
-                if (thisZones.cards[Card.CARD_TYPE.CREATURE]) {
+                if (thisZone.cards[Card.CARD_TYPE.CREATURE]) {
                     thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue -= this.value;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.BOOSTED] = false;

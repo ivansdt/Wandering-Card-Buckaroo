@@ -610,7 +610,7 @@ export default class Battle {
         for (let i = 0; i < descLines.length; i++) {
             let lineOffset = 26;
             this.ctx.strokeText(descLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset + lineOffset * i);
-            this.ctx.fillText(descLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset +  lineOffset * i);
+            this.ctx.fillText(descLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset + lineOffset * i);
         }
         this.ctx.font = "bold 32px Aseprite";
         this.ctx.restore();
@@ -678,10 +678,10 @@ export default class Battle {
     Draw(dt) {
         this.DrawBackground();
         this.DrawZones();
+        this.DrawDeckAndGraveyard();
         this.DrawLight();
         this.DrawHand(this.player.hand, dt);
         this.DrawHP();
-        this.DrawDeckAndGraveyard();
         if (this.state == Battle.DUEL_STATE.CALC || this.state == Battle.DUEL_STATE.REVEAL) {
             this.DrawTotalScore(this.plrScore, this.player);
             this.DrawTotalScore(this.rvlScore, this.rival);
