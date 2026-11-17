@@ -115,7 +115,13 @@ export default class Card {
                     this.RemoveFromZone(thisZone);
                 } else {
                     if (!ent.counts["Bandit Leader"] || ent.counts["Bandit Leader"] == 0) {
-                        this.ReplaceCard(ent, thisZone, this, "Bandit Leader");
+                        for (let i = 0; i < ent.deck.length; i++) {
+                            if (ent.deck[i].name == "Bandit Leader") {
+                                break;
+                            } else {
+                                this.ReplaceCard(ent, thisZone, this, "Bandit Leader");
+                            }
+                        }
                     }
                 }
                 break;
