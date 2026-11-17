@@ -115,7 +115,14 @@ export default class Card {
                     this.RemoveFromZone(thisZone);
                 } else {
                     if (!ent.counts["Bandit Leader"] || ent.counts["Bandit Leader"] == 0) {
-                        this.ReplaceCard(ent, thisZone, this, "Bandit Leader");
+                        for (let i = 0; i < ent.deck.length; i++) {
+                            if (ent.deck[i].name == "Bandit Leader") {
+                                break;
+                            } else {
+                                this.ReplaceCard(ent, thisZone, this, "Bandit Leader");
+                                thisZone.cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, thisZone.cards[Card.CARD_TYPE.CREATURE], zones, thisZone);
+                            }
+                        }
                     }
                 }
                 break;
@@ -149,7 +156,7 @@ export default class Card {
                 break;
             case "Milk":
                 ent.counts[this.name]--;
-                if (thisZones.cards[Card.CARD_TYPE.CREATURE]) {
+                if (thisZone.cards[Card.CARD_TYPE.CREATURE]) {
                     thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue -= this.value;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.BOOSTED] = false;
@@ -242,6 +249,7 @@ export default class Card {
                         case "Mysterious Stranger":
                             thisZone.cards[Card.CARD_TYPE.CREATURE].minusValue = 0;
                             this.ReplaceCard(ent, thisZone, thisZone.cards[Card.CARD_TYPE.CREATURE], "Cow-Cowboy")
+                            thisZone.cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, thisZone.cards[Card.CARD_TYPE.CREATURE], zones, thisZone);
                             break;
                         case "Bandit Leader":
                             this.ReplaceCard(ent, thisZone, thisZone.cards[Card.CARD_TYPE.CREATURE], "Herd Leader")
