@@ -32,24 +32,9 @@ export default class Game {
         this.battle = new Battle(this.player, this.rival, this.input);
 
         const deck = [
-            "Mysterious Stranger",
-            "Mysterious Stranger",
-            "Mysterious Stranger",
-            "Bandit Leader",
-            "Bandit Leader",
-            "Bandit Leader",
-            "Big Iron",
-            "Big Iron",
-            "Big Iron",
-            "Cheese Moon",
-            "Cheese Moon",
-            "Cheese Moon",
-            "Sheriff Badge",
-            "Sheriff Badge",
-            "Sheriff Badge",
-            "Cheese Amulet",
-            "Cheese Amulet",
-            "Cheese Amulet",
+            "Goon",
+            "Cow Goon",
+            "Milk",
         ];
 
         this.player.CreateDeck(deck);
