@@ -69,14 +69,14 @@ export default class Card {
     ReplaceCard(ent, zone, card, targetCardName) {
         ent.counts[card.name]--;
         let bonusVal = zone.cards[card.type].bonusValues;
-        let minusVal = zone.cards[card.type].minusValue;
-        let multVal = zone.cards[card.type].multValue;
+        let minusVal = zone.cards[card.type].minusValues;
+        let multVal = zone.cards[card.type].multValues;
         let oldEffects = zone.cards[card.type].effects;
         zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName));
         zone.cards[card.type].effects = oldEffects
         zone.cards[card.type].bonusValues = bonusVal;
-        zone.cards[card.type].minusValue = minusVal;
-        zone.cards[card.type].multValue = multVal;
+        zone.cards[card.type].minusValues = minusVal;
+        zone.cards[card.type].multValues = multVal;
         ent.AddCardCount(zone.cards[card.type]);
     }
 
@@ -233,7 +233,7 @@ export default class Card {
                 break;
             case "Cow-Cowboy":
                 if (playedCard.name == "Cow-Cowboy" && thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].name == this.name) {
-                    console.log("(" + zones.indexOf(thisZone) + ") DOING CCB EFFECT (FROM " + thisZone.cards[Card.CARD_TYPE.CREATURE].value);
+                    console.log("(" + zones.indexOf(thisZone) + ") DOING CCB EFFECT (FROM " + thisZone.cards[Card.CARD_TYPE.CREATURE].value + ")");
                     thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValues["Cow-Cowboy"] = (ent.counts[this.name] - 1) * 2;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     console.log("(" + zones.indexOf(thisZone) + ") CCB NOW " + thisZone.cards[Card.CARD_TYPE.CREATURE].value);
@@ -243,7 +243,7 @@ export default class Card {
                 break;
             case "Milk":
                 if (thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.BOOSTED]) {
-                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValues["Milk"] += this.value;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValues["Milk"] = this.value;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     //thisZone.cards[Card.CARD_TYPE.CREATURE].value = thisZone.cards[Card.CARD_TYPE.CREATURE].initValue + thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue;
                     //thisZone.cards[Card.CARD_TYPE.CREATURE].value *= thisZone.cards[Card.CARD_TYPE.CREATURE].multValue;
@@ -276,6 +276,17 @@ export default class Card {
                             break;
                         default:
                             console.log("invalid cowboy creature");
+                    }
+                    for (let i = 0; i < zones.length; i++) {
+                        if (!this.played && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == "Cow-Cowboy") {
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, zones[i].cards[Card.CARD_TYPE.CREATURE], zones, zones[i]);
+                        }
+                    }
+                    for (let i = 0; i < zones.length; i++) {
+                        if (!this.played && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == "Mysterious Stranger") {
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].minusValues["Mysterious Stranger"]--;
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(zones[i].cards[Card.CARD_TYPE.CREATURE]);
+                        }
                     }
                 }
                 break;
