@@ -475,7 +475,7 @@ export default class Battle {
         if (!this.isPlrTurn) {
             for (let i = 0; i < 3; i++) {
                 await delay(1000);
-                let wasPlayed = this.rival.PlayRandomCard(this);
+                let wasPlayed = this.rival.PlayBanditLeaderStrat(this);
                 if (!wasPlayed) {
                     break;
                 }

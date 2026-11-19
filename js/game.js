@@ -63,6 +63,7 @@ export default class Game {
             "Cheese Amulet",
             "Cheese Amulet",
             "Cheese Amulet",
+            //"Cheese Moon",
         ];
 
 
