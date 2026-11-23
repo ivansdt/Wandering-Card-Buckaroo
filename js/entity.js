@@ -30,7 +30,7 @@ export default class Entity {
           3, // value
           'assets/cards/cow-cowboys/MS-Card.png', // sprite
           'assets/holograms/cow-cowboys/MS-Side.png', // hologram sprite
-          'Pierde 1 de valor por criatura\n"cowboy" en tu campo. \n\nForma vaca: Pierde 2 de ataque.\nGana 2 de ataque por criatura\n"Vaca" en tu campo.\n\nFlavor' // desc
+          'Pierde 1 de valor por criatura\n"cowboy" en tu campo. \n\nForma vaca: Pierde 2 de ataque.\nGana 2 de ataque por criatura\n"Mysterious stranger" en forma \nvaca en tu campo.\n\nFlavor' // desc
         )
         break;
 
