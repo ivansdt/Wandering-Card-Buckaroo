@@ -30,7 +30,8 @@ export default class Entity {
           3, // value
           'assets/cards/cow-cowboys/MS-Card.png', // sprite
           'assets/holograms/cow-cowboys/MS-Side.png', // hologram sprite
-          'Pierde 1 de valor por criatura\n"cowboy" en tu campo. \n\nForma vaca: Pierde 2 de ataque.\nGana 2 de ataque por criatura\n"Mysterious stranger" en forma \nvaca en tu campo.\n\n"Un extraño trotamundos, maldito por la luna de queso."' // desc
+          'Pierde 1 de valor por criatura\n"cowboy" en tu campo. \n\nForma vaca: Pierde 2 de ataque.\nGana 2 de ataque por criatura\n"Mysterious stranger" en forma \nvaca en tu campo.',
+          'Un misterioso trotamundos,  maldito\npor la luna de queso.' // flavor
         )
         break;
 
@@ -41,7 +42,8 @@ export default class Entity {
           2,
           'assets/cards/cow-cowboys/Bandit-Leader-Card.png',
           'assets/holograms/cow-cowboys/Bandit-Leader-Side.png',
-          'Al inicio del turno pon un Goon en\ntu mano.\n\nForma vaca: Al inicio del turno,  pon\nun Cow Goon en tu mano.\n\n"Un peligroso bandido, que lidera su grupo en busca de venganza contra los señores del queso."'
+          'Al inicio del turno pon un Goon en\ntu mano.\n\nForma vaca: Al inicio del turno,  pon\nun Cow Goon en tu mano.',
+          'Un peligroso bandido, que lidera su grupo\nen busca de venganza contra los lords\ndel queso.'
         )
         break;
 
@@ -49,10 +51,11 @@ export default class Entity {
         newCard.AddParams(
           Card.CARD_GENRE.COW_COWBOYS,
           Card.CARD_TYPE.OBJECT,
-          3,
+          5,
           'assets/cards/cow-cowboys/Big-Iron-Card.png',
           'assets/holograms/cow-cowboys/Big-Iron.png',
-          'Otorga 3 de valor a la criatura\nen esta zona, pero esta se destruye\nal inicio del turno.\n\n"Una arma demasaido grande para empuñar normalmente. Su retroceso es tal que mata a cualquier ser tan valiente para usarlo.'
+          'Otorga 3 de valor a la criatura\nen esta zona, pero esta se destruye\nal inicio del turno.',
+          'Una arma demasaido grande para sostener\nnormalmente. Su retroceso es tal que mata a\ncualquier ser tan valiente para usarlo.'
         )
         break;
 
@@ -63,7 +66,8 @@ export default class Entity {
           0,
           'assets/cards/cow-cowboys/Cheese-Full-Moon-Card.png',
           'assets/holograms/cow-cowboys/Cheese-Full-Moon.png',
-          'Convierte todas las criaturas\n"cowboy" en tu campo en su forma\n"vaca".\n\n"Los señores del queso hartados por la codicia del este, impusieron la maldicion de la luna sobre sus habitantes, solo aquellos con la mayor voluntad pueden resistirla.'
+          'Convierte todas las criaturas\n"cowboy" en tu campo en su forma\n"vaca".',
+          'Los lords del queso hartados por la codicia\ndel este,  impusieron la maldicion de la luna\nsobre sus habitantes,  solo aquellos con la\nmayor voluntad pueden resistirla.'
         )
         break;
 
@@ -74,7 +78,8 @@ export default class Entity {
           1,
           'assets/cards/cow-cowboys/Goon-Card.png',
           'assets/holograms/cow-cowboys/Goons-Side.png',
-          'Si no hay criaturas de "Bandit\nLeader" en tu deck convierte esta\ncriatura en "Bandit Leader"\n\nForma vaca: Pierde 1 de ataque.\nAl inicio del turno otorga un hechizo\nde "Milk" a tu mano\n\n"Un matón tipico. Esta aqui por la compañia y el dinero.'
+          'Si no hay criaturas de "Bandit\nLeader" en tu deck convierte esta\ncriatura en "Bandit Leader"\n\nForma vaca: Pierde 1 de ataque.\nAl inicio del turno otorga un hechizo\nde "Milk" a tu mano',
+          'Un gamberro tipico. Esta aqui por las\namistades y el dinero.'
         )
         break;
 
@@ -85,7 +90,8 @@ export default class Entity {
           0,
           'assets/cards/cow-cowboys/Cheese-Amulet-Card.png',
           'assets/holograms/cow-cowboys/Cheese-Amulet.png',
-          'Convierte las criaturas "cowboy" \nen esta zona en su forma "vaca".\n\n"Un amuleto capaz de replicar los efectos de la luna de queso a voluntad".'
+          'Convierte las criaturas "cowboy" \nen esta zona en su forma "vaca".',
+          'Un amuleto capaz de replicar los efectos\nde la luna de queso a voluntad.'
         )
         break;
 
@@ -96,7 +102,8 @@ export default class Entity {
           2,
           'assets/cards/cow-cowboys/Sherrif-badge-card.png',
           'assets/holograms/cow-cowboys/Sheriff-Badge.png',
-          'Duplica el ataque de la criaturas en\nesta zona\n\n"Una medalla que en los viejos tiempos representaba la ley. Hoy en dia solo duplica el ataque"'
+          'Duplica el ataque de la criaturas en\nesta zona',
+          'Una medalla que en los viejos tiempos\nrepresentaba la ley.\nHoy en dia solo duplica el ataque.'
         )
         break;
 
@@ -107,7 +114,8 @@ export default class Entity {
           0,
           'assets/cards/cow-cowboys/Cow-Goon-Card.png',
           'assets/holograms/cow-cowboys/Cow-Goons.png',
-          'Forma vaca: pierde 1 de ataque.\n\nAl inicio del turno otorga una carta\nde "Milk"a tu mano.\n\n"Una vaca normal. Extrañamente tiene sombreros familiares'
+          'Forma vaca: pierde 1 de ataque.\n\nAl inicio del turno otorga una carta\nde "Milk"a tu mano.',
+          'Un duo de vacas normales.\nCuriosamente tienen sombreros familiares.'
         )
         break;
 
@@ -118,7 +126,8 @@ export default class Entity {
           2,
           'assets/cards/cow-cowboys/Cow-Bandit-Leader-Card.png',
           'assets/holograms/cow-cowboys/Cow-Leader.png',
-          'Prueba\nPrueba'
+          'Prueba\nPrueba',
+          'Flavor'
         )
         break;
 
@@ -129,7 +138,8 @@ export default class Entity {
           1,
           'assets/cards/cow-cowboys/Cow-MS-Card.png',
           'assets/holograms/cow-cowboys/Cow-Stranger.png',
-          'Prueba\nPrueba'
+          'Prueba\nPrueba',
+          'Flavor'
         )
         break;
 
@@ -140,7 +150,8 @@ export default class Entity {
           2,
           'assets/cards/cow-cowboys/Milk-Card.png',
           'assets/holograms/cow-cowboys/Milk.png',
-          'Agrega 2 de ataque a la criatura\nde esta zona. \n\nAl inicio del turno,  se destruye\nesta carta.\n\n"Te hace crecer grande y fuerte (este mensaje fue promocionado por lala)"'
+          'Agrega 2 de ataque a la criatura\nde esta zona. \n\nAl inicio del turno,  se destruye\nesta carta.',
+          'Te hace crecer grande y fuerte\n(Este mensaje fue promocionado por LaLe)'
         )
         break;
       default:
