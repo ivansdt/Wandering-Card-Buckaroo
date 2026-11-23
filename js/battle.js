@@ -310,8 +310,8 @@ export default class Battle {
         this.ctx.textBaseline = "top";
         this.ctx.direction = "ltr";
 
-        this.ctx.strokeText("Player", offsetX, offsetY);
-        this.ctx.fillText("Player", offsetX, offsetY);
+        this.ctx.strokeText("Jugador", offsetX, offsetY);
+        this.ctx.fillText("Jugador", offsetX, offsetY);
 
         this.ctx.textAlign = "right";
         this.ctx.textBaseline = "top";
@@ -475,7 +475,7 @@ export default class Battle {
         if (!this.isPlrTurn) {
             for (let i = 0; i < 3; i++) {
                 await delay(1000);
-                let wasPlayed = this.rival.PlayRandomCard(this);
+                let wasPlayed = this.rival.PlayBanditLeaderStrat(this);
                 if (!wasPlayed) {
                     break;
                 }

@@ -31,7 +31,7 @@ export default class Game {
         this.rival = new Rival("Mouse");
         this.battle = new Battle(this.player, this.rival, this.input);
 
-        const deck = [
+        const plrDeck = [
             "Mysterious Stranger",
             "Mysterious Stranger",
             "Mysterious Stranger",
@@ -52,8 +52,23 @@ export default class Game {
             "Cheese Amulet",
         ];
 
-        this.player.CreateDeck(deck);
-        this.rival.CreateDeck(deck);
+        const rvlDeck = [
+            "Bandit Leader",
+            "Bandit Leader",
+            "Bandit Leader",
+            "Bandit Leader",
+            "Sheriff Badge",
+            "Sheriff Badge",
+            "Sheriff Badge",
+            "Cheese Amulet",
+            "Cheese Amulet",
+            "Cheese Amulet",
+            //"Cheese Moon",
+        ];
+
+
+        this.player.CreateDeck(plrDeck);
+        this.rival.CreateDeck(rvlDeck);
         this.battle.StartBattle(this.canvas, this.ctx);
     }
 
@@ -104,8 +119,8 @@ export default class Game {
                 this.ctx.fillText("VICTORIA", this.canvas.width / 2, offset);
                 this.ctx.font = '30px Aseprite';
                 this.ctx.lineWidth = 4;
-                this.ctx.strokeText("Presiona Escape para regresar al menú principal", this.canvas.width / 2, this.canvas.height - offset);
-                this.ctx.fillText("Presiona Escape para regresar al menú principal", this.canvas.width / 2, this.canvas.height - offset);
+                this.ctx.strokeText("Presiona Escape para regresar al menu principal", this.canvas.width / 2, this.canvas.height - offset);
+                this.ctx.fillText("Presiona Escape para regresar al menu principal", this.canvas.width / 2, this.canvas.height - offset);
 
             } else if (this.input.gameState == Input.GAME_STATES.LOSE) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
@@ -113,8 +128,8 @@ export default class Game {
                 this.ctx.fillText("DERROTA", this.canvas.width / 2, offset);
                 this.ctx.font = '30px Aseprite';
                 this.ctx.lineWidth = 4;
-                this.ctx.strokeText("Presiona Escape para regresar al menú principal", this.canvas.width / 2, this.canvas.height - offset);
-                this.ctx.fillText("Presiona Escape para regresar al menú principal", this.canvas.width / 2, this.canvas.height - offset);
+                this.ctx.strokeText("Presiona Escape para regresar al menu principal", this.canvas.width / 2, this.canvas.height - offset);
+                this.ctx.fillText("Presiona Escape para regresar al menu principal", this.canvas.width / 2, this.canvas.height - offset);
             } else if (this.input.gameState == Input.GAME_STATES.PAUSE) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
                 this.ctx.strokeText("PAUSA", this.canvas.width / 2, offset);
@@ -122,6 +137,8 @@ export default class Game {
                 this.ctx.font = '40px Aseprite';
                 this.ctx.lineWidth = 4;
                 this.ctx.strokeText("Presiona Escape para regresar", this.canvas.width / 2, this.canvas.height - offset - 70);
+                this.ctx.fillText("Presiona Escape para regresar", this.canvas.width / 2, this.canvas.height - offset - 70);
+                this.ctx.strokeText("Presiona R para reiniciar el juego", this.canvas.width / 2, this.canvas.height - offset);
                 this.ctx.fillText("Presiona R para reiniciar el juego", this.canvas.width / 2, this.canvas.height - offset);
             } else {
                 this.battle.Draw();

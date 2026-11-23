@@ -45,9 +45,9 @@ export default class Card {
         this.holo = new Hologram();
         this.initValue;
         this.value;
-        this.bonusValue = 0;
-        this.multValue = 1;
-        this.minusValue = 0;
+        this.bonusValues = {}
+        this.minusValues = {}
+        this.multValues = { "Default": 1 };
         this.effects = {};
         this.transparent = false;
     }
@@ -68,22 +68,34 @@ export default class Card {
 
     ReplaceCard(ent, zone, card, targetCardName) {
         ent.counts[card.name]--;
-        let bonusVal = zone.cards[card.type].bonusValue;
-        let minusVal = zone.cards[card.type].minusValue;
-        let multVal = zone.cards[card.type].multValue;
+        let bonusVal = zone.cards[card.type].bonusValues;
+        let minusVal = zone.cards[card.type].minusValues;
+        let multVal = zone.cards[card.type].multValues;
         let oldEffects = zone.cards[card.type].effects;
         zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName));
         zone.cards[card.type].effects = oldEffects
-        zone.cards[card.type].bonusValue = bonusVal;
-        zone.cards[card.type].minusValue = minusVal;
-        zone.cards[card.type].multValue = multVal;
+        zone.cards[card.type].bonusValues = bonusVal;
+        zone.cards[card.type].minusValues = minusVal;
+        zone.cards[card.type].multValues = multVal;
         ent.AddCardCount(zone.cards[card.type]);
     }
 
     DoCardMath(card) {
         //console.log("math for " + card.name + ":")
         //console.log(card.initValue +  " + " + card.bonusValue + " - " + card.minusValue + " * " + card.multValue)
-        let finalValue = (card.initValue + card.bonusValue - card.minusValue) * card.multValue;
+        let bonusValue = 0;
+        for (const bonusName in card.bonusValues) {
+            bonusValue += card.bonusValues[bonusName];
+        }
+        let minusValue = 0;
+        for (const minusName in card.minusValues) {
+            minusValue += card.minusValues[minusName];
+        }
+        let multValue = this.multValues["Default"];
+        for (const multName in card.multValues) {
+            multValue *= card.multValues[multName];
+        }
+        let finalValue = (card.initValue + bonusValue - minusValue) * multValue;
         return finalValue
     }
 
@@ -94,7 +106,7 @@ export default class Card {
                     ent.counts[this.name]--;
                     for (let i = 0; i < zones.length; i++) {
                         if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
-                            zones[i].cards[Card.CARD_TYPE.CREATURE].minusValue--;
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].minusValues["Mysterious Stranger"]--;
                             zones[i].cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(zones[i].cards[Card.CARD_TYPE.CREATURE]);
                         }
                     }
@@ -131,7 +143,7 @@ export default class Card {
                     ent.counts[this.name]--;
                     for (let i = 0; i < zones.length; i++) {
                         if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
-                            zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue -= 2;
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValues["Cow-Cowboy"] -= 2;
                             zones[i].cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(zones[i].cards[Card.CARD_TYPE.CREATURE]);
                         }
                     }
@@ -157,7 +169,7 @@ export default class Card {
             case "Milk":
                 ent.counts[this.name]--;
                 if (thisZone.cards[Card.CARD_TYPE.CREATURE]) {
-                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue -= this.value;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValues["Milk"] -= this.value;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.BOOSTED] = false;
                 }
@@ -173,7 +185,7 @@ export default class Card {
             case "Mysterious Stranger":
                 for (let i = 0; i < zones.length; i++) {
                     if (playedCard.name == "Mysterious Stranger" && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
-                        zones[i].cards[Card.CARD_TYPE.CREATURE].minusValue = ent.counts[this.name] - 1;
+                        zones[i].cards[Card.CARD_TYPE.CREATURE].minusValues["Mysterious Stranger"] = ent.counts[this.name] - 1;
                         zones[i].cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(zones[i].cards[Card.CARD_TYPE.CREATURE]);
                         if (zones[i].cards[Card.CARD_TYPE.CREATURE].value < 0) {
                             zones[i].cards[Card.CARD_TYPE.CREATURE].value = 0;
@@ -183,7 +195,7 @@ export default class Card {
                 break;
             case "Big Iron":
                 if (thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.PERISH]) {
-                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue += this.value;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValues["Big Iron"] = this.value;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     //thisZone.cards[Card.CARD_TYPE.CREATURE].value *= thisZone.cards[Card.CARD_TYPE.CREATURE].multValue;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.PERISH] = true;
@@ -196,7 +208,7 @@ export default class Card {
                         console.log(zones[i].cards[Card.CARD_TYPE.CREATURE].name);
                         switch (zones[i].cards[Card.CARD_TYPE.CREATURE].name) {
                             case "Mysterious Stranger":
-                                zones[i].cards[Card.CARD_TYPE.CREATURE].minusValue = 0;
+                                zones[i].cards[Card.CARD_TYPE.CREATURE].minusValues["Mysterious Stranger"] = 0;
                                 this.ReplaceCard(ent, zones[i], zones[i].cards[Card.CARD_TYPE.CREATURE], "Cow-Cowboy")
                                 break;
                             case "Bandit Leader":
@@ -221,7 +233,8 @@ export default class Card {
                 break;
             case "Cow-Cowboy":
                 if (playedCard.name == "Cow-Cowboy" && thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].name == this.name) {
-                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue += (ent.counts[this.name] - 1) * 2;
+                    console.log("(" + zones.indexOf(thisZone) + ") DOING CCB EFFECT (FROM " + thisZone.cards[Card.CARD_TYPE.CREATURE].value + ")");
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValues["Cow-Cowboy"] = (ent.counts[this.name] - 1) * 2;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     console.log("(" + zones.indexOf(thisZone) + ") CCB NOW " + thisZone.cards[Card.CARD_TYPE.CREATURE].value);
                     //zones[i].cards[Card.CARD_TYPE.CREATURE].value = zones[i].cards[Card.CARD_TYPE.CREATURE].initValue + zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValue + ((ent.counts[this.name] - 1) * 2);
@@ -230,7 +243,7 @@ export default class Card {
                 break;
             case "Milk":
                 if (thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.BOOSTED]) {
-                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue += this.value;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValues["Milk"] = this.value;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     //thisZone.cards[Card.CARD_TYPE.CREATURE].value = thisZone.cards[Card.CARD_TYPE.CREATURE].initValue + thisZone.cards[Card.CARD_TYPE.CREATURE].bonusValue;
                     //thisZone.cards[Card.CARD_TYPE.CREATURE].value *= thisZone.cards[Card.CARD_TYPE.CREATURE].multValue;
@@ -239,7 +252,7 @@ export default class Card {
                 break;
             case "Sheriff Badge":
                 if (thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS && !thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.MULT]) {
-                    thisZone.cards[Card.CARD_TYPE.CREATURE].multValue *= this.value;
+                    thisZone.cards[Card.CARD_TYPE.CREATURE].multValues["Sheriff Badge"] = this.value;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     //thisZone.cards[Card.CARD_TYPE.CREATURE].value *= thisZone.cards[Card.CARD_TYPE.CREATURE].multValue;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.MULT] = true;
@@ -249,7 +262,7 @@ export default class Card {
                 if (!this.played && thisZone.cards[Card.CARD_TYPE.CREATURE] && thisZone.cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS) {
                     switch (thisZone.cards[Card.CARD_TYPE.CREATURE].name) {
                         case "Mysterious Stranger":
-                            thisZone.cards[Card.CARD_TYPE.CREATURE].minusValue = 0;
+                            thisZone.cards[Card.CARD_TYPE.CREATURE].minusValues["Mysterious Stranger"] = 0;
                             this.ReplaceCard(ent, thisZone, thisZone.cards[Card.CARD_TYPE.CREATURE], "Cow-Cowboy")
                             thisZone.cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, thisZone.cards[Card.CARD_TYPE.CREATURE], zones, thisZone);
                             break;
@@ -263,6 +276,17 @@ export default class Card {
                             break;
                         default:
                             console.log("invalid cowboy creature");
+                    }
+                    for (let i = 0; i < zones.length; i++) {
+                        if (!this.played && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == "Cow-Cowboy") {
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, zones[i].cards[Card.CARD_TYPE.CREATURE], zones, zones[i]);
+                        }
+                    }
+                    for (let i = 0; i < zones.length; i++) {
+                        if (!this.played && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == "Mysterious Stranger") {
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].minusValues["Mysterious Stranger"]--;
+                            zones[i].cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(zones[i].cards[Card.CARD_TYPE.CREATURE]);
+                        }
                     }
                 }
                 break;
