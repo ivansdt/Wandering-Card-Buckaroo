@@ -54,7 +54,7 @@ export default class Entity {
           5,
           'assets/cards/cow-cowboys/Big-Iron-Card.png',
           'assets/holograms/cow-cowboys/Big-Iron.png',
-          'Otorga 3 de valor a la criatura\nen esta zona, pero esta se destruye\nal inicio del turno.',
+          'Otorga 5 de valor a la criatura\nen esta zona,  pero esta se destruye\nal inicio del turno,  despues\nde realizar sus efectos si tiene.',
           'Una arma demasaido grande para sostener\nnormalmente. Su retroceso es tal que mata a\ncualquier ser tan valiente para usarlo.'
         )
         break;
@@ -78,7 +78,7 @@ export default class Entity {
           1,
           'assets/cards/cow-cowboys/Goon-Card.png',
           'assets/holograms/cow-cowboys/Goons-Side.png',
-          'Si no hay criaturas de "Bandit\nLeader" en tu deck convierte esta\ncriatura en "Bandit Leader"\n\nForma vaca: Pierde 1 de ataque.\nAl inicio del turno otorga un hechizo\nde "Milk" a tu mano',
+          'Si no hay criaturas de "Bandit\nLeader" en tu deck convierte esta\ncriatura en "Bandit Leader"\n\nForma vaca: Pierde 1 de ataque.\nAl inicio del turno otorga un hechizo\nde "Milk" a tu mano.',
           'Un gamberro tipico. Esta aqui por las\namistades y el dinero.'
         )
         break;
@@ -102,7 +102,7 @@ export default class Entity {
           2,
           'assets/cards/cow-cowboys/Sherrif-badge-card.png',
           'assets/holograms/cow-cowboys/Sheriff-Badge.png',
-          'Duplica el ataque de la criaturas en\nesta zona',
+          'Duplica el ataque de la criaturas en\nesta zona.',
           'Una medalla que en los viejos tiempos\nrepresentaba la ley.\nHoy en dia solo duplica el ataque.'
         )
         break;
