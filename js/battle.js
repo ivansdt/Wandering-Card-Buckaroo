@@ -595,8 +595,12 @@ export default class Battle {
         this.rival.x = this.canvas.width - (this.canvas.width / 8 * 2) + 30 + offsetX;
         this.rival.y = 200;
 
-        this.player.Draw(this.ctx);
-        this.rival.Draw(this.ctx);
+        if (this.player.sprite.complete && this.player.sprite.naturalWidth !== 0) {
+            this.player.Draw(this.ctx);
+        }
+        if (this.rival.sprite.complete && this.rival.sprite.naturalWidth !== 0) {
+            this.rival.Draw(this.ctx);
+        }
 
         this.ctx.restore();
     }

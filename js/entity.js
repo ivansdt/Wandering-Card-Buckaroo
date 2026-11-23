@@ -1,12 +1,13 @@
 import Card from './card.js';
 
 export default class Entity {
-  constructor(name) {
+  constructor(name, spriteSrc) {
     this.name = name;
     this.life = 10;
     this.deck = new Array();
     this.hand = new Array();
     this.sprite = new Image();
+    this.sprite.src = spriteSrc
     this.cardsPlayed = 0;
     this.counts = {};
     this.x;

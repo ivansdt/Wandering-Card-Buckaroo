@@ -30,6 +30,15 @@ export default class Rival extends Entity {
         return false;
     }
 
+    LookForCard(cardName, cardArr) {
+        for (let i = 0; i < cardArr.length; i++) {
+            if (cardArr[i].name == cardName) {
+                return cardArr[i];
+            }
+        }
+        return null;
+    }
+
     PlayBanditLeaderStrat(battle) {
         for (let i = 0; i < battle.rvlZones.length; i++) {
             let availableCards = new Array();
@@ -42,81 +51,33 @@ export default class Rival extends Entity {
                     let chosenCard;
                     if (!this.counts["Herd Leader"] || this.counts["Herd Leader"] < 2) {
                         if (!battle.rvlZones[i].cards[Card.CARD_TYPE.CREATURE]) {
-                            for (let k = 0; k < availableCards.length; k++) {
-                                if (availableCards[k].name == "Bandit Leader") {
-                                    chosenCard = availableCards[k];
-                                    break;
-                                }
-                            }
+                            chosenCard = this.LookForCard("Bandit Leader", availableCards);
                         }
                         else if (!battle.rvlZones[i].cards[Card.CARD_TYPE.OBJECT]) {
-                            for (let k = 0; k < availableCards.length; k++) {
-                                if (availableCards[k].name == "Cheese Amulet") {
-                                    chosenCard = availableCards[k];
-                                    break;
-                                }
-                            }
-                            if (!chosenCard) {
-                                for (let k = 0; k < availableCards.length; k++) {
-                                    if (availableCards[k].name == "Sheriff Badge") {
-                                        chosenCard = availableCards[k];
-                                        break;
-                                    }
-                                }
-                            }
+                            chosenCard = this.LookForCard("Sheriff Badge", availableCards);
                         }
                         else if (!battle.rvlZones[i].cards[Card.CARD_TYPE.SPELL]) {
-                            for (let k = 0; k < availableCards.length; k++) {
-                                if (availableCards[k].name == "Milk") {
-                                    chosenCard = availableCards[k];
-                                    break;
-                                }
-                            }
+                            chosenCard = this.LookForCard("Milk", availableCards);
                         }
                     } else {
                         if (!battle.rvlZones[i].cards[Card.CARD_TYPE.CREATURE]) {
                             if ((!this.counts["Bandit Leader"] || this.counts["Bandit Leader"] < 1) && (!battle.rvlZones[i].cards[Card.CARD_TYPE.OBJECT] || battle.rvlZones[i].cards[Card.CARD_TYPE.OBJECT].name != "Cheese Amulet")) {
-                                for (let k = 0; k < availableCards.length; k++) {
-                                    if (availableCards[k].name == "Bandit Leader") {
-                                        chosenCard = availableCards[k];
-                                        break;
-                                    }
-                                }
+                                chosenCard = this.LookForCard("Bandit Leader", availableCards);
                             } else if (!battle.rvlZones[i].cards[Card.CARD_TYPE.OBJECT] || battle.rvlZones[i].cards[Card.CARD_TYPE.OBJECT].name != "Cheese Amulet") {
-                                for (let k = 0; k < availableCards.length; k++) {
-                                    if (availableCards[k].name == "Cow Goon") {
-                                        chosenCard = availableCards[k];
-                                        break;
-                                    }
-                                }
+                                chosenCard = this.LookForCard("Cow Goon", availableCards);
                             }
                         }
                         else if (!battle.rvlZones[i].cards[Card.CARD_TYPE.OBJECT]) {
                             if (battle.rvlZones[i].cards[Card.CARD_TYPE.CREATURE] && battle.rvlZones[i].cards[Card.CARD_TYPE.CREATURE].name == "Bandit Leader") {
-                                for (let k = 0; k < availableCards.length; k++) {
-                                    if (availableCards[k].name == "Sheriff Badge") {
-                                        chosenCard = availableCards[k];
-                                        break;
-                                    }
-                                }
+                                chosenCard = this.LookForCard("Sheriff Badge", availableCards);
                             }
                         }
                         else if (!battle.rvlZones[i].cards[Card.CARD_TYPE.SPELL]) {
                             if (battle.rvlZones[i].cards[Card.CARD_TYPE.CREATURE].name == "Bandit Leader") {
-                                for (let k = 0; k < availableCards.length; k++) {
-                                    if (availableCards[k].name == "Milk") {
-                                        chosenCard = availableCards[k];
-                                        break;
-                                    }
-                                }
+                                chosenCard = this.LookForCard("Milk", availableCards);
                             }
                             else if (this.counts["Milk"] > 0) {
-                                for (let k = 0; k < availableCards.length; k++) {
-                                    if (availableCards[k].name == "Milk") {
-                                        chosenCard = availableCards[k];
-                                        break;
-                                    }
-                                }
+                                chosenCard = this.LookForCard("Milk", availableCards);
                             }
                         }
                     }

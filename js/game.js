@@ -11,6 +11,8 @@ export default class Game {
         this.input = new Input;
         this.bg = new Image();
         this.logo = new Image();
+        this.player = new Player("Mike", 'assets/entities/player-side.png');
+        this.rival = new Rival("Mouse", 'assets/entities/ban-leader-side.png');
 
         window.addEventListener('keydown', (e) => this.input.OnKeyDown(e, this, this.player, this.battle));
     }
@@ -27,13 +29,9 @@ export default class Game {
     }
 
     CreateBattle() {
-        this.player = new Player("Mike");
-        this.player.sprite.src = 'assets/entities/player-side.png';
         this.player.sizeX = this.player.sprite.width * 1.5;
         this.player.sizeY = this.player.sprite.height * 1.5;
 
-        this.rival = new Rival("Mouse");
-        this.rival.sprite.src = 'assets/entities/ban-leader-side.png';
         this.rival.sizeX = this.rival.sprite.width * 1.5;
         this.rival.sizeY = this.rival.sprite.height * 1.5;
 
@@ -74,10 +72,10 @@ export default class Game {
             //"Cheese Moon",
         ];
 
-
         this.player.CreateDeck(plrDeck);
         this.rival.CreateDeck(rvlDeck);
         this.battle.StartBattle(this.canvas, this.ctx);
+
     }
 
     Update(dt) {
