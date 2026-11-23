@@ -127,13 +127,18 @@ export default class Card {
                     this.RemoveFromZone(thisZone);
                 } else {
                     if (!ent.counts["Bandit Leader"] || ent.counts["Bandit Leader"] == 0) {
+                        let hasBanditLeader = false;
                         for (let i = 0; i < ent.deck.length; i++) {
                             if (ent.deck[i].name == "Bandit Leader") {
-                                break;
-                            } else {
-                                this.ReplaceCard(ent, thisZone, this, "Bandit Leader");
-                                thisZone.cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, thisZone.cards[Card.CARD_TYPE.CREATURE], zones, thisZone);
+                                if (!ent.deck[i].effects["Perish"]) {
+                                    hasBanditLeader = true;
+                                    break;
+                                }
                             }
+                        }
+                        if (!hasBanditLeader) {
+                            this.ReplaceCard(ent, thisZone, this, "Bandit Leader");
+                            thisZone.cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, thisZone.cards[Card.CARD_TYPE.CREATURE], zones, thisZone);
                         }
                     }
                 }
