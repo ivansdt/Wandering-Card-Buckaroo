@@ -527,7 +527,7 @@ export default class Battle {
         const deckHeight = 48;
         const offsetX = 50;
         const offsetPd = 11;
-        const offsetGd = 21;
+        // const offsetGd = 21;
 
         const plrGyX = this.canvas.width / 8 * 2 - gyWidth + 10 - offsetX;
         const plrGyY = 160;
@@ -583,6 +583,20 @@ export default class Battle {
         this.ctx.fillText(this.plrDeck.length, plrDeckX + ((deckWidth - offsetPd) / 2) + 2, plrDeckY + deckHeight + 22);
         this.ctx.strokeText(this.rvlDeck.length, rvlDeckX + ((deckWidth - offsetPd) / 2) + 2, rvlDeckY + deckHeight + 22);
         this.ctx.fillText(this.rvlDeck.length, rvlDeckX + ((deckWidth - offsetPd) / 2) + 2, rvlDeckY + deckHeight + 22);
+
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 3;
+
+        this.player.x = this.canvas.width / 8 * 2 - 30 - this.player.sprite.width * 1.5 + 10 - offsetX;
+        this.player.y = 220;
+
+        this.rival.x = this.canvas.width - (this.canvas.width / 8 * 2) + 30 + offsetX;
+        this.rival.y = 200;
+
+        this.player.Draw(this.ctx);
+        this.rival.Draw(this.ctx);
 
         this.ctx.restore();
     }

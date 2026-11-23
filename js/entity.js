@@ -6,9 +6,16 @@ export default class Entity {
     this.life = 10;
     this.deck = new Array();
     this.hand = new Array();
-    this.sprite;
+    this.sprite = new Image();
     this.cardsPlayed = 0;
     this.counts = {};
+    this.x;
+    this.y;
+    this.sizeX;
+    this.sizeY;
+    this.scaleX = 1.0;
+    this.scaleY = 1.0;
+    this.idleTimer = Math.random() * Math.PI * 2;
   }
 
   CreateCard(cardName) {
@@ -167,7 +174,7 @@ export default class Entity {
         }
         for (let i = 0; i < zones[zoneIndex].cards.length; i++) {
           if (zones[zoneIndex].cards[i]) {
-            console.log("trying effect on zone " + zoneIndex +  " (played card: " + card.name + ")");
+            console.log("trying effect on zone " + zoneIndex + " (played card: " + card.name + ")");
             //console.log(card);
             zones[zoneIndex].cards[i].PlayEffect(this, card, zones, zones[zoneIndex]);
           }
@@ -184,5 +191,21 @@ export default class Entity {
     } else {
       console.log("already played 3 cards");
     }
+  }
+
+  Update(dt) {
+    this.idleTimer += dt * 2;
+
+    let breathe = Math.sin(this.idleTimer) * 0.035;
+    this.scaleY = 1.0 + breathe;
+    this.scaleX = 1.0 - breathe * 0.5;
+  }
+
+  Draw(ctx) {
+    ctx.save();
+    //ctx.translate(this.x  - (this.scaleX * 10), this.y);
+    //console.log(this.scaleY);
+    ctx.drawImage(this.sprite, this.x + (this.sizeX - (this.sizeX * this.scaleX)) / 2, this.y + (this.sizeY - (this.sizeY * this.scaleY)), this.sizeX * this.scaleX, this.sizeY * this.scaleY);
+    ctx.restore();
   }
 }

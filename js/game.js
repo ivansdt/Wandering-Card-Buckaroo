@@ -28,7 +28,15 @@ export default class Game {
 
     CreateBattle() {
         this.player = new Player("Mike");
+        this.player.sprite.src = 'assets/entities/player-side.png';
+        this.player.sizeX = this.player.sprite.width * 1.5;
+        this.player.sizeY = this.player.sprite.height * 1.5;
+
         this.rival = new Rival("Mouse");
+        this.rival.sprite.src = 'assets/entities/ban-leader-side.png';
+        this.rival.sizeX = this.rival.sprite.width * 1.5;
+        this.rival.sizeY = this.rival.sprite.height * 1.5;
+
         this.battle = new Battle(this.player, this.rival, this.input);
 
         const plrDeck = [
@@ -75,6 +83,8 @@ export default class Game {
     Update(dt) {
         if (this.input.gameState == Input.GAME_STATES.PLAY) {
             this.battle.UpdateHearts(dt);
+            this.player.Update(dt);
+            this.rival.Update(dt);
             for (let i = 0; i < this.battle.plrZones.length; i++) {
                 for (let j = 0; j < this.battle.plrZones[i].cards.length; j++) {
                     if (this.battle.plrZones[i].cards[j]) {
@@ -91,10 +101,6 @@ export default class Game {
                 }
             }
         }
-    }
-
-    DrawPause() {
-
     }
 
     Draw() {
