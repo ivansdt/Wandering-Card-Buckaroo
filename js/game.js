@@ -29,6 +29,14 @@ export default class Game {
     }
 
     CreateBattle() {
+
+        if (!this.player) {
+            this.player = new Player("Mike", 'assets/entities/player-side.png');
+        }
+        if (!this.rival) {
+            this.rival = new Rival("Mouse", 'assets/entities/ban-leader-side.png');
+        }
+
         this.player.sizeX = this.player.sprite.width * 1.5;
         this.player.sizeY = this.player.sprite.height * 1.5;
 
@@ -41,10 +49,10 @@ export default class Game {
             "Mysterious Stranger",
             "Mysterious Stranger",
             "Mysterious Stranger",
+            "Mysterious Stranger",
             "Bandit Leader",
             "Bandit Leader",
-            "Bandit Leader",
-            "Big Iron",
+            "Goon",
             "Big Iron",
             "Big Iron",
             "Cheese Moon",
@@ -53,7 +61,6 @@ export default class Game {
             "Sheriff Badge",
             "Sheriff Badge",
             "Sheriff Badge",
-            "Cheese Amulet",
             "Cheese Amulet",
             "Cheese Amulet",
         ];
@@ -66,9 +73,9 @@ export default class Game {
             "Sheriff Badge",
             "Sheriff Badge",
             "Sheriff Badge",
-            "Cheese Amulet",
-            "Cheese Amulet",
-            "Cheese Amulet",
+            "Cheese Moon",
+            "Cheese Moon",
+            "Cheese Moon",
             //"Cheese Moon",
         ];
 
