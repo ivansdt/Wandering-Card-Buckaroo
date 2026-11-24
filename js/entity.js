@@ -44,7 +44,7 @@ export default class Entity {
           3,
           'assets/cards/cow-cowboys/Big-Iron-Card.png',
           'assets/holograms/cow-cowboys/Big-Iron.png',
-          'Otorga 3 de valor a la criatura\nen esta zona, pero esta se destruye\nal inicio del turno.\n\nFlavor'
+          'Otorga 5 de valor a la criatura\nen esta zona, pero esta se destruye\nal inicio del turno.\n\nFlavor'
         )
         break;
 
