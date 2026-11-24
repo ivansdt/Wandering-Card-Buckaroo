@@ -36,14 +36,10 @@ export default class Card {
         this.isSelected = false;
         this.width = 150;
         this.height = 200;
-        this.genre;
-        this.type;
         this.played = false;
         // this.state = Card.CARD_STATUS.DECK;
-        this.desc = '';
         this.sprite = new Image();
         this.holo = new Hologram();
-        this.initValue;
         this.value;
         this.bonusValues = {}
         this.minusValues = {}
@@ -52,7 +48,7 @@ export default class Card {
         this.transparent = false;
     }
 
-    AddParams(genre, type, value, spriteSrc, holoSrc, desc) {
+    AddParams(genre, type, value, spriteSrc, holoSrc, desc, flavor) {
         this.genre = genre;
         this.type = type;
         this.initValue = value
@@ -60,6 +56,7 @@ export default class Card {
         this.sprite.src = spriteSrc;
         this.holo.sprite.src = holoSrc;
         this.desc = desc;
+        this.flavor = flavor;
     }
 
     RemoveFromZone(zone) {
@@ -114,11 +111,10 @@ export default class Card {
                 }
                 break;
             case "Bandit Leader":
+                ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Goon"))
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     this.RemoveFromZone(thisZone);
-                } else {
-                    ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Goon"))
                 }
                 break;
             case "Goon":
@@ -127,13 +123,18 @@ export default class Card {
                     this.RemoveFromZone(thisZone);
                 } else {
                     if (!ent.counts["Bandit Leader"] || ent.counts["Bandit Leader"] == 0) {
+                        let hasBanditLeader = false;
                         for (let i = 0; i < ent.deck.length; i++) {
                             if (ent.deck[i].name == "Bandit Leader") {
-                                break;
-                            } else {
-                                this.ReplaceCard(ent, thisZone, this, "Bandit Leader");
-                                thisZone.cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, thisZone.cards[Card.CARD_TYPE.CREATURE], zones, thisZone);
+                                if (!ent.deck[i].effects["Perish"]) {
+                                    hasBanditLeader = true;
+                                    break;
+                                }
                             }
+                        }
+                        if (!hasBanditLeader) {
+                            this.ReplaceCard(ent, thisZone, this, "Bandit Leader");
+                            thisZone.cards[Card.CARD_TYPE.CREATURE].PlayEffect(ent, thisZone.cards[Card.CARD_TYPE.CREATURE], zones, thisZone);
                         }
                     }
                 }
@@ -151,19 +152,17 @@ export default class Card {
                 }
                 break;
             case "Herd Leader":
+                ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Cow Goon"))
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     this.RemoveFromZone(thisZone);
-                } else {
-                    ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Cow Goon"))
                 }
                 break;
             case "Cow Goon":
+                ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Milk"))
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     this.RemoveFromZone(thisZone);
-                } else {
-                    ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Milk"))
                 }
                 break;
             case "Milk":

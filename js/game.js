@@ -11,6 +11,8 @@ export default class Game {
         this.input = new Input;
         this.bg = new Image();
         this.logo = new Image();
+        this.player = new Player("Mike", 'assets/entities/player-side.png');
+        this.rival = new Rival("Mouse", 'assets/entities/ban-leader-side.png');
 
         window.addEventListener('keydown', (e) => this.input.OnKeyDown(e, this, this.player, this.battle));
     }
@@ -27,27 +29,38 @@ export default class Game {
     }
 
     CreateBattle() {
-        this.player = new Player("Mike");
-        this.rival = new Rival("Mouse");
+
+        if (!this.player) {
+            this.player = new Player("Mike", 'assets/entities/player-side.png');
+        }
+        if (!this.rival) {
+            this.rival = new Rival("Mouse", 'assets/entities/ban-leader-side.png');
+        }
+
+        this.player.sizeX = this.player.sprite.width * 1.5;
+        this.player.sizeY = this.player.sprite.height * 1.5;
+
+        this.rival.sizeX = this.rival.sprite.width * 1.5;
+        this.rival.sizeY = this.rival.sprite.height * 1.5;
+
         this.battle = new Battle(this.player, this.rival, this.input);
 
         const plrDeck = [
             "Mysterious Stranger",
             "Mysterious Stranger",
             "Mysterious Stranger",
+            "Mysterious Stranger",
             "Bandit Leader",
             "Bandit Leader",
-            "Bandit Leader",
+            "Goon",
+            "Goon",
             "Big Iron",
             "Big Iron",
-            "Big Iron",
-            "Cheese Moon",
             "Cheese Moon",
             "Cheese Moon",
             "Sheriff Badge",
             "Sheriff Badge",
             "Sheriff Badge",
-            "Cheese Amulet",
             "Cheese Amulet",
             "Cheese Amulet",
         ];
@@ -60,21 +73,23 @@ export default class Game {
             "Sheriff Badge",
             "Sheriff Badge",
             "Sheriff Badge",
-            "Cheese Amulet",
-            "Cheese Amulet",
-            "Cheese Amulet",
+            "Cheese Moon",
+            "Cheese Moon",
+            "Cheese Moon",
             //"Cheese Moon",
         ];
-
 
         this.player.CreateDeck(plrDeck);
         this.rival.CreateDeck(rvlDeck);
         this.battle.StartBattle(this.canvas, this.ctx);
+
     }
 
     Update(dt) {
         if (this.input.gameState == Input.GAME_STATES.PLAY) {
             this.battle.UpdateHearts(dt);
+            this.player.Update(dt);
+            this.rival.Update(dt);
             for (let i = 0; i < this.battle.plrZones.length; i++) {
                 for (let j = 0; j < this.battle.plrZones[i].cards.length; j++) {
                     if (this.battle.plrZones[i].cards[j]) {
@@ -91,10 +106,6 @@ export default class Game {
                 }
             }
         }
-    }
-
-    DrawPause() {
-
     }
 
     Draw() {

@@ -53,7 +53,7 @@ export default class Battle {
         this.cardIndex.src = 'assets/bg/battle-bg/card-background.png';
         this.plrHrt.src = 'assets/misc/heart-p.png';
         this.rvlHrt.src = 'assets/misc/heart-r.png';
-        this.bg.src = 'assets/bg/battle-bg/test-bg.png';
+        this.bg.src = 'assets/bg/battle-bg/BackgroundVer2.png';
         this.light.src = 'assets/bg/battle-bg/lighting.png';
         this.hrtTimer = Math.random() * Math.PI * 2;
         this.hrtScaleX = 1.0;
@@ -135,7 +135,7 @@ export default class Battle {
         }
     }
 
-    DrawHand(hand, dt) {
+    DrawHand(hand) {
         let offsetX = 80;
         let offsetY = 50;
         let riseOffset = 150
@@ -527,7 +527,7 @@ export default class Battle {
         const deckHeight = 48;
         const offsetX = 50;
         const offsetPd = 11;
-        const offsetGd = 21;
+        // const offsetGd = 21;
 
         const plrGyX = this.canvas.width / 8 * 2 - gyWidth + 10 - offsetX;
         const plrGyY = 160;
@@ -584,13 +584,35 @@ export default class Battle {
         this.ctx.strokeText(this.rvlDeck.length, rvlDeckX + ((deckWidth - offsetPd) / 2) + 2, rvlDeckY + deckHeight + 22);
         this.ctx.fillText(this.rvlDeck.length, rvlDeckX + ((deckWidth - offsetPd) / 2) + 2, rvlDeckY + deckHeight + 22);
 
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 3;
+
+        this.player.x = this.canvas.width / 8 * 2 - 30 - this.player.sprite.width * 1.5 + 10 - offsetX;
+        this.player.y = 220;
+
+        this.rival.x = this.canvas.width - (this.canvas.width / 8 * 2) + 30 + offsetX;
+        this.rival.y = 200;
+
+        if (this.player.sprite.complete && this.player.sprite.naturalWidth !== 0) {
+            this.player.Draw(this.ctx);
+        }
+        if (this.rival.sprite.complete && this.rival.sprite.naturalWidth !== 0) {
+            this.rival.Draw(this.ctx);
+        }
+
         this.ctx.restore();
     }
 
     DrawIndex() {
         let offsetX = 35;
         let textOffset = 50;
+        let initLineOffset = 26;
+        let lineOffset = initLineOffset;
+        let flavorOffset = lineOffset; 
         let descLines = this.player.hand[this.input.nodeNumber].desc.split('\n');
+        let flavorLines = this.player.hand[this.input.nodeNumber].flavor.split('\n');
         this.ctx.save();
         this.ctx.fillStyle = "#000000";
         this.ctx.font = "bold 38px Aseprite";
@@ -608,11 +630,17 @@ export default class Battle {
         this.ctx.fillText(this.player.hand[this.input.nodeNumber].name, this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2);
         this.ctx.font = "24px Aseprite";
         for (let i = 0; i < descLines.length; i++) {
-            let lineOffset = 26;
-            this.ctx.strokeText(descLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset + lineOffset * i);
-            this.ctx.fillText(descLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset + lineOffset * i);
+            this.ctx.strokeText(descLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset + lineOffset);
+            this.ctx.fillText(descLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset + lineOffset);
+            lineOffset += initLineOffset;
         }
-        this.ctx.font = "bold 32px Aseprite";
+        flavorOffset = lineOffset + initLineOffset;
+        this.ctx.font = "bold italic 18px Aseprite";
+        for (let i = 0; i < flavorLines.length; i++) {
+            this.ctx.strokeText(flavorLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset + flavorOffset);
+            this.ctx.fillText(flavorLines[i], this.canvas.width / 2 - this.cardIndex.width / 2 + offsetX * 1.5 + this.player.hand[this.input.nodeNumber].width * 1.5, this.canvas.height / 2 - this.player.hand[this.input.nodeNumber].height * 1.5 / 2 + textOffset + flavorOffset);
+            flavorOffset += initLineOffset;
+        }
         this.ctx.restore();
     }
 
@@ -680,7 +708,7 @@ export default class Battle {
         this.DrawZones();
         this.DrawDeckAndGraveyard();
         this.DrawLight();
-        this.DrawHand(this.player.hand, dt);
+        this.DrawHand(this.player.hand);
         this.DrawHP();
         if (this.state == Battle.DUEL_STATE.CALC || this.state == Battle.DUEL_STATE.REVEAL) {
             this.DrawTotalScore(this.plrScore, this.player);
