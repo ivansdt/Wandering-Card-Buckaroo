@@ -52,9 +52,10 @@ export default class Entity {
           Card.CARD_GENRE.COW_COWBOYS,
           Card.CARD_TYPE.OBJECT,
           5,
-          'assets/cards/cow-cowboys/Big-Iron-Card.png',
+          'assets/cards/cow-cowboys/Big-Iron-Cardver2.png',
           'assets/holograms/cow-cowboys/Big-Iron.png',
-          'Otorga 5 de valor a la criatura\nen esta zona, pero esta se destruye\nal inicio del turno.\n\nFlavor'
+          'Otorga 5 de valor a la criatura\nen esta zona, pero esta se destruye\nal inicio del turno.',
+          'Una arma demasiado grande para sostener\nnormalmente. Su retroceso es tal que mata \na su usuario. '
         )
         break;
 
