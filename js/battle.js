@@ -138,13 +138,13 @@ export default class Battle {
     DrawHand(hand) {
         let offsetX = 80;
         let offsetY = 50;
-        let riseOffset = 150
+        let riseOffset = 150 / 7
         // test de renderizado de cartas placeholder
         for (let i = hand.length - 1; i >= 0; i--) {
             // console.log("i: " + i);
             let totalWidth = hand[i].width + ((hand.length - 1) * offsetX);
             hand[i].x = (this.canvas.width / 2) + (i * offsetX) - (totalWidth / 2);
-            hand[i].y = this.canvas.height - offsetY;
+            if (!hand[i].y) hand[i].y = this.canvas.height - offsetY;
             this.ctx.save();
             this.ctx.strokeStyle = "#65ea50";
             this.ctx.lineWidth = 5;
@@ -156,11 +156,11 @@ export default class Battle {
                 this.ctx.globalAlpha = 0.15;
             }
             if (hand[i].isSelected) {
-                hand[i].y -= riseOffset;
+                if (hand[i].y > 340) hand[i].y -= riseOffset;
                 if (this.input.onSection == Input.SECTION.ZONES) {
                     this.ctx.strokeRect(hand[i].x - 5, hand[i].y - 5, hand[i].width + 10, hand[i].height + 10);
                 }
-            }
+            } else if (hand[i].y < 490) hand[i].y += riseOffset;;
             this.ctx.drawImage(hand[i].sprite, hand[i].x, hand[i].y, hand[i].width, hand[i].height);
             this.ctx.restore();
         }
@@ -610,7 +610,7 @@ export default class Battle {
         let textOffset = 50;
         let initLineOffset = 26;
         let lineOffset = initLineOffset;
-        let flavorOffset = lineOffset; 
+        let flavorOffset = lineOffset;
         let descLines = this.player.hand[this.input.nodeNumber].desc.split('\n');
         let flavorLines = this.player.hand[this.input.nodeNumber].flavor.split('\n');
         this.ctx.save();
@@ -703,7 +703,7 @@ export default class Battle {
         this.ctx.restore();
     }
 
-    Draw(dt) {
+    Draw() {
         this.DrawBackground();
         this.DrawZones();
         this.DrawDeckAndGraveyard();

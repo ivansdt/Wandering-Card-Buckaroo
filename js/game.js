@@ -18,10 +18,10 @@ export default class Game {
     }
 
     Start() {
-        this.playButton = new Button(this.canvas.width / 2 - 75, this.canvas.height / 6 * 4, 'assets/buttons/boton-jugar.png', 'assets/buttons/boton-jugar-a.png');
+        this.playButton = new Button(this.canvas.width / 2 - 75, this.canvas.height - 150 - 65, 'assets/buttons/boton-jugar.png', 'assets/buttons/boton-jugar-a.png');
         this.playButton.isSelected = true;
         this.input.onButton = this.playButton;
-        this.creditsButton = new Button(this.canvas.width / 2 - 75, this.canvas.height / 6 * 4 + 60, 'assets/buttons/boton-creditos.png', 'assets/buttons/boton-creditos-a.png');
+        this.creditsButton = new Button(this.canvas.width / 2 - 75, this.canvas.height - 60 - 65, 'assets/buttons/boton-creditos.png', 'assets/buttons/boton-creditos-a.png');
         this.bg.src = 'assets/bg/wildwest-bg.png';
         this.logo.src = 'assets/logo/title.png';
         this.lastTime = performance.now();
@@ -114,7 +114,7 @@ export default class Game {
         let offset = 150;
         this.ctx.fillStyle = '#FFFFFF';
         this.ctx.strokeStyle = "#000000";
-        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
         this.ctx.shadowBlur = 5;
         this.ctx.shadowOffsetX = 0;
         this.ctx.shadowOffsetY = 1;
@@ -154,12 +154,11 @@ export default class Game {
             } else {
                 this.battle.Draw();
             }
-
         } else {
             this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
-            this.ctx.drawImage(this.logo, this.canvas.width / 2 - 455 / 2, 50, 455, 270);
+            this.ctx.drawImage(this.logo, this.canvas.width / 2 - this.logo.width / 2, 30, this.logo.width, this.logo.height);
             this.playButton.Draw(this.canvas, this.ctx);
-            // this.creditsButton.Draw(this.canvas, this.ctx);
+            this.creditsButton.Draw(this.canvas, this.ctx);
             this.ctx.lineWidth = 3;
             this.ctx.font = "14px Aseprite";
             this.ctx.direction = "ltr";

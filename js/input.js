@@ -39,14 +39,14 @@ export default class Input {
 
     OnKeyDown(e, game, player, battle) {
         if (this.gameState == Input.GAME_STATES.TITLE) {
-            /*
+            
             if (e.key == "s") {
                 this.SelectingButton(game.creditsButton);
             }
             if (e.key == "w") {
                 this.SelectingButton(game.playButton);
             }
-            */
+            
             if (e.key == "Enter") {
                 if (this.onButton == game.playButton) {
                     this.gameState = Input.GAME_STATES.PLAY;
