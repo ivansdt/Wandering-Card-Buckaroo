@@ -579,10 +579,10 @@ export default class Battle {
         this.ctx.shadowBlur = 5;
         this.ctx.lineWidth = 3;
         this.ctx.strokeStyle = "#000000";
-        this.ctx.strokeText(this.plrDeck.length, plrDeckX + ((deckWidth - offsetPd) / 2) + 2, plrDeckY + deckHeight + 22);
-        this.ctx.fillText(this.plrDeck.length, plrDeckX + ((deckWidth - offsetPd) / 2) + 2, plrDeckY + deckHeight + 22);
-        this.ctx.strokeText(this.rvlDeck.length, rvlDeckX + ((deckWidth - offsetPd) / 2) + 2, rvlDeckY + deckHeight + 22);
-        this.ctx.fillText(this.rvlDeck.length, rvlDeckX + ((deckWidth - offsetPd) / 2) + 2, rvlDeckY + deckHeight + 22);
+        this.ctx.strokeText(this.plrDeck.length, plrDeckX + ((deckWidth - offsetPd) / 2) + 2, plrDeckY + deckHeight + 20);
+        this.ctx.fillText(this.plrDeck.length, plrDeckX + ((deckWidth - offsetPd) / 2) + 2, plrDeckY + deckHeight + 20);
+        this.ctx.strokeText(this.rvlDeck.length, rvlDeckX + ((deckWidth - offsetPd) / 2) + 2, rvlDeckY + deckHeight + 20);
+        this.ctx.fillText(this.rvlDeck.length, rvlDeckX + ((deckWidth - offsetPd) / 2) + 2, rvlDeckY + deckHeight + 20);
 
         this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
         this.ctx.shadowBlur = 5;
@@ -649,7 +649,7 @@ export default class Battle {
         let offsetY = 6;
 
         this.ctx.save();
-        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
         this.ctx.shadowBlur = 5;
         this.ctx.shadowOffsetX = 0;
         this.ctx.shadowOffsetY = 1;
@@ -666,32 +666,32 @@ export default class Battle {
                 case Input.SECTION.HAND:
                     this.ctx.strokeText("A/D - Cambiar carta", offsetX, this.canvas.height - offsetY);
                     this.ctx.fillText("A/D - Cambiar carta", offsetX, this.canvas.height - offsetY);
-                    this.ctx.strokeText("Enter - Elegir carta", offsetX, this.canvas.height - offsetY - 14 - 2);
-                    this.ctx.fillText("Enter - Elegir carta", offsetX, this.canvas.height - offsetY - 14 - 2);
-                    this.ctx.strokeText("R - Terminar turno", offsetX, this.canvas.height - offsetY - 28 - 2);
-                    this.ctx.fillText("R - Terminar turno", offsetX, this.canvas.height - offsetY - 28 - 2);
-                    this.ctx.strokeText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 2);
-                    this.ctx.fillText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 2);
-                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 2);
-                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 2);
+                    this.ctx.strokeText("Enter - Elegir carta", offsetX, this.canvas.height - offsetY - 14 - 4);
+                    this.ctx.fillText("Enter - Elegir carta", offsetX, this.canvas.height - offsetY - 14 - 4);
+                    this.ctx.strokeText("R - Terminar turno", offsetX, this.canvas.height - offsetY - 28 - 8);
+                    this.ctx.fillText("R - Terminar turno", offsetX, this.canvas.height - offsetY - 28 - 8);
+                    this.ctx.strokeText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 12);
+                    this.ctx.fillText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 12);
+                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 16);
+                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 16);
                     break;
                 case Input.SECTION.ZONES:
                     this.ctx.strokeText("W/S - Cambiar zona", offsetX, this.canvas.height - offsetY);
                     this.ctx.fillText("W/S - Cambiar zona", offsetX, this.canvas.height - offsetY);
-                    this.ctx.strokeText("Enter - Jugar carta", offsetX, this.canvas.height - offsetY - 14 - 2);
-                    this.ctx.fillText("Enter - Jugar carta", offsetX, this.canvas.height - offsetY - 14 - 2);
-                    this.ctx.strokeText("Retroceso - Cancelar", offsetX, this.canvas.height - offsetY - 28 - 2);
-                    this.ctx.fillText("Retroceso - Cancelar", offsetX, this.canvas.height - offsetY - 28 - 2);
-                    this.ctx.strokeText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 2);
-                    this.ctx.fillText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 2);
-                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 2);
-                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 2);
+                    this.ctx.strokeText("Enter - Jugar carta", offsetX, this.canvas.height - offsetY - 14 - 4);
+                    this.ctx.fillText("Enter - Jugar carta", offsetX, this.canvas.height - offsetY - 14 - 4);
+                    this.ctx.strokeText("Retroceso - Cancelar", offsetX, this.canvas.height - offsetY - 28 - 8);
+                    this.ctx.fillText("Retroceso - Cancelar", offsetX, this.canvas.height - offsetY - 28 - 8);
+                    this.ctx.strokeText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 12);
+                    this.ctx.fillText("E - Info de carta", offsetX, this.canvas.height - offsetY - 42 - 12);
+                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 16);
+                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 56 - 16);
                     break;
                 case Input.SECTION.INDEX:
                     this.ctx.strokeText("E - Cerrar info de carta", offsetX, this.canvas.height - offsetY);
                     this.ctx.fillText("E - Cerrar info de carta", offsetX, this.canvas.height - offsetY);
-                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 14 - 2);
-                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 14 - 2);
+                    this.ctx.strokeText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 14 - 4);
+                    this.ctx.fillText("Esc - Pausa", offsetX, this.canvas.height - offsetY - 14 - 4);
                     break;
                 default:
                     console.log("invalid section");
