@@ -26,6 +26,7 @@ export default class Input {
         this.lastZone = 0;
         this.onSection = Input.SECTION.HAND;
         this.canSelect = true;
+        this.lastState;
         this.gameState = Input.GAME_STATES.TITLE;
         this.onButton;
         this.lastButton;
@@ -50,9 +51,11 @@ export default class Input {
 
             if (e.key == "Enter") {
                 if (this.onButton == game.playButton) {
+                    this.lastState = this.gameState;
                     this.gameState = Input.GAME_STATES.PLAY;
                     game.CreateBattle();
                 } else if (this.onButton == game.tutorialButton) {
+                    this.lastState = this.gameState;
                     this.gameState = Input.GAME_STATES.TUTORIAL;
                 }
             }
@@ -60,7 +63,13 @@ export default class Input {
 
         else if (this.gameState == Input.GAME_STATES.TUTORIAL) {
             if (e.key == "Enter" || e.key == "Escape") {
-                this.gameState = Input.GAME_STATES.TITLE;
+                if (this.lastState == Input.GAME_STATES.PAUSE) {
+                    this.lastState = this.gameState;
+                    this.gameState = Input.GAME_STATES.PAUSE;
+                } else {
+                    this.lastState = this.gameState;
+                    this.gameState = Input.GAME_STATES.TITLE;
+                }
             }
         }
 
@@ -70,6 +79,7 @@ export default class Input {
                 game.player = null;
                 game.rival = null;
                 game.battle = null;
+                this.lastState = this.gameState;
                 this.gameState = Input.GAME_STATES.TITLE;
             }
         }
@@ -179,12 +189,27 @@ export default class Input {
                     }
                 }
             } else if (this.gameState == Input.GAME_STATES.PAUSE) {
-                if (e.key == "r") {
+                if (e.key == "r" || e.key == "R") {
                     game.player = null;
                     game.rival = null;
                     game.battle = null;
+                    this.lastState = this.gameState;
                     this.gameState = Input.GAME_STATES.PLAY;
                     game.CreateBattle();
+                }
+
+                if (e.key == "m" | e.key == "M") {
+                    game.player = null;
+                    game.rival = null;
+                    game.battle = null;
+                    this.lastState = this.gameState;
+                    this.gameState = Input.GAME_STATES.TITLE;
+                }
+
+
+                if (e.key == "t" | e.key == "T") {
+                    this.lastState = this.gameState;
+                    this.gameState = Input.GAME_STATES.TUTORIAL;
                 }
             }
         }
@@ -192,8 +217,10 @@ export default class Input {
 
     TogglePause() {
         if (this.gameState == Input.GAME_STATES.PAUSE) {
+            this.lastState = this.gameState;
             this.gameState = Input.GAME_STATES.PLAY
         } else {
+            this.lastState = this.gameState;
             this.gameState = Input.GAME_STATES.PAUSE
         }
     }

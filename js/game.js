@@ -133,8 +133,8 @@ export default class Game {
                 this.ctx.direction = "ltr";
                 this.ctx.textAlign = "left";
                 this.ctx.textBaseline = "bottom";
-                this.ctx.strokeText('Esc / Enter - Regresar a menu principal', 6, this.canvas.height - 6);
-                this.ctx.fillText('Esc / Enter - Regresar a menu principal', 6, this.canvas.height - 6);
+                this.ctx.strokeText('Esc / Enter - Regresar', 6, this.canvas.height - 6);
+                this.ctx.fillText('Esc / Enter - Regresar', 6, this.canvas.height - 6);
             } else if (this.input.gameState == Input.GAME_STATES.WIN) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
                 this.ctx.strokeText("VICTORIA", this.canvas.width / 2, offset);
