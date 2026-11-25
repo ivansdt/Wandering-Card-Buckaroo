@@ -14,6 +14,7 @@ export default class Input {
         WIN: "WIN",
         LOSE: "LOSE",
         TITLE: "TITLE",
+        TUTORIAL: "TUTORIAL",
     }
 
 
@@ -39,24 +40,31 @@ export default class Input {
 
     OnKeyDown(e, game, player, battle) {
         if (this.gameState == Input.GAME_STATES.TITLE) {
-            
+
             if (e.key == "s") {
-                this.SelectingButton(game.creditsButton);
+                this.SelectingButton(game.tutorialButton);
             }
             if (e.key == "w") {
                 this.SelectingButton(game.playButton);
             }
-            
+
             if (e.key == "Enter") {
                 if (this.onButton == game.playButton) {
                     this.gameState = Input.GAME_STATES.PLAY;
                     game.CreateBattle();
+                } else if (this.onButton == game.tutorialButton) {
+                    this.gameState = Input.GAME_STATES.TUTORIAL;
                 }
             }
         }
 
+        else if (this.gameState == Input.GAME_STATES.TUTORIAL) {
+            if (e.key == "Enter" || e.key == "Escape") {
+                this.gameState = Input.GAME_STATES.TITLE;
+            }
+        }
 
-        if (this.gameState == Input.GAME_STATES.WIN || this.gameState == Input.GAME_STATES.LOSE) {
+        else if (this.gameState == Input.GAME_STATES.WIN || this.gameState == Input.GAME_STATES.LOSE) {
             if (e.key == "Escape") {
                 console.log("GOING BACK TO MENU");
                 game.player = null;
@@ -66,7 +74,7 @@ export default class Input {
             }
         }
 
-        if (this.gameState == Input.GAME_STATES.PLAY || this.gameState == Input.GAME_STATES.PAUSE) {
+        else if (this.gameState == Input.GAME_STATES.PLAY || this.gameState == Input.GAME_STATES.PAUSE) {
             if (e.key == "Escape") {
                 this.TogglePause();
             }

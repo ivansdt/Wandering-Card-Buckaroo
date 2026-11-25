@@ -11,6 +11,7 @@ export default class Game {
         this.input = new Input;
         this.bg = new Image();
         this.logo = new Image();
+        this.tutorial = new Image();
         this.player = new Player("Mike", 'assets/entities/player-side.png');
         this.rival = new Rival("Mouse", 'assets/entities/ban-leader-side.png');
 
@@ -21,9 +22,10 @@ export default class Game {
         this.playButton = new Button(this.canvas.width / 2 - 75, this.canvas.height - 150 - 65, 'assets/buttons/boton-jugar.png', 'assets/buttons/boton-jugar-a.png');
         this.playButton.isSelected = true;
         this.input.onButton = this.playButton;
-        this.creditsButton = new Button(this.canvas.width / 2 - 75, this.canvas.height - 60 - 65, 'assets/buttons/boton-creditos.png', 'assets/buttons/boton-creditos-a.png');
+        this.tutorialButton = new Button(this.canvas.width / 2 - 75, this.canvas.height - 60 - 65, 'assets/buttons/boton-creditos.png', 'assets/buttons/boton-creditos-a.png');
         this.bg.src = 'assets/bg/wildwest-bg.png';
         this.logo.src = 'assets/logo/title.png';
+        this.tutorial.src = 'assets/misc/Tutorial.png';
         this.lastTime = performance.now();
         requestAnimationFrame((time) => this.Loop(time));
     }
@@ -124,7 +126,16 @@ export default class Game {
         this.ctx.textBaseline = "middle";
         this.ctx.font = 'bold 80px Aseprite'
         if (this.input.gameState != Input.GAME_STATES.TITLE) {
-            if (this.input.gameState == Input.GAME_STATES.WIN) {
+            if (this.input.gameState == Input.GAME_STATES.TUTORIAL) {
+                this.ctx.drawImage(this.tutorial, 0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.lineWidth = 3;
+                this.ctx.font = "14px Aseprite";
+                this.ctx.direction = "ltr";
+                this.ctx.textAlign = "left";
+                this.ctx.textBaseline = "bottom";
+                this.ctx.strokeText('Esc / Enter - Regresar a menu principal', 6, this.canvas.height - 6);
+                this.ctx.fillText('Esc / Enter - Regresar a menu principal', 6, this.canvas.height - 6);
+            } else if (this.input.gameState == Input.GAME_STATES.WIN) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
                 this.ctx.strokeText("VICTORIA", this.canvas.width / 2, offset);
                 this.ctx.fillText("VICTORIA", this.canvas.width / 2, offset);
@@ -132,7 +143,6 @@ export default class Game {
                 this.ctx.lineWidth = 4;
                 this.ctx.strokeText("Presiona Escape para regresar al menu principal", this.canvas.width / 2, this.canvas.height - offset);
                 this.ctx.fillText("Presiona Escape para regresar al menu principal", this.canvas.width / 2, this.canvas.height - offset);
-
             } else if (this.input.gameState == Input.GAME_STATES.LOSE) {
                 this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
                 this.ctx.strokeText("DERROTA", this.canvas.width / 2, offset);
@@ -158,7 +168,7 @@ export default class Game {
             this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
             this.ctx.drawImage(this.logo, this.canvas.width / 2 - this.logo.width / 2, 30, this.logo.width, this.logo.height);
             this.playButton.Draw(this.canvas, this.ctx);
-            this.creditsButton.Draw(this.canvas, this.ctx);
+            this.tutorialButton.Draw(this.canvas, this.ctx);
             this.ctx.lineWidth = 3;
             this.ctx.font = "14px Aseprite";
             this.ctx.direction = "ltr";
