@@ -101,6 +101,7 @@ export default class Card {
             case "Mysterious Stranger":
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
+                    ent.gy.push(this);
                     for (let i = 0; i < zones.length; i++) {
                         if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
                             zones[i].cards[Card.CARD_TYPE.CREATURE].minusValues["Mysterious Stranger"]--;
@@ -114,12 +115,14 @@ export default class Card {
                 ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Goon"))
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
+                    ent.gy.push(this);
                     this.RemoveFromZone(thisZone);
                 }
                 break;
             case "Goon":
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
+                    ent.gy.push(this);
                     this.RemoveFromZone(thisZone);
                 } else {
                     if (!ent.counts["Bandit Leader"] || ent.counts["Bandit Leader"] == 0) {
@@ -142,6 +145,7 @@ export default class Card {
             case "Cow-Cowboy":
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
+                    ent.gy.push(this);
                     for (let i = 0; i < zones.length; i++) {
                         if (zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].name == this.name) {
                             zones[i].cards[Card.CARD_TYPE.CREATURE].bonusValues["Cow-Cowboy"] -= 2;
@@ -155,6 +159,7 @@ export default class Card {
                 ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Cow Goon"))
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
+                    ent.gy.push(this);
                     this.RemoveFromZone(thisZone);
                 }
                 break;
@@ -162,6 +167,7 @@ export default class Card {
                 ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Milk"))
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
+                    ent.gy.push(this);
                     this.RemoveFromZone(thisZone);
                 }
                 break;

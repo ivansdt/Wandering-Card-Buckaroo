@@ -18,8 +18,8 @@ export default class Battle {
     constructor(plrEnt, rivalEnt, input, dt) {
         this.player = plrEnt;
         this.plrDeck = plrEnt.deck;
-        this.plrGraveyard = [];
-        this.rvlGraveyard = [];
+        this.plrGraveyard = plrEnt.gy;
+        this.rvlGraveyard = rivalEnt.gy;
         this.rival = rivalEnt;
         this.rvlDeck = rivalEnt.deck;
         this.graveSprite = new Image();

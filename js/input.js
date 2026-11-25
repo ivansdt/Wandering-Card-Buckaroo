@@ -100,11 +100,9 @@ export default class Input {
 
                     if ((e.key == "e" || e.key == "E") && battle.state == Battle.DUEL_STATE.PLAYING) {
                         if (this.onSection != Input.SECTION.INDEX) {
-                            console.log("OPENING INDEX");
                             this.lastSection = this.onSection
                             this.onSection = Input.SECTION.INDEX;
                         } else {
-                            console.log("CLOSING INDEX");
                             this.onSection = this.lastSection
                             this.lastSection = Input.SECTION.INDEX;
                         }

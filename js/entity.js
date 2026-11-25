@@ -5,6 +5,7 @@ export default class Entity {
     this.name = name;
     this.life = 10;
     this.deck = new Array();
+    this.gy = new Array();
     this.hand = new Array();
     this.sprite = new Image();
     this.sprite.src = spriteSrc
