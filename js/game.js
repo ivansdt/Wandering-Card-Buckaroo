@@ -22,7 +22,7 @@ export default class Game {
         this.playButton = new Button(this.canvas.width / 2 - 75, this.canvas.height - 150 - 65, 'assets/buttons/boton-jugar.png', 'assets/buttons/boton-jugar-a.png');
         this.playButton.isSelected = true;
         this.input.onButton = this.playButton;
-        this.tutorialButton = new Button(this.canvas.width / 2 - 75, this.canvas.height - 60 - 65, 'assets/buttons/boton-creditos.png', 'assets/buttons/boton-creditos-a.png');
+        this.tutorialButton = new Button(this.canvas.width / 2 - 75, this.canvas.height - 60 - 65, 'assets/buttons/boton-reglas.png', 'assets/buttons/boton-reglas-a.png');
         this.bg.src = 'assets/bg/wildwest-bg.png';
         this.logo.src = 'assets/logo/title.png';
         this.tutorial.src = 'assets/misc/Tutorial.png';

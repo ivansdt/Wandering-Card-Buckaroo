@@ -83,7 +83,8 @@ export default class Battle {
         let handSize = hand.length;
         for (let i = 0; i < handSize; i++) {
             let handCard = hand.splice(0, 1)[0];
-            if (!handCard.fromCard) ent.deck.push(handCard);
+            //if (!handCard.fromCard) 
+            ent.deck.push(handCard);
             // console.log("i = " + i + " | hand size = " + hand.length);
             // console.log(hand);
         }

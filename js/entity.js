@@ -157,7 +157,7 @@ export default class Entity {
         )
         break;
       default:
-        console.log(cardName + " no existe");
+        console.warn(cardName + " doesn't exist");
     }
     return newCard;
   }
@@ -188,7 +188,7 @@ export default class Entity {
         }
         for (let i = 0; i < zones[zoneIndex].cards.length; i++) {
           if (zones[zoneIndex].cards[i]) {
-            console.log("trying effect on zone " + zoneIndex + " (played card: " + card.name + ")");
+            //console.log("trying effect on zone " + zoneIndex + " (played card: " + card.name + ")");
             //console.log(card);
             zones[zoneIndex].cards[i].PlayEffect(this, card, zones, zones[zoneIndex]);
           }
@@ -199,7 +199,7 @@ export default class Entity {
         console.log("played " + card.name);
         return true;
       } else {
-        console.log("couldnt play " + card.name + " in zone " + (zoneIndex + 1));
+        //console.log("couldnt play " + card.name + " in zone " + (zoneIndex + 1));
         return false;
       }
     } else {

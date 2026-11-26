@@ -70,7 +70,7 @@ export default class Card {
         let minusVal = zone.cards[card.type].minusValues;
         let multVal = zone.cards[card.type].multValues;
         let oldEffects = zone.cards[card.type].effects;
-        zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName));
+        zone.cards.splice(card.type, 1, ent.CreateCard(targetCardName, true));
         zone.cards[card.type].effects = oldEffects
         zone.cards[card.type].bonusValues = bonusVal;
         zone.cards[card.type].minusValues = minusVal;
@@ -113,7 +113,7 @@ export default class Card {
                 }
                 break;
             case "Bandit Leader":
-                ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Goon"))
+                ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Goon", true))
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     ent.gy.push(this);
@@ -128,11 +128,19 @@ export default class Card {
                 } else {
                     if (!ent.counts["Bandit Leader"] || ent.counts["Bandit Leader"] == 0) {
                         let hasBanditLeader = false;
-                        for (let i = 0; i < ent.deck.length; i++) {
-                            if (ent.deck[i].name == "Bandit Leader") {
-                                if (!ent.deck[i].effects["Perish"]) {
-                                    hasBanditLeader = true;
-                                    break;
+                        for (let i = 0; i < ent.hand.length; i++) {
+                            if (ent.hand[i].name == "Bandit Leader") {
+                                hasBanditLeader = true;
+                                break;
+                            }
+                        }
+                        if (!hasBanditLeader) {
+                            for (let i = 0; i < ent.deck.length; i++) {
+                                if (ent.deck[i].name == "Bandit Leader") {
+                                    if (!ent.deck[i].effects["Perish"]) {
+                                        hasBanditLeader = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -157,7 +165,7 @@ export default class Card {
                 }
                 break;
             case "Herd Leader":
-                ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Cow Goon"))
+                ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Cow Goon", true))
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     ent.gy.push(this);
@@ -165,7 +173,7 @@ export default class Card {
                 }
                 break;
             case "Cow Goon":
-                ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Milk"))
+                ent.hand.splice(ent.hand.length, 0, ent.CreateCard("Milk", true))
                 if (this.effects[Card.CARD_EFFECT.PERISH]) {
                     ent.counts[this.name]--;
                     ent.gy.push(this);
@@ -205,13 +213,13 @@ export default class Card {
                     thisZone.cards[Card.CARD_TYPE.CREATURE].value = this.DoCardMath(thisZone.cards[Card.CARD_TYPE.CREATURE]);
                     //thisZone.cards[Card.CARD_TYPE.CREATURE].value *= thisZone.cards[Card.CARD_TYPE.CREATURE].multValue;
                     thisZone.cards[Card.CARD_TYPE.CREATURE].effects[Card.CARD_EFFECT.PERISH] = true;
-                    console.log(this.name + " effect: " + thisZone.cards[Card.CARD_TYPE.CREATURE].name + " value now " + thisZone.cards[Card.CARD_TYPE.CREATURE].value);
+                    //console.log(this.name + " effect: " + thisZone.cards[Card.CARD_TYPE.CREATURE].name + " value now " + thisZone.cards[Card.CARD_TYPE.CREATURE].value);
                 }
                 break;
             case "Cheese Moon":
                 for (let i = 0; i < zones.length; i++) {
                     if (!this.played && zones[i].cards[Card.CARD_TYPE.CREATURE] && zones[i].cards[Card.CARD_TYPE.CREATURE].genre == Card.CARD_GENRE.COW_COWBOYS) {
-                        console.log(zones[i].cards[Card.CARD_TYPE.CREATURE].name);
+                        //console.log(zones[i].cards[Card.CARD_TYPE.CREATURE].name);
                         switch (zones[i].cards[Card.CARD_TYPE.CREATURE].name) {
                             case "Mysterious Stranger":
                                 zones[i].cards[Card.CARD_TYPE.CREATURE].minusValues["Mysterious Stranger"] = 0;
