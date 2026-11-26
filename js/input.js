@@ -194,6 +194,7 @@ export default class Input {
                     game.rival = null;
                     game.battle = null;
                     this.lastState = this.gameState;
+                    this.onSection = Input.SECTION.HAND;
                     this.gameState = Input.GAME_STATES.PLAY;
                     game.CreateBattle();
                 }

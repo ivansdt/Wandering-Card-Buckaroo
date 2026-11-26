@@ -8,4 +8,5 @@ body {
 }
 canvas {
     background-color: #eee;
+    cursor: none;
 }

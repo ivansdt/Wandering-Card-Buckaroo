@@ -70,6 +70,7 @@ export default class Battle {
                 let randomIndex = Math.floor(Math.random() * availableCards.length);
                 let randomCard = availableCards.splice(randomIndex, 1)[0];
                 entity.hand.push(randomCard);
+                entity.deck.splice(entity.deck.indexOf(randomCard), 1);
                 entity.hand[i].isSelected = false;
             } else {
                 break;
@@ -81,7 +82,7 @@ export default class Battle {
     DeleteHand(hand) {
         let handSize = hand.length;
         for (let i = 0; i < handSize; i++) {
-            hand.splice(0, 1);
+            let handCard = hand.splice(0, 1)[0];
             // console.log("i = " + i + " | hand size = " + hand.length);
             // console.log(hand);
         }
