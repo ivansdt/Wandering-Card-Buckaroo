@@ -83,7 +83,7 @@ export default class Rival extends Entity {
                             }
                         }
                         if (!chosenCard && !battle.rvlZones[i].cards[Card.CARD_TYPE.SPELL]) {
-                            if (battle.rvlZones[i].cards[Card.CARD_TYPE.CREATURE].name == "Bandit Leader" || battle.rvlZones[i].cards[Card.CARD_TYPE.CREATURE].name == "Herd Leader") {
+                            if (battle.rvlZones[i].cards[Card.CARD_TYPE.CREATURE] && (battle.rvlZones[i].cards[Card.CARD_TYPE.CREATURE].name == "Bandit Leader" || battle.rvlZones[i].cards[Card.CARD_TYPE.CREATURE].name == "Herd Leader")) {
                                 chosenCard = this.LookForCard("Milk", availableCards);
                             }
                             else if (this.counts["Milk"] > 0) {

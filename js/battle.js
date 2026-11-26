@@ -79,10 +79,11 @@ export default class Battle {
 
     }
 
-    DeleteHand(hand) {
+    DeleteHand(ent, hand) {
         let handSize = hand.length;
         for (let i = 0; i < handSize; i++) {
             let handCard = hand.splice(0, 1)[0];
+            if (!handCard.fromCard) ent.deck.push(handCard);
             // console.log("i = " + i + " | hand size = " + hand.length);
             // console.log(hand);
         }
@@ -405,8 +406,7 @@ export default class Battle {
         if (this.isPlrTurn) {
             console.log("now rival turn");
             this.isPlrTurn = false;
-            this.DeleteHand(this.player.hand);
-            this.DeleteHand(this.rival.hand);
+            this.DeleteHand(this.player, this.player.hand);
             // calculo de puntos aqui
             await delay(1500);
             this.state = Battle.DUEL_STATE.CALC;
@@ -433,6 +433,7 @@ export default class Battle {
 
 
         } else {
+            this.DeleteHand(this.rival, this.rival.hand);
             console.log("now player turn");
             this.isPlrTurn = true;
             this.input.SelectingNode(this.player.hand);

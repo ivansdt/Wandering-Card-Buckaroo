@@ -20,9 +20,10 @@ export default class Entity {
     this.idleTimer = Math.random() * Math.PI * 2;
   }
 
-  CreateCard(cardName) {
+  CreateCard(cardName, fromCard) {
     let newCard = new Card();
     newCard.name = cardName;
+    newCard.fromCard = fromCard;
     switch (cardName) {
       case "Mysterious Stranger":
         newCard.AddParams(
@@ -163,7 +164,7 @@ export default class Entity {
 
   CreateDeck(cardArray) {
     for (let i = 0; i < cardArray.length; i++) {
-      this.deck[i] = this.CreateCard(cardArray[i]);
+      this.deck[i] = this.CreateCard(cardArray[i], false);
     }
   }
 
